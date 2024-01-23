@@ -15,5 +15,5 @@ public class Course {
     public int notifyBefore;
 
     @Ignore
-    public TimePeriod[] classTimes;
+    public TimePeriod[] courseTimes;
 }
