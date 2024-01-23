@@ -4,6 +4,6 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
 @Database(entities = {CourseTime.class}, version = 1)
-public abstract class CourseTimeDatabase extends RoomDatabase {
+abstract class CourseTimeDatabase extends RoomDatabase {
     public abstract CourseTimeDao courseTimeDao();
 }

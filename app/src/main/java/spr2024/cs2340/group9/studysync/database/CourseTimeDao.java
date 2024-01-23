@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 @Dao
-public interface CourseTimeDao {
+interface CourseTimeDao {
     /**
      * Insert course times into table.
      * Repeated course times will be REPLACED.

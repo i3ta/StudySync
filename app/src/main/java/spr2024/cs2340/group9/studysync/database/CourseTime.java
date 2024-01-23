@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class CourseTime {
+class CourseTime {
     @PrimaryKey
     public int id;
 
