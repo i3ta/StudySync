@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 @Dao
-public interface ToDoListItemDao {
+interface ToDoListItemDao {
     /**
      * Insert to do list item(s) into database
      * @param toDoListItems items to insert
