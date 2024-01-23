@@ -3,6 +3,7 @@ package spr2024.cs2340.group9.studysync.database;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 @Dao
@@ -11,7 +12,7 @@ public interface ExamDao {
      * Insert exams.
      * @param exams exams
      */
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Exam... exams);
 
     /**
