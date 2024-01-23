@@ -92,7 +92,11 @@ public class Assignments {
      * @param order ordering scheme
      * @return assignments
      */
-    public Assignment[] getOrder(Order order) {
+    public Assignment[] getOrder(Order order) throws IllegalArgumentException {
+        if (order == Order.START_TIME || order == Order.END_TIME) {
+            throw new IllegalArgumentException("Assignments cannot be ordered by START_TIME or" +
+                    "END_TIME.");
+        }
         return assignmentDao.getAll(order.columnName);
     }
 }
