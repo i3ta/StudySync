@@ -1,8 +1,11 @@
 package spr2024.cs2340.group9.studysync.database;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.util.Arrays;
 
 @Entity
 public class Course {
@@ -16,4 +19,17 @@ public class Course {
 
     @Ignore
     public TimePeriod[] courseTimes;
+
+    @NonNull
+    @Ignore
+    @Override
+    public String toString() {
+        return String.format("Class %d:\n" +
+                "- courseName = %s\n" +
+                "- instructorName = %s\n" +
+                "- color = %d\n" +
+                "- notifyBefore = %d\n" +
+                "- courseTimes: " + Arrays.toString(courseTimes),
+                id, courseName, instructorName, color, notifyBefore);
+    }
 }
