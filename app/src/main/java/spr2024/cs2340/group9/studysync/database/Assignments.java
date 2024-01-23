@@ -21,8 +21,6 @@ public class Assignments {
         if (db == null) {
             db = Room.databaseBuilder(applicationContext, AssignmentDatabase.class,
                     "Assignment").build();
-        }
-        if (assignmentDao == null) {
             assignmentDao = db.assignmentDao();
         }
     }

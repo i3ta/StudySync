@@ -17,8 +17,6 @@ public class Exams {
     public Exams(Context applicationContext) {
         if (db == null) {
             db = Room.databaseBuilder(applicationContext, ExamDatabase.class, "Exam").build();
-        }
-        if (examDao == null) {
             examDao = db.examDao();
         }
     }

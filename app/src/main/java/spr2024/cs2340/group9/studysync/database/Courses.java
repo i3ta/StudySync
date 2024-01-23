@@ -23,11 +23,7 @@ public class Courses {
         if (db == null) {
             db = Room.databaseBuilder(applicationContext, CourseDatabase.class, "Course")
                     .build();
-        }
-        if (courseDao == null) {
             courseDao = db.courseDao();
-        }
-        if (courseTimeDao == null) {
             courseTimeDao = db.courseTimeDao();
         }
     }
