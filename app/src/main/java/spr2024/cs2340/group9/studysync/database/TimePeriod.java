@@ -133,6 +133,6 @@ public class TimePeriod {
     @NonNull
     @Override
     public String toString() {
-        return String.format("Time period between %s and %s.", startTime, endTime);
+        return String.format("(From: %s; To: %s)", startTime, endTime);
     }
 }

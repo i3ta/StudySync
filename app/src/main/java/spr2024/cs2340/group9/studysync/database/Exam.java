@@ -4,7 +4,10 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Date;
+import java.util.Locale;
 
 @Entity
 public class Exam {
@@ -42,5 +45,18 @@ public class Exam {
     @Ignore
     public Date getEndTime() {
         return new Date(endTime);
+    }
+
+    @Ignore
+    @Override
+    @NotNull
+    public String toString() {
+        return String.format(Locale.getDefault(),
+                "Exam %d:\n" +
+                        "- name: %s\n" +
+                        "- startTime: %s\n" +
+                        "- endTime: %s\n" +
+                        "- notifyBefore: %d",
+                id, name, getStartTime(), getEndTime(), notifyBefore);
     }
 }

@@ -4,6 +4,10 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Locale;
+
 @Entity
 public class ToDoList {
     @PrimaryKey(autoGenerate = true)
@@ -13,4 +17,15 @@ public class ToDoList {
 
     @Ignore
     public ToDoListItem[] toDoListItems;
+
+    @Ignore
+    @Override
+    @NotNull
+    public String toString() {
+        return String.format(Locale.getDefault(),
+                "To-Do List %d:\n" +
+                        "- name: %s\n" +
+                        "- items: %s",
+                id, name, toDoListItems);
+    }
 }
