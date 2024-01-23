@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Class to interface between the DAO and the rest of the code
  */
 public class Courses {
-    private static CourseDatabase courseDB;
+    private static CourseDatabase db;
     private static CourseDao courseDao;
     private static CourseTimeDao courseTimeDao;
 
@@ -20,15 +20,15 @@ public class Courses {
      * @param applicationContext context of the current application; use getApplicationContext() to get
      */
     public Courses(Context applicationContext) {
-        if (courseDB == null) {
-            courseDB = Room.databaseBuilder(applicationContext, CourseDatabase.class, "Course")
+        if (db == null) {
+            db = Room.databaseBuilder(applicationContext, CourseDatabase.class, "Course")
                     .build();
         }
         if (courseDao == null) {
-            courseDao = courseDB.courseDao();
+            courseDao = db.courseDao();
         }
         if (courseTimeDao == null) {
-            courseTimeDao = courseDB.courseTimeDao();
+            courseTimeDao = db.courseTimeDao();
         }
     }
 

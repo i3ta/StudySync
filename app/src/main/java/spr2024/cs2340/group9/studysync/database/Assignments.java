@@ -10,7 +10,7 @@ import java.util.Date;
  * Class to interface with assignments database
  */
 public class Assignments {
-    private static AssignmentDatabase assignmentDB;
+    private static AssignmentDatabase db;
     private static AssignmentDao assignmentDao;
 
     /**
@@ -18,12 +18,12 @@ public class Assignments {
      * @param applicationContext context of the current application; use getApplicationContext() to get
      */
     public Assignments(Context applicationContext) {
-        if (assignmentDB == null) {
-            assignmentDB = Room.databaseBuilder(applicationContext, AssignmentDatabase.class,
+        if (db == null) {
+            db = Room.databaseBuilder(applicationContext, AssignmentDatabase.class,
                     "Assignment").build();
         }
         if (assignmentDao == null) {
-            assignmentDao = assignmentDB.assignmentDao();
+            assignmentDao = db.assignmentDao();
         }
     }
 

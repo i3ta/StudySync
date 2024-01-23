@@ -7,7 +7,7 @@ import androidx.room.Room;
 import java.util.Date;
 
 public class Exams {
-    private static ExamDatabase examDB;
+    private static ExamDatabase db;
     private static ExamDao examDao;
 
     /**
@@ -15,11 +15,11 @@ public class Exams {
      * @param applicationContext context of the current application; use getApplicationContext() to get
      */
     public Exams(Context applicationContext) {
-        if (examDB == null) {
-            examDB = Room.databaseBuilder(applicationContext, ExamDatabase.class, "Exam").build();
+        if (db == null) {
+            db = Room.databaseBuilder(applicationContext, ExamDatabase.class, "Exam").build();
         }
         if (examDao == null) {
-            examDao = examDB.examDao();
+            examDao = db.examDao();
         }
     }
 
