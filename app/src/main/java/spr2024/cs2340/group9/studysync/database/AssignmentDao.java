@@ -38,27 +38,30 @@ interface AssignmentDao {
 
     /**
      * Get assignment with id.
+     * Ordered by due date.
      * @param id assignment id
      * @return assignment
      */
-    @Query("SELECT * FROM Assignment WHERE id = :id")
+    @Query("SELECT * FROM Assignment WHERE id = :id ORDER BY dueDate")
     Assignment get(int id);
 
     /**
      * Get assignments for course.
+     * Ordered by due date.
      * @param courseId course id
      * @return assignments
      */
-    @Query("SELECT * FROM Assignment WHERE courseId = :courseId")
+    @Query("SELECT * FROM Assignment WHERE courseId = :courseId ORDER BY dueDate")
     Assignment[] getCourse(int courseId);
 
     /**
      * Get assignments due within a specific time frame.
+     * Ordered by due date.
      * @param startDate start time in milliseconds
      * @param endDate end time in milliseconds
      * @return assignments
      */
-    @Query("SELECT * FROM Assignment WHERE dueDate <= :startDate AND dueDate >= :endDate")
+    @Query("SELECT * FROM Assignment WHERE dueDate <= :startDate AND dueDate >= :endDate ORDER BY dueDate")
     Assignment[] getBetween(long startDate, long endDate);
 
     /**
