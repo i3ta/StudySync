@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 @Entity
 public class Course {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     public String courseName;

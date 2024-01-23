@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class ToDoListItem {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     public int toDoListId;
