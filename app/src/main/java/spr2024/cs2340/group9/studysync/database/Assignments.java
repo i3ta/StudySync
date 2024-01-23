@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import java.util.Date;
+
 /**
  * Class to interface with assignments database
  */
@@ -73,5 +75,15 @@ public class Assignments {
      */
     public Assignment[] getCourse(int courseId) {
         return assignmentDao.getCourse(courseId);
+    }
+
+    /**
+     * Get all assignments with due dates within a time frame.
+     * @param startDate start of time frame
+     * @param endDate end of time frame
+     * @return assignments
+     */
+    public Assignment[] getBetween(Date startDate, Date endDate) {
+        return assignmentDao.getBetween(startDate.getTime(), endDate.getTime());
     }
 }
