@@ -8,7 +8,7 @@ import java.util.Locale;
  * Class that represents a single time of the week.
  * Used to represent a specific time of week (not absolute time) for courses.
  */
-public class RecurringTime {
+public class RecurringTime implements Comparable<RecurringTime> {
     private static final String[] DAY_OF_WEEK = {"Sunday", "Monday", "Tuesday", "Wednesday",
             "Thursday", "Friday", "Saturday"};
     private int dayOfWeek;
@@ -166,6 +166,16 @@ public class RecurringTime {
     public String toString() {
         return String.format(Locale.getDefault(), "%s %d:%d", DAY_OF_WEEK[dayOfWeek], hour,
                 minute);
+    }
+
+    /**
+     * Overridden compareTo function to compare specific times.
+     * @param time the object to be compared
+     * @return minutes between the times
+     */
+    @Override
+    public int compareTo(RecurringTime time) {
+        return getMinutesSinceSunday() - time.getMinutesSinceSunday();
     }
 
     /**
