@@ -3,8 +3,8 @@ package spr2024.cs2340.group9.studysync.database;
 import androidx.annotation.NonNull;
 
 public class TimePeriod {
-    private Time startTime;
-    private Time endTime;
+    private RecurringTime startTime;
+    private RecurringTime endTime;
 
     /**
      * Initialize new TimePeriod object with the given startTime and endTime.
@@ -12,8 +12,8 @@ public class TimePeriod {
      * @param endTime int representing how many minutes past 00:00 Sunday
      */
     public TimePeriod(int startTime, int endTime) {
-        this.startTime = new Time(startTime);
-        this.endTime = new Time(endTime);
+        this.startTime = new RecurringTime(startTime);
+        this.endTime = new RecurringTime(endTime);
     }
 
     /**
@@ -21,9 +21,9 @@ public class TimePeriod {
      * @param startTime start time
      * @param endTime end time
      */
-    public TimePeriod(Time startTime, Time endTime) {
-        this.startTime = new Time(startTime);
-        this.endTime = new Time(endTime);
+    public TimePeriod(RecurringTime startTime, RecurringTime endTime) {
+        this.startTime = new RecurringTime(startTime);
+        this.endTime = new RecurringTime(endTime);
     }
 
     /**
@@ -31,8 +31,8 @@ public class TimePeriod {
      * @param courseTime CourseTime object
      */
     public TimePeriod(CourseTime courseTime) {
-        this.startTime = new Time(courseTime.startTime);
-        this.endTime = new Time(courseTime.endTime);
+        this.startTime = new RecurringTime(courseTime.startTime);
+        this.endTime = new RecurringTime(courseTime.endTime);
     }
 
     /**
@@ -40,8 +40,8 @@ public class TimePeriod {
      * @param timePeriod TimePeriod object to copy
      */
     public TimePeriod(TimePeriod timePeriod) {
-        this.startTime = new Time(timePeriod.startTime);
-        this.endTime = new Time(timePeriod.endTime);
+        this.startTime = new RecurringTime(timePeriod.startTime);
+        this.endTime = new RecurringTime(timePeriod.endTime);
     }
 
     /**
@@ -50,8 +50,8 @@ public class TimePeriod {
      * @param endTime end time in minutes since Sunday 00:00
      */
     public void set(int startTime, int endTime) {
-        this.startTime = new Time(startTime);
-        this.endTime = new Time(endTime);
+        this.startTime = new RecurringTime(startTime);
+        this.endTime = new RecurringTime(endTime);
     }
 
     /**
@@ -59,8 +59,8 @@ public class TimePeriod {
      * @param courseTime object to get start and end time from
      */
     public void set(CourseTime courseTime) {
-        this.startTime = new Time(courseTime.startTime);
-        this.endTime = new Time(courseTime.endTime);
+        this.startTime = new RecurringTime(courseTime.startTime);
+        this.endTime = new RecurringTime(courseTime.endTime);
     }
 
     /**
@@ -69,15 +69,15 @@ public class TimePeriod {
      * @throws IllegalArgumentException if the input time is invalid
      */
     public void setStartTime(int startTime) throws IllegalArgumentException {
-        this.startTime = new Time(startTime);
+        this.startTime = new RecurringTime(startTime);
     }
 
     /**
      * Set the start time with a Time object.
      * @param startTime start time
      */
-    public void setStartTime(Time startTime) {
-        this.startTime = new Time(startTime);
+    public void setStartTime(RecurringTime startTime) {
+        this.startTime = new RecurringTime(startTime);
     }
 
     /**
@@ -86,22 +86,22 @@ public class TimePeriod {
      * @throws IllegalArgumentException if the input time is invalid
      */
     public void setEndTime(int endTime) throws IllegalArgumentException {
-        this.endTime = new Time(endTime);
+        this.endTime = new RecurringTime(endTime);
     }
 
     /**
      * Set the end time with a Time object.
      * @param endTime end time
      */
-    public void setEndTime(Time endTime) {
-        this.endTime = new Time(endTime);
+    public void setEndTime(RecurringTime endTime) {
+        this.endTime = new RecurringTime(endTime);
     }
 
     /**
      * Get the start time.
      * @return start time Time object
      */
-    public Time getStartTime() {
+    public RecurringTime getStartTime() {
         return startTime;
     }
 
@@ -109,7 +109,7 @@ public class TimePeriod {
      * Get the end time.
      * @return end time Time object
      */
-    public Time getEndTime() {
+    public RecurringTime getEndTime() {
         return endTime;
     }
 

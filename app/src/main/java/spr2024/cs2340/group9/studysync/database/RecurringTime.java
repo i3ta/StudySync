@@ -8,7 +8,7 @@ import java.util.Locale;
  * Class that represents a single time of the week.
  * Used to represent a specific time of week (not absolute time) for courses.
  */
-public class Time {
+public class RecurringTime {
     private static final String[] DAY_OF_WEEK = {"Sunday", "Monday", "Tuesday", "Wednesday",
             "Thursday", "Friday", "Saturday"};
     private int dayOfWeek;
@@ -20,7 +20,7 @@ public class Time {
      * @param time number of minutes past 00:00 Sunday
      * @throws IllegalArgumentException if the time is negative or greater than or equal to 1 week
      */
-    public Time(int time) throws IllegalArgumentException {
+    public RecurringTime(int time) throws IllegalArgumentException {
         set(time);
     }
 
@@ -31,7 +31,7 @@ public class Time {
      * @param minute int representing the minute of the hour, in the interval [0, 60)
      * @throws IllegalArgumentException if the inputs are invalid
      */
-    public Time(int dayOfWeek, int hour, int minute) throws IllegalArgumentException {
+    public RecurringTime(int dayOfWeek, int hour, int minute) throws IllegalArgumentException {
         set(dayOfWeek, hour, minute);
     }
 
@@ -39,7 +39,7 @@ public class Time {
      * Deep copy a Time object.
      * @param time Time object to copy
      */
-    public Time(Time time) {
+    public RecurringTime(RecurringTime time) {
         this.dayOfWeek = time.dayOfWeek;
         this.hour = time.hour;
         this.minute = time.minute;
