@@ -86,4 +86,13 @@ public class Assignments {
     public Assignment[] getBetween(Date startDate, Date endDate) {
         return assignmentDao.getBetween(startDate.getTime(), endDate.getTime());
     }
+
+    /**
+     * Get all assignments with a specific ordering scheme.
+     * @param order ordering scheme
+     * @return assignments
+     */
+    public Assignment[] getOrder(Order order) {
+        return assignmentDao.getAll(order.columnName);
+    }
 }
