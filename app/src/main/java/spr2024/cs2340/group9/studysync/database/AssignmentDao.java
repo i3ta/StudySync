@@ -6,9 +6,6 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import java.util.Date;
-
-//TODO: Add get ordering
 @Dao
 interface AssignmentDao {
     /**
@@ -64,6 +61,11 @@ interface AssignmentDao {
     @Query("SELECT * FROM Assignment WHERE dueDate <= :startDate AND dueDate >= :endDate")
     Assignment[] getBetween(long startDate, long endDate);
 
+    /**
+     * Get all assignments with specific sorting.
+     * @param ordering column to order by
+     * @return assignments
+     */
     @Query("SELECT * FROM Assignment ORDER BY :ordering")
     Assignment[] getAll(String ordering);
 }
