@@ -12,7 +12,6 @@ import java.util.Arrays;
  */
 public class Courses {
     private static CourseDatabase courseDB;
-    private static CourseTimeDatabase courseTimeDB;
     private static CourseDao courseDao;
     private static CourseTimeDao courseTimeDao;
 
@@ -25,15 +24,11 @@ public class Courses {
             courseDB = Room.databaseBuilder(applicationContext, CourseDatabase.class, "Course")
                     .build();
         }
-        if (courseTimeDB == null) {
-            courseTimeDB = Room.databaseBuilder(applicationContext, CourseTimeDatabase.class, "CourseTime")
-                    .build();
-        }
         if (courseDao == null) {
             courseDao = courseDB.courseDao();
         }
         if (courseTimeDao == null) {
-            courseTimeDao = courseTimeDB.courseTimeDao();
+            courseTimeDao = courseDB.courseTimeDao();
         }
     }
 
