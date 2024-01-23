@@ -8,7 +8,7 @@ public class Exam {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
-    public String assignmentTitle;
+    public String name;
     public int startTime;
     public int endTime;
     public int notifyBefore;

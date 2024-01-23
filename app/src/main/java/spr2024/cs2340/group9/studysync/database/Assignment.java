@@ -14,7 +14,7 @@ public class Assignment {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
-    public String assignmentTitle;
+    public String name;
     public int courseId;
     public long dueDate;
     public int notifyBefore;
@@ -35,10 +35,10 @@ public class Assignment {
     public String toString() {
         return String.format(Locale.getDefault(),
                 "Assignment %d:\n" +
-                "- assignmentTitle: %s\n" +
+                "- name: %s\n" +
                 "- courseId: %d\n" +
                 "- dueDate: %s\n" +
                 "- notifyBefore: %d",
-                id, assignmentTitle, courseId, getDueDate(), notifyBefore);
+                id, name, courseId, getDueDate(), notifyBefore);
     }
 }

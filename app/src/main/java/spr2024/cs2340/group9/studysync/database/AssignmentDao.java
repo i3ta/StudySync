@@ -63,4 +63,7 @@ interface AssignmentDao {
      */
     @Query("SELECT * FROM Assignment WHERE dueDate <= :startDate AND dueDate >= :endDate")
     Assignment[] getBetween(long startDate, long endDate);
+
+    @Query("SELECT * FROM Assignment ORDER BY :ordering")
+    Assignment[] getAll(String ordering);
 }

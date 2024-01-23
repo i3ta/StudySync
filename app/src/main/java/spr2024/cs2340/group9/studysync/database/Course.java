@@ -12,7 +12,7 @@ public class Course {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
-    public String courseName;
+    public String name;
     public String instructorName;
     public int color;
     public int notifyBefore;
@@ -30,6 +30,6 @@ public class Course {
                 "- color = %d\n" +
                 "- notifyBefore = %d\n" +
                 "- courseTimes: " + Arrays.toString(courseTimes),
-                id, courseName, instructorName, color, notifyBefore);
+                id, name, instructorName, color, notifyBefore);
     }
 }
