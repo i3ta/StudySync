@@ -16,8 +16,16 @@ public class Assignment {
 
     public String name;
     public int courseId;
-    public long dueDate;
+    long dueDate;
     public int notifyBefore;
+
+    @Ignore
+    public Assignment(String name, int courseId, Date dueDate, int notifyBefore) {
+        this.name = name;
+        this.courseId = courseId;
+        this.dueDate = dueDate.getTime();
+        this.notifyBefore = notifyBefore;
+    }
 
     @Ignore
     public Date getDueDate() {

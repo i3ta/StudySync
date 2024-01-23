@@ -18,6 +18,14 @@ public class Course {
     public int notifyBefore;
 
     @Ignore
+    public Course(String name, String instructorName, int color, int notifyBefore) {
+        this.name = name;
+        this.instructorName = instructorName;
+        this.color = color;
+        this.notifyBefore = notifyBefore;
+    }
+
+    @Ignore
     public TimePeriod[] courseTimes;
 
     @NonNull
