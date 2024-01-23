@@ -1,5 +1,6 @@
 package spr2024.cs2340.group9.studysync.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -28,7 +29,7 @@ public interface CourseDao {
      * @return all rows from the Course database as Course objects
      */
     @Query("SELECT * FROM Course")
-    Course[] getAll();
+    LiveData<List<Course>> getAll();
 
     /**
      * Get course with the provided courseId.
@@ -36,7 +37,7 @@ public interface CourseDao {
      * @return course with id = courseId
      */
     @Query("SELECT * FROM Course WHERE id = :courseId")
-    Course get(int courseId);
+    LiveData<Course> get(int courseId);
 
     /**
      * Get courses that have the provided courseIds.
@@ -44,5 +45,5 @@ public interface CourseDao {
      * @return courses where id is in courseIds
      */
     @Query("SELECT * FROM Course WHERE id IN (:courseIds)")
-    Course[] get(int[] courseIds);
+    LiveData<List<Course>> get(int[] courseIds);
 }
