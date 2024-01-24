@@ -42,7 +42,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertOneCourseshouldReturnCourse() {
+    public void insertOneCoursesShouldReturnCourse() {
         Course course = new Course("CS 2340", "Dr. Feijoo", 0, 15);
         Courses.insert(course);
 
@@ -62,7 +62,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertManyCourseshouldReturnAllCourses() {
+    public void insertManyCoursesShouldReturnAllCourses() {
         Course[] newCourses = {
                 new Course("CS 2340", "Dr. Feijoo", 0, 15),
                 new Course("CS 1332", "Prof. Faulkner", 1, 0),
@@ -77,7 +77,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void deleteOneCourseshouldDeleteCourse() {
+    public void deleteOneCoursesShouldDeleteCourse() {
         Course[] newCourses = {
                 new Course("CS 2340", "Dr. Feijoo", 0, 15),
                 new Course("CS 1332", "Prof. Faulkner", 1, 0),
@@ -93,7 +93,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void deleteNewCourseshouldNotRemoveCourse() {
+    public void deleteNewCoursesShouldNotRemoveCourse() {
         Course[] newCourses = {
                 new Course("CS 2340", "Dr. Feijoo", 0, 15),
                 new Course("CS 1332", "Prof. Faulkner", 1, 0),
@@ -134,7 +134,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertRepeatedCourseshouldKeepOneCourse() {
+    public void insertRepeatedCoursesShouldKeepOneCourse() {
         Course newCourse = new Course("CS 2340", "Dr. Feijoo", 0, 15);
         Courses.insert(newCourse);
         Courses.insert(newCourse);
