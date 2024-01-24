@@ -1,6 +1,5 @@
 package spr2024.cs2340.group9.studysync.database;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -36,7 +35,7 @@ interface CourseTimeDao {
      * @return array of CourseTime objects
      */
     @Query("SELECT * FROM CourseTime")
-    LiveData<List<CourseTime>> getAll();
+    CourseTime[] getAll();
 
     /**
      * Get all courses with a specific course id.
@@ -44,7 +43,7 @@ interface CourseTimeDao {
      * @return array of CourseTime objects with the course id
      */
     @Query("SELECT * FROM CourseTime WHERE courseId = :courseId")
-    LiveData<List<CourseTime>> get(int courseId);
+    CourseTime[] get(int courseId);
 
     /**
      * Get course times within a specific time frame.
@@ -53,7 +52,7 @@ interface CourseTimeDao {
      * @return CourseTime objects that lie between a specific time frame
      */
     @Query("SELECT * FROM CourseTime WHERE startTime <= :startTime AND endTime >= :endTime")
-    LiveData<List<CourseTime>> getBetween(int startTime, int endTime);
+    CourseTime[] getBetween(int startTime, int endTime);
 
     /**
      * Get course id of courses within a specific time frame.
@@ -62,5 +61,11 @@ interface CourseTimeDao {
      * @return int array of course ids
      */
     @Query("SELECT DISTINCT courseId FROM courseTime where startTime <= :startTime AND endTime >= :endTime")
-    LiveData<List<Integer>> getCourseIdBetween(int startTime, int endTime);
+    int[] getCourseIdBetween(int startTime, int endTime);
+
+    /**
+     * Clear CourseTime table.
+     */
+    @Query("DELETE FROM CourseTime")
+    void clear();
 }
