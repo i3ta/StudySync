@@ -16,7 +16,7 @@ public class Courses {
      * Create a new Courses object.
      * @param applicationContext context of the current application; use getApplicationContext() to get
      */
-    public Courses(Context applicationContext) {
+    public static void init(Context applicationContext) {
         if (db == null) {
             db = Room.databaseBuilder(applicationContext, CourseDatabase.class, "Course")
                     .allowMainThreadQueries()
@@ -30,7 +30,7 @@ public class Courses {
      * Get all courses.
      * @return courses
      */
-    public Course[] getAll() {
+    public static Course[] getAll() {
         Course[] courses = courseDao.getAll();
         for (Course course : courses) {
             course.setCourseTimes(toTimePeriod(courseTimeDao.get(course.id)));
@@ -42,7 +42,7 @@ public class Courses {
      * Insert courses.
      * @param courses courses
      */
-    public void insert(Course... courses) {
+    public static void insert(Course... courses) {
         for (Course course: courses) {
             courseTimeDao.deleteCourse(course.id);
             if (course.getCourseTimes() == null || course.getCourseTimes().length == 0) {
@@ -57,7 +57,7 @@ public class Courses {
      * Delete a course
      * @param course course
      */
-    public void delete(Course course) {
+    public static void delete(Course course) {
         courseDao.delete(course);
         courseTimeDao.deleteCourse(course.id);
     }
@@ -67,7 +67,7 @@ public class Courses {
      * @param courseId course id
      * @return course
      */
-    public Course get(int courseId) {
+    public static Course get(int courseId) {
         Course course = courseDao.get(courseId);
         course.setCourseTimes(toTimePeriod(courseTimeDao.get(courseId)));
         return course;
@@ -78,7 +78,7 @@ public class Courses {
      * @param courseIds course ids to get courses
      * @return courses
      */
-    public Course[] get(int[] courseIds) {
+    public static Course[] get(int[] courseIds) {
         Course[] courses = courseDao.get(courseIds);
         for (Course course: courses) {
             course.setCourseTimes(toTimePeriod(courseTimeDao.get(course.id)));
@@ -93,7 +93,7 @@ public class Courses {
      * @return courses in the time frame
      * @throws IllegalArgumentException if the startTime is after the endTime
      */
-    public Course[] getBetween(RecurringSlot startTime, RecurringSlot endTime) throws IllegalArgumentException {
+    public static Course[] getBetween(RecurringSlot startTime, RecurringSlot endTime) throws IllegalArgumentException {
         if (startTime.compareTo(endTime) > 0) {
             throw new IllegalArgumentException(String.format("The start time (%s) cannot be before " +
                     "the end time (%s).", startTime, endTime));
@@ -113,7 +113,7 @@ public class Courses {
      * @return courses on the specified day of the week
      * @throws IllegalArgumentException if the day of the week is invalid
      */
-    public Course[] getOnDay(int dayOfWeek) throws IllegalArgumentException {
+    public static Course[] getOnDay(int dayOfWeek) throws IllegalArgumentException {
         if (dayOfWeek < 0 || dayOfWeek > 6) {
             throw new IllegalArgumentException(String.format("Day of week %d is invalid. Day of " +
                     "week must be in the range [0, 6], where 0 is Sunday and 6 is Saturday.",
@@ -128,7 +128,7 @@ public class Courses {
      * @param timeSlots time periods
      * @return course times
      */
-    private CourseTime[] toCourseTime(TimeSlot[] timeSlots) {
+    private static CourseTime[] toCourseTime(TimeSlot[] timeSlots) {
         if (timeSlots == null || timeSlots.length == 0) {
             return null;
         }
@@ -144,7 +144,7 @@ public class Courses {
      * @param courseTimes course times
      * @return time periods
      */
-    private TimeSlot[] toTimePeriod(CourseTime[] courseTimes) {
+    private static TimeSlot[] toTimePeriod(CourseTime[] courseTimes) {
         if (courseTimes == null || courseTimes.length == 0) {
             return null;
         }
@@ -158,7 +158,7 @@ public class Courses {
     /**
      * Clears table.
      */
-    public void clear() {
+    public static void clear() {
         courseDao.clear();
     }
 }
