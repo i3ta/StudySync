@@ -6,6 +6,7 @@ import androidx.room.Room;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Class to interface between the DAO and the rest of the code
@@ -48,11 +49,11 @@ public class Courses {
     public void insert(Course... courses) {
         ArrayList<CourseTime> courseTimes = new ArrayList<>();
         for (Course course: courses) {
-            CourseTime[] thisCourseTimes = toCourseTime(course.id, course.courseTimes);
-            if (thisCourseTimes == null) {
+            if (course.courseTimes == null || course.courseTimes.length == 0) {
                 continue;
             }
-            courseTimes.addAll(Arrays.asList(thisCourseTimes));
+            CourseTime[] thisCourseTimes = toCourseTime(course.courseTimes);
+            Collections.addAll(courseTimes, thisCourseTimes);
         }
         courseDao.insert(courses);
         CourseTime[] arr = new CourseTime[courseTimes.size()];
@@ -131,17 +132,16 @@ public class Courses {
 
     /**
      * Private helper class to convert time periods to course times
-     * @param courseId course id for the time periods
      * @param timePeriods time periods
      * @return course times
      */
-    private CourseTime[] toCourseTime(int courseId, TimePeriod[] timePeriods) {
+    private CourseTime[] toCourseTime(TimePeriod[] timePeriods) {
         if (timePeriods == null || timePeriods.length == 0) {
             return null;
         }
         CourseTime[] times = new CourseTime[timePeriods.length];
         for (int i = 0; i < timePeriods.length; i++) {
-            times[i] = timePeriods[i].getCourseTime(courseId);
+            times[i] = timePeriods[i].toCourseTime();
         }
         return times;
     }
