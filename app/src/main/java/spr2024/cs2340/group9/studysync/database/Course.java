@@ -18,7 +18,7 @@ public class Course {
     public int notifyBefore;
 
     @Ignore
-    private TimePeriod[] courseTimes;
+    private TimeSlot[] courseTimes;
     @Ignore
     private static int currentId = 0;
 
@@ -30,7 +30,7 @@ public class Course {
         this.notifyBefore = notifyBefore;
     }
 
-    public Course(String name, String instructorName, int color, int notifyBefore, TimePeriod[] courseTimes) {
+    public Course(String name, String instructorName, int color, int notifyBefore, TimeSlot[] courseTimes) {
         this(name, instructorName, color, notifyBefore);
         this.courseTimes = courseTimes;
     }
@@ -42,32 +42,32 @@ public class Course {
         color = c.color;
         notifyBefore = c.notifyBefore;
         if (c.courseTimes != null) {
-            courseTimes = new TimePeriod[c.courseTimes.length];
+            courseTimes = new TimeSlot[c.courseTimes.length];
             for (int i = 0; i < c.courseTimes.length; i++) {
-                courseTimes[i] = new TimePeriod(c.courseTimes[i]);
+                courseTimes[i] = new TimeSlot(c.courseTimes[i]);
             }
         }
     }
 
     @Ignore
-    public TimePeriod[] getCourseTimes() {
+    public TimeSlot[] getCourseTimes() {
         return courseTimes;
     }
 
     @Ignore
-    public void setCourseTimes(TimePeriod[] courseTimes) {
+    public void setCourseTimes(TimeSlot[] courseTimes) {
         if (courseTimes == null) {
             this.courseTimes = null;
             return;
         }
-        for (TimePeriod t: courseTimes) {
+        for (TimeSlot t: courseTimes) {
             if (t.getCourseId() != id) {
                 throw new IllegalArgumentException("Course id must be equal to this course id");
             }
         }
-        this.courseTimes = new TimePeriod[courseTimes.length];
+        this.courseTimes = new TimeSlot[courseTimes.length];
         for (int i = 0; i < courseTimes.length; i++) {
-            this.courseTimes[i] = new TimePeriod(courseTimes[i]);
+            this.courseTimes[i] = new TimeSlot(courseTimes[i]);
         }
     }
 

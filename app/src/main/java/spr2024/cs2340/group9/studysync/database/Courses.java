@@ -4,9 +4,6 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 /**
  * Class to interface between the DAO and the rest of the code
  */
@@ -96,7 +93,7 @@ public class Courses {
      * @return courses in the time frame
      * @throws IllegalArgumentException if the startTime is after the endTime
      */
-    public Course[] getBetween(RecurringTime startTime, RecurringTime endTime) throws IllegalArgumentException {
+    public Course[] getBetween(RecurringSlot startTime, RecurringSlot endTime) throws IllegalArgumentException {
         if (startTime.compareTo(endTime) > 0) {
             throw new IllegalArgumentException(String.format("The start time (%s) cannot be before " +
                     "the end time (%s).", startTime, endTime));
@@ -122,22 +119,22 @@ public class Courses {
                     "week must be in the range [0, 6], where 0 is Sunday and 6 is Saturday.",
                     dayOfWeek));
         }
-        return getBetween(new RecurringTime(dayOfWeek, 0, 0),
-                new RecurringTime(dayOfWeek, 23, 59));
+        return getBetween(new RecurringSlot(dayOfWeek, 0, 0),
+                new RecurringSlot(dayOfWeek, 23, 59));
     }
 
     /**
      * Private helper class to convert time periods to course times
-     * @param timePeriods time periods
+     * @param timeSlots time periods
      * @return course times
      */
-    private CourseTime[] toCourseTime(TimePeriod[] timePeriods) {
-        if (timePeriods == null || timePeriods.length == 0) {
+    private CourseTime[] toCourseTime(TimeSlot[] timeSlots) {
+        if (timeSlots == null || timeSlots.length == 0) {
             return null;
         }
-        CourseTime[] times = new CourseTime[timePeriods.length];
-        for (int i = 0; i < timePeriods.length; i++) {
-            times[i] = timePeriods[i].toCourseTime();
+        CourseTime[] times = new CourseTime[timeSlots.length];
+        for (int i = 0; i < timeSlots.length; i++) {
+            times[i] = timeSlots[i].toCourseTime();
         }
         return times;
     }
@@ -147,13 +144,13 @@ public class Courses {
      * @param courseTimes course times
      * @return time periods
      */
-    private TimePeriod[] toTimePeriod(CourseTime[] courseTimes) {
+    private TimeSlot[] toTimePeriod(CourseTime[] courseTimes) {
         if (courseTimes == null || courseTimes.length == 0) {
             return null;
         }
-        TimePeriod[] periods = new TimePeriod[courseTimes.length];
+        TimeSlot[] periods = new TimeSlot[courseTimes.length];
         for (int i = 0; i < courseTimes.length; i++) {
-            periods[i] = new TimePeriod(courseTimes[i]);
+            periods[i] = new TimeSlot(courseTimes[i]);
         }
         return periods;
     }

@@ -13,8 +13,8 @@ import java.util.Arrays;
 
 import spr2024.cs2340.group9.studysync.database.Course;
 import spr2024.cs2340.group9.studysync.database.Courses;
-import spr2024.cs2340.group9.studysync.database.RecurringTime;
-import spr2024.cs2340.group9.studysync.database.TimePeriod;
+import spr2024.cs2340.group9.studysync.database.RecurringSlot;
+import spr2024.cs2340.group9.studysync.database.TimeSlot;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -162,10 +162,10 @@ public class CourseDatabaseTest {
     @Test(timeout = TIMEOUT)
     public void insertCourseWithOneTimePeriodUpdatesDatabases() {
         Course newCourse = new Course("CS 2340", "Dr. Feijoo", 0, 15);
-        TimePeriod period = new TimePeriod(newCourse.id,
-                new RecurringTime(1, 8, 0),
-                new RecurringTime(1, 9, 15));
-        newCourse.setCourseTimes(new TimePeriod[]{period});
+        TimeSlot period = new TimeSlot(newCourse.id,
+                new RecurringSlot(1, 8, 0),
+                new RecurringSlot(1, 9, 15));
+        newCourse.setCourseTimes(new TimeSlot[]{period});
         courses.insert(newCourse);
 
         Course[] courseList = courses.getAll();
@@ -175,16 +175,16 @@ public class CourseDatabaseTest {
     @Test(timeout = TIMEOUT)
     public void updateTimePeriodUpdatesDatabases() {
         Course course = new Course("CS 1332", "Prof. Faulkner", 0, 0);
-        TimePeriod period1 = new TimePeriod(course.id,
-                new RecurringTime(1, 14, 0),
-                new RecurringTime(1, 14, 50));
-        course.setCourseTimes(new TimePeriod[]{period1});
+        TimeSlot period1 = new TimeSlot(course.id,
+                new RecurringSlot(1, 14, 0),
+                new RecurringSlot(1, 14, 50));
+        course.setCourseTimes(new TimeSlot[]{period1});
         courses.insert(course);
 
-        TimePeriod period2 = new TimePeriod(course.id,
-                new RecurringTime(3, 14, 0),
-                new RecurringTime(3, 14, 50));
-        course.setCourseTimes(new TimePeriod[]{period2});
+        TimeSlot period2 = new TimeSlot(course.id,
+                new RecurringSlot(3, 14, 0),
+                new RecurringSlot(3, 14, 50));
+        course.setCourseTimes(new TimeSlot[]{period2});
         courses.insert(course);
 
         Course[] courseList = courses.getAll();
@@ -194,10 +194,10 @@ public class CourseDatabaseTest {
     @Test(timeout = TIMEOUT)
     public void insertCourseRemoveTimePeriodRemovesFromDatabase() {
         Course course = new Course("CS 1332", "Prof. Faulkner", 0, 0);
-        TimePeriod period1 = new TimePeriod(course.id,
-                new RecurringTime(1, 14, 0),
-                new RecurringTime(1, 14, 50));
-        course.setCourseTimes(new TimePeriod[]{period1});
+        TimeSlot period1 = new TimeSlot(course.id,
+                new RecurringSlot(1, 14, 0),
+                new RecurringSlot(1, 14, 50));
+        course.setCourseTimes(new TimeSlot[]{period1});
         courses.insert(course);
 
         course.setCourseTimes(null);
@@ -210,10 +210,10 @@ public class CourseDatabaseTest {
     @Test(timeout = TIMEOUT)
     public void insertRepeatedCourseWithTimePeriodUpdatesDatabase() {
         Course course = new Course("CS 1332", "Prof. Faulkner", 0, 0);
-        TimePeriod period1 = new TimePeriod(course.id,
-                new RecurringTime(1, 14, 0),
-                new RecurringTime(1, 14, 50));
-        course.setCourseTimes(new TimePeriod[]{period1});
+        TimeSlot period1 = new TimeSlot(course.id,
+                new RecurringSlot(1, 14, 0),
+                new RecurringSlot(1, 14, 50));
+        course.setCourseTimes(new TimeSlot[]{period1});
         courses.insert(course);
         courses.insert(course);
 
@@ -224,15 +224,15 @@ public class CourseDatabaseTest {
     @Test(timeout = TIMEOUT)
     public void insertMultipleCoursesWithSameTimePeriod() {
         Course course1 = new Course("CS 1332", "Prof. Faulkner", 0, 0);
-        TimePeriod period1 = new TimePeriod(course1.id,
-                new RecurringTime(1, 14, 0),
-                new RecurringTime(1, 14, 0));
-        course1.setCourseTimes(new TimePeriod[]{period1});
+        TimeSlot period1 = new TimeSlot(course1.id,
+                new RecurringSlot(1, 14, 0),
+                new RecurringSlot(1, 14, 0));
+        course1.setCourseTimes(new TimeSlot[]{period1});
         Course course2 = new Course("CS 2340", "Dr. Feijoo", 0, 0);
-        TimePeriod period2 = new TimePeriod(course2.id,
-                new RecurringTime(1, 14, 0),
-                new RecurringTime(1, 14, 0));
-        course2.setCourseTimes(new TimePeriod[]{period2});
+        TimeSlot period2 = new TimeSlot(course2.id,
+                new RecurringSlot(1, 14, 0),
+                new RecurringSlot(1, 14, 0));
+        course2.setCourseTimes(new TimeSlot[]{period2});
         courses.insert(course1, course2);
 
         Course[] courseList = courses.getAll();
