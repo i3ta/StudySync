@@ -13,6 +13,8 @@ import java.util.Arrays;
 
 import spr2024.cs2340.group9.studysync.database.Course;
 import spr2024.cs2340.group9.studysync.database.Courses;
+import spr2024.cs2340.group9.studysync.database.RecurringTime;
+import spr2024.cs2340.group9.studysync.database.TimePeriod;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -107,7 +109,7 @@ public class CourseDatabaseTest {
         assertArrayEquals(newCourses, courseList);
     }
 
-    @Test
+    @Test(timeout = TIMEOUT)
     public void deleteExistingCourseWithDifferentIdDoesNotChangeDatabase() {
         Course[] newCourses = {
                 new Course("CS 2340", "Dr. Feijoo", 0, 15),
@@ -121,5 +123,26 @@ public class CourseDatabaseTest {
 
         Course[] courseList = courses.getAll();
         assertArrayEquals(newCourses, courseList);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void deleteCourseFromEmptyDatabaseDoesNotChangeDatabase() {
+        Course del = new Course("CHEM 1212K", "Dr. Zhang", 3, 0);
+        courses.delete(del);
+
+        Course[] courseList = courses.getAll();
+        assertArrayEquals(new Course[0], courseList);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void insertCourseWithOneTimePeriodUpdatesDatabases() {
+        Course newCourse = new Course("CS 2340", "Dr. Feijoo", 0, 15);
+        TimePeriod period = new TimePeriod(newCourse.id,
+                new RecurringTime(1, 8, 0),
+                new RecurringTime(1, 9, 15));
+        courses.insert(newCourse);
+
+        Course[] courseList = courses.getAll();
+        assertArrayEquals(new Course[]{newCourse}, courseList);
     }
 }
