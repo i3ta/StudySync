@@ -43,6 +43,17 @@ public class TimePeriod {
     }
 
     /**
+     * Copy a TimePeriod object.
+     * @param timePeriod TimePeriod object to copy
+     */
+    public TimePeriod(TimePeriod timePeriod) {
+        this.id = timePeriod.id;
+        this.courseId = timePeriod.courseId;
+        this.startTime = new RecurringTime(timePeriod.startTime);
+        this.endTime = new RecurringTime(timePeriod.endTime);
+    }
+
+    /**
      * Get a new CourseTime object from this time period.
      * @return CourseTime object
      */
@@ -52,14 +63,11 @@ public class TimePeriod {
     }
 
     /**
-     * Copy a TimePeriod object.
-     * @param timePeriod TimePeriod object to copy
+     * Get the course id for this time period.
+     * @return course id
      */
-    public TimePeriod(TimePeriod timePeriod) {
-        this.id = timePeriod.id;
-        this.courseId = timePeriod.courseId;
-        this.startTime = new RecurringTime(timePeriod.startTime);
-        this.endTime = new RecurringTime(timePeriod.endTime);
+    int getCourseId() {
+        return courseId;
     }
 
     /**
