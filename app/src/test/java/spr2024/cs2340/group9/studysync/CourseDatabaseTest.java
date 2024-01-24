@@ -37,13 +37,13 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void getAllIsEmptyArray() {
+    public void getAllCoursesShouldReturnEmptyArray() {
         Course[] courseList = courses.getAll();
         assertEquals(0, courseList.length);
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertOneCourseUpdatesDatabase() {
+    public void insertOneCourseShouldReturnCourse() {
         Course course = new Course("CS 2340", "Dr. Feijoo", 0, 15);
         courses.insert(course);
 
@@ -63,7 +63,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertManyCourseUpdatesDatabase() {
+    public void insertManyCourseShouldReturnAllCourses() {
         Course[] newCourses = {
                 new Course("CS 2340", "Dr. Feijoo", 0, 15),
                 new Course("CS 1332", "Prof. Faulkner", 1, 0),
@@ -78,7 +78,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void deleteOneCourseUpdatesDatabase() {
+    public void deleteOneCourseShouldDeleteCourse() {
         Course[] newCourses = {
                 new Course("CS 2340", "Dr. Feijoo", 0, 15),
                 new Course("CS 1332", "Prof. Faulkner", 1, 0),
@@ -94,7 +94,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void deleteNewCourseDoesNotChangeDatabase() {
+    public void deleteNewCourseShouldNotRemoveCourse() {
         Course[] newCourses = {
                 new Course("CS 2340", "Dr. Feijoo", 0, 15),
                 new Course("CS 1332", "Prof. Faulkner", 1, 0),
@@ -110,7 +110,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void deleteExistingCourseWithDifferentIdDoesNotChangeDatabase() {
+    public void deleteExistingCourseWithDifferentIdShouldNotRemoveCourse() {
         Course[] newCourses = {
                 new Course("CS 2340", "Dr. Feijoo", 0, 15),
                 new Course("CS 1332", "Prof. Faulkner", 1, 0),
@@ -126,7 +126,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void deleteCourseFromEmptyDatabaseDoesNotChangeDatabase() {
+    public void deleteCourseFromEmptyDatabaseShouldNotRemoveCourse() {
         Course del = new Course("CHEM 1212K", "Dr. Zhang", 3, 0);
         courses.delete(del);
 
@@ -135,7 +135,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertRepeatedCourseRetainsOneCopy() {
+    public void insertRepeatedCourseShouldKeepOneCourse() {
         Course newCourse = new Course("CS 2340", "Dr. Feijoo", 0, 15);
         courses.insert(newCourse);
         courses.insert(newCourse);
@@ -146,7 +146,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertRepeatedCourseIdRetainsOneCopy() {
+    public void insertRepeatedCourseIdShouldKeepOneCourse() {
         Course course1 = new Course("CS 2340", "Dr. Feijoo", 0, 15);
         Course course2 = new Course(course1);
         course2.name = "CHEM 1212K";
@@ -160,7 +160,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertCourseWithOneTimePeriodUpdatesDatabases() {
+    public void insertCourseWithOneTimeSlotShouldReturnWithTimeSlot() {
         Course newCourse = new Course("CS 2340", "Dr. Feijoo", 0, 15);
         TimeSlot period = new TimeSlot(newCourse.id,
                 new RecurringSlot(1, 8, 0),
@@ -173,7 +173,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void updateTimePeriodUpdatesDatabases() {
+    public void updateTimeSlotShouldReturnNewTimeSlot() {
         Course course = new Course("CS 1332", "Prof. Faulkner", 0, 0);
         TimeSlot period1 = new TimeSlot(course.id,
                 new RecurringSlot(1, 14, 0),
@@ -192,7 +192,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertCourseRemoveTimePeriodRemovesFromDatabase() {
+    public void insertCourseRemoveTimeSlotRemovesTimeSlot() {
         Course course = new Course("CS 1332", "Prof. Faulkner", 0, 0);
         TimeSlot period1 = new TimeSlot(course.id,
                 new RecurringSlot(1, 14, 0),
@@ -208,7 +208,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertRepeatedCourseWithTimePeriodUpdatesDatabase() {
+    public void insertRepeatedCourseWithTimeSlotShouldRetainOneTimeSlot() {
         Course course = new Course("CS 1332", "Prof. Faulkner", 0, 0);
         TimeSlot period1 = new TimeSlot(course.id,
                 new RecurringSlot(1, 14, 0),
@@ -222,7 +222,7 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void insertMultipleCoursesWithSameTimePeriod() {
+    public void insertMultipleCoursesWithSameTimePeriodShouldRetainBothTimeSlots() {
         Course course1 = new Course("CS 1332", "Prof. Faulkner", 0, 0);
         TimeSlot period1 = new TimeSlot(course1.id,
                 new RecurringSlot(1, 14, 0),
