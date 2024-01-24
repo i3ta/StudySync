@@ -36,6 +36,9 @@ public class Courses {
      * @return courses
      */
     public static Course[] getAll() {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         Course[] courses = courseDao.getAll();
         for (Course course : courses) {
             course.setCourseTimes(toTimePeriod(courseTimeDao.get(course.id)));
@@ -48,6 +51,9 @@ public class Courses {
      * @param courses courses
      */
     public static void insert(Course... courses) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         for (Course course: courses) {
             courseTimeDao.deleteCourse(course.id);
             if (course.getCourseTimes() == null || course.getCourseTimes().length == 0) {
@@ -63,6 +69,9 @@ public class Courses {
      * @param course course
      */
     public static void delete(Course course) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         courseDao.delete(course);
         courseTimeDao.deleteCourse(course.id);
     }
@@ -73,6 +82,9 @@ public class Courses {
      * @return course
      */
     public static Course get(int courseId) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         Course course = courseDao.get(courseId);
         course.setCourseTimes(toTimePeriod(courseTimeDao.get(courseId)));
         return course;
@@ -84,6 +96,9 @@ public class Courses {
      * @return courses
      */
     public static Course[] get(int[] courseIds) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         Course[] courses = courseDao.get(courseIds);
         for (Course course: courses) {
             course.setCourseTimes(toTimePeriod(courseTimeDao.get(course.id)));
@@ -99,6 +114,9 @@ public class Courses {
      * @throws IllegalArgumentException if the startTime is after the endTime
      */
     public static Course[] getBetween(int startTime, int endTime) throws IllegalArgumentException {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         if (startTime > endTime) {
             throw new IllegalArgumentException(String.format("The start time (%s) cannot be before " +
                     "the end time (%s).", startTime, endTime));
@@ -119,6 +137,9 @@ public class Courses {
      * @throws IllegalArgumentException if the startTime is after the endTime
      */
     public static Course[] getBetween(RecurringSlot startTime, RecurringSlot endTime) throws IllegalArgumentException {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         return getBetween(startTime.getMinutesSinceSunday(), endTime.getMinutesSinceSunday());
     }
 
@@ -129,6 +150,9 @@ public class Courses {
      * @throws IllegalArgumentException if the day of the week is invalid
      */
     public static Course[] getOnDay(int dayOfWeek) throws IllegalArgumentException {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         if (dayOfWeek < 0 || dayOfWeek > 6) {
             throw new IllegalArgumentException(String.format("Day of week %d is invalid. Day of " +
                     "week must be in the range [0, 6], where 0 is Sunday and 6 is Saturday.",
@@ -144,6 +168,9 @@ public class Courses {
      * @return course times
      */
     private static CourseTime[] toCourseTime(TimeSlot[] timeSlots) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         if (timeSlots == null || timeSlots.length == 0) {
             return null;
         }
@@ -160,6 +187,9 @@ public class Courses {
      * @return time periods
      */
     private static TimeSlot[] toTimePeriod(CourseTime[] courseTimes) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         if (courseTimes == null || courseTimes.length == 0) {
             return null;
         }
@@ -174,6 +204,9 @@ public class Courses {
      * Clears table.
      */
     public static void clear() {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         courseDao.clear();
     }
 }
