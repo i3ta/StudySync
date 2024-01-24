@@ -3,6 +3,8 @@ package spr2024.cs2340.group9.studysync.database;
 import androidx.annotation.NonNull;
 
 public class TimePeriod {
+    private int id;
+    private int courseId;
     private RecurringTime startTime;
     private RecurringTime endTime;
 
@@ -11,7 +13,9 @@ public class TimePeriod {
      * @param startTime int representing how many minutes past 00:00 Sunday
      * @param endTime int representing how many minutes past 00:00 Sunday
      */
-    public TimePeriod(int startTime, int endTime) {
+    public TimePeriod(int courseId, int startTime, int endTime) {
+        id = CourseTime.getNewId();
+        this.courseId = courseId;
         this.startTime = new RecurringTime(startTime);
         this.endTime = new RecurringTime(endTime);
     }
@@ -21,9 +25,8 @@ public class TimePeriod {
      * @param startTime start time
      * @param endTime end time
      */
-    public TimePeriod(RecurringTime startTime, RecurringTime endTime) {
-        this.startTime = new RecurringTime(startTime);
-        this.endTime = new RecurringTime(endTime);
+    public TimePeriod(int courseId, RecurringTime startTime, RecurringTime endTime) {
+        this(courseId, startTime.getMinutesSinceSunday(), endTime.getMinutesSinceSunday());
     }
 
     /**
@@ -31,8 +34,19 @@ public class TimePeriod {
      * @param courseTime CourseTime object
      */
     public TimePeriod(CourseTime courseTime) {
+        id = courseTime.id;
+        courseId = courseTime.courseId;
         this.startTime = new RecurringTime(courseTime.startTime);
         this.endTime = new RecurringTime(courseTime.endTime);
+    }
+
+    /**
+     * Get a new CourseTime object from this time period.
+     * @return CourseTime object
+     */
+    public CourseTime toCourseTime() {
+        return new CourseTime(id, courseId, startTime.getMinutesSinceSunday(),
+                endTime.getMinutesSinceSunday());
     }
 
     /**
@@ -40,6 +54,8 @@ public class TimePeriod {
      * @param timePeriod TimePeriod object to copy
      */
     public TimePeriod(TimePeriod timePeriod) {
+        this.id = timePeriod.id;
+        this.courseId = timePeriod.courseId;
         this.startTime = new RecurringTime(timePeriod.startTime);
         this.endTime = new RecurringTime(timePeriod.endTime);
     }
