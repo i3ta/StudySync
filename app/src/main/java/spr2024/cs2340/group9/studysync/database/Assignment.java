@@ -19,12 +19,15 @@ public class Assignment {
     long dueDate;
     public int notifyBefore;
 
-    @Ignore
-    public Assignment(String name, int courseId, Date dueDate, int notifyBefore) {
+    public Assignment(String name, int courseId, long dueDate, int notifyBefore) {
         this.name = name;
         this.courseId = courseId;
-        this.dueDate = dueDate.getTime();
+        this.dueDate = dueDate;
         this.notifyBefore = notifyBefore;
+    }
+
+    public Assignment(String name, int courseId, Date dueDate, int notifyBefore) {
+        this(name, courseId, dueDate.getTime(), notifyBefore);
     }
 
     @Ignore

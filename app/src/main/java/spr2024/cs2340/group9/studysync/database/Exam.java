@@ -19,12 +19,15 @@ public class Exam {
     long endTime;
     public int notifyBefore;
 
-    @Ignore
-    public Exam(String name, Date startTime, Date endTime, int notifyBefore) {
+    public Exam(String name, long startTime, long endTime, int notifyBefore) {
         this.name = name;
-        this.startTime = startTime.getTime();
-        this.endTime = endTime.getTime();
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.notifyBefore = notifyBefore;
+    }
+
+    public Exam(String name, Date startTime, Date endTime, int notifyBefore) {
+        this(name, startTime.getTime(), endTime.getTime(), notifyBefore);
     }
 
     @Ignore
