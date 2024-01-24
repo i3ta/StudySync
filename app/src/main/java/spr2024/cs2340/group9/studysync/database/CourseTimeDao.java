@@ -51,7 +51,7 @@ interface CourseTimeDao {
      * @param endTime end of the time frame
      * @return int array of course ids
      */
-    @Query("SELECT DISTINCT courseId FROM courseTime where endTime >= :startTime OR startTime >= :endTime")
+    @Query("SELECT DISTINCT courseId FROM courseTime where endTime >= :startTime AND startTime <= :endTime")
     int[] getCourseIdBetween(int startTime, int endTime);
 
     /**
