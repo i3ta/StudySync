@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.room.Room;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -37,7 +36,7 @@ public class Courses {
     public Course[] getAll() {
         Course[] courses = courseDao.getAll();
         for (Course course : courses) {
-            course.courseTimes = toTimePeriod(courseTimeDao.get(course.id));
+            course.setCourseTimes(toTimePeriod(courseTimeDao.get(course.id)));
         }
         return courses;
     }
@@ -47,17 +46,14 @@ public class Courses {
      * @param courses courses
      */
     public void insert(Course... courses) {
-        ArrayList<CourseTime> courseTimes = new ArrayList<>();
         for (Course course: courses) {
-            if (course.courseTimes == null || course.courseTimes.length == 0) {
+            courseTimeDao.deleteCourse(course.id);
+            if (course.getCourseTimes() == null || course.getCourseTimes().length == 0) {
                 continue;
             }
-            CourseTime[] thisCourseTimes = toCourseTime(course.courseTimes);
-            Collections.addAll(courseTimes, thisCourseTimes);
+            courseTimeDao.insert(toCourseTime(course.getCourseTimes()));
         }
         courseDao.insert(courses);
-        CourseTime[] arr = new CourseTime[courseTimes.size()];
-        courseTimeDao.insert(courseTimes.toArray(arr));
     }
 
     /**
@@ -76,7 +72,7 @@ public class Courses {
      */
     public Course get(int courseId) {
         Course course = courseDao.get(courseId);
-        course.courseTimes = toTimePeriod(courseTimeDao.get(courseId));
+        course.setCourseTimes(toTimePeriod(courseTimeDao.get(courseId)));
         return course;
     }
 
@@ -88,7 +84,7 @@ public class Courses {
     public Course[] get(int[] courseIds) {
         Course[] courses = courseDao.get(courseIds);
         for (Course course: courses) {
-            course.courseTimes = toTimePeriod(courseTimeDao.get(course.id));
+            course.setCourseTimes(toTimePeriod(courseTimeDao.get(course.id)));
         }
         return courses;
     }
@@ -109,7 +105,7 @@ public class Courses {
                 endTime.getMinutesSinceSunday());
         Course[] courses = courseDao.get(courseIds);
         for (Course course: courses) {
-            course.courseTimes = toTimePeriod(courseTimeDao.get(course.id));
+            course.setCourseTimes(toTimePeriod(courseTimeDao.get(course.id)));
         }
         return courses;
     }
