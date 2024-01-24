@@ -14,6 +14,7 @@ public class Courses {
     private static CourseDatabase db;
     private static CourseDao courseDao;
     private static CourseTimeDao courseTimeDao;
+    private static int currentId = 0;
 
     /**
      * Create a new Courses object.
@@ -22,6 +23,7 @@ public class Courses {
     public Courses(Context applicationContext) {
         if (db == null) {
             db = Room.databaseBuilder(applicationContext, CourseDatabase.class, "Course")
+                    .allowMainThreadQueries()
                     .build();
             courseDao = db.courseDao();
             courseTimeDao = db.courseTimeDao();
@@ -45,11 +47,18 @@ public class Courses {
      * @param courses courses
      */
     public void insert(Course... courses) {
-        courseDao.insert(courses);
         ArrayList<CourseTime> courseTimes = new ArrayList<>();
         for (Course course: courses) {
-            courseTimes.addAll(Arrays.asList(toCourseTime(course.id, course.courseTimes)));
+            course.id = currentId++;
+
+            // add courseTimes
+            CourseTime[] thisCourseTimes = toCourseTime(course.id, course.courseTimes);
+            if (thisCourseTimes == null) {
+                continue;
+            }
+            courseTimes.addAll(Arrays.asList(thisCourseTimes));
         }
+        courseDao.insert(courses);
         CourseTime[] arr = new CourseTime[courseTimes.size()];
         courseTimeDao.insert(courseTimes.toArray(arr));
     }
@@ -131,6 +140,9 @@ public class Courses {
      * @return course times
      */
     private CourseTime[] toCourseTime(int courseId, TimePeriod[] timePeriods) {
+        if (timePeriods == null || timePeriods.length == 0) {
+            return null;
+        }
         CourseTime[] times = new CourseTime[timePeriods.length];
         for (int i = 0; i < timePeriods.length; i++) {
             times[i] = timePeriods[i].getCourseTime(courseId);
@@ -144,10 +156,20 @@ public class Courses {
      * @return time periods
      */
     private TimePeriod[] toTimePeriod(CourseTime[] courseTimes) {
+        if (courseTimes == null || courseTimes.length == 0) {
+            return null;
+        }
         TimePeriod[] periods = new TimePeriod[courseTimes.length];
         for (int i = 0; i < courseTimes.length; i++) {
             periods[i] = new TimePeriod(courseTimes[i]);
         }
         return periods;
+    }
+
+    /**
+     * Clears table.
+     */
+    public void clear() {
+        courseDao.clear();
     }
 }

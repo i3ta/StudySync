@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 @Entity
 public class Course {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public int id;
 
     public String name;
@@ -18,6 +18,8 @@ public class Course {
     public int notifyBefore;
 
     @Ignore
+    public TimePeriod[] courseTimes;
+
     public Course(String name, String instructorName, int color, int notifyBefore) {
         this.name = name;
         this.instructorName = instructorName;
@@ -25,19 +27,45 @@ public class Course {
         this.notifyBefore = notifyBefore;
     }
 
-    @Ignore
-    public TimePeriod[] courseTimes;
+    public Course(String name, String instructorName, int color, int notifyBefore, TimePeriod[] courseTimes) {
+        this(name, instructorName, color, notifyBefore);
+        this.courseTimes = courseTimes;
+    }
 
     @NonNull
     @Ignore
     @Override
     public String toString() {
-        return String.format("Class %d:\n" +
-                "- courseName = %s\n" +
-                "- instructorName = %s\n" +
-                "- color = %d\n" +
-                "- notifyBefore = %d\n" +
-                "- courseTimes: " + Arrays.toString(courseTimes),
+        return String.format("<Class %d: courseName = %s, instructorName = %s, color = %d, " +
+                        "notifyBefore = %d, courseTimes: " + Arrays.toString(courseTimes),
                 id, name, instructorName, color, notifyBefore);
+    }
+
+    @Ignore
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        Course c = (Course) o;
+        if (courseTimes != null && c.courseTimes == null) {
+            if (courseTimes.length != c.courseTimes.length) {
+                return false;
+            }
+            if (courseTimes != c.courseTimes) {
+                for (int i = 0; i < courseTimes.length; i++) {
+                    if (!courseTimes[i].equals(c.courseTimes[i])) {
+                        return false;
+                    }
+                }
+            }
+        } else if (courseTimes != c.courseTimes) {
+            return false;
+        }
+        return id == c.id && name.equals(c.name) && instructorName.equals(c.instructorName)
+                && color == c.color && notifyBefore == c.notifyBefore;
     }
 }
