@@ -135,11 +135,37 @@ public class CourseDatabaseTest {
     }
 
     @Test(timeout = TIMEOUT)
+    public void insertRepeatedCourseRetainsOneCopy() {
+        Course newCourse = new Course("CS 2340", "Dr. Feijoo", 0, 15);
+        courses.insert(newCourse);
+        courses.insert(newCourse);
+
+        Course[] courseList = courses.getAll();
+        assertEquals(1, courseList.length);
+        assertArrayEquals(new Course[]{newCourse}, courseList);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void insertRepeatedCourseIdRetainsOneCopy() {
+        Course course1 = new Course("CS 2340", "Dr. Feijoo", 0, 15);
+        Course course2 = new Course(course1);
+        course2.name = "CHEM 1212K";
+        course2.instructorName = "Dr. Zhang";
+        courses.insert(course1);
+        courses.insert(course2);
+
+        Course[] courseList = courses.getAll();
+        assertEquals(1, courseList.length);
+        assertArrayEquals(new Course[]{course2}, courseList);
+    }
+
+    @Test(timeout = TIMEOUT)
     public void insertCourseWithOneTimePeriodUpdatesDatabases() {
         Course newCourse = new Course("CS 2340", "Dr. Feijoo", 0, 15);
         TimePeriod period = new TimePeriod(newCourse.id,
                 new RecurringTime(1, 8, 0),
                 new RecurringTime(1, 9, 15));
+        newCourse.courseTimes = new TimePeriod[]{period};
         courses.insert(newCourse);
 
         Course[] courseList = courses.getAll();
