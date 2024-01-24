@@ -165,10 +165,77 @@ public class CourseDatabaseTest {
         TimePeriod period = new TimePeriod(newCourse.id,
                 new RecurringTime(1, 8, 0),
                 new RecurringTime(1, 9, 15));
-        newCourse.courseTimes = new TimePeriod[]{period};
+        newCourse.setCourseTimes(new TimePeriod[]{period});
         courses.insert(newCourse);
 
         Course[] courseList = courses.getAll();
         assertArrayEquals(new Course[]{newCourse}, courseList);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void updateTimePeriodUpdatesDatabases() {
+        Course course = new Course("CS 1332", "Prof. Faulkner", 0, 0);
+        TimePeriod period1 = new TimePeriod(course.id,
+                new RecurringTime(1, 14, 0),
+                new RecurringTime(1, 14, 50));
+        course.setCourseTimes(new TimePeriod[]{period1});
+        courses.insert(course);
+
+        TimePeriod period2 = new TimePeriod(course.id,
+                new RecurringTime(3, 14, 0),
+                new RecurringTime(3, 14, 50));
+        course.setCourseTimes(new TimePeriod[]{period2});
+        courses.insert(course);
+
+        Course[] courseList = courses.getAll();
+        assertArrayEquals(new Course[]{course}, courseList);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void insertCourseRemoveTimePeriodRemovesFromDatabase() {
+        Course course = new Course("CS 1332", "Prof. Faulkner", 0, 0);
+        TimePeriod period1 = new TimePeriod(course.id,
+                new RecurringTime(1, 14, 0),
+                new RecurringTime(1, 14, 50));
+        course.setCourseTimes(new TimePeriod[]{period1});
+        courses.insert(course);
+
+        course.setCourseTimes(null);
+        courses.insert(course);
+
+        Course[] courseList = courses.getAll();
+        assertArrayEquals(new Course[]{course}, courseList);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void insertRepeatedCourseWithTimePeriodUpdatesDatabase() {
+        Course course = new Course("CS 1332", "Prof. Faulkner", 0, 0);
+        TimePeriod period1 = new TimePeriod(course.id,
+                new RecurringTime(1, 14, 0),
+                new RecurringTime(1, 14, 50));
+        course.setCourseTimes(new TimePeriod[]{period1});
+        courses.insert(course);
+        courses.insert(course);
+
+        Course[] courseList = courses.getAll();
+        assertArrayEquals(new Course[]{course}, courseList);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void insertMultipleCoursesWithSameTimePeriod() {
+        Course course1 = new Course("CS 1332", "Prof. Faulkner", 0, 0);
+        TimePeriod period1 = new TimePeriod(course1.id,
+                new RecurringTime(1, 14, 0),
+                new RecurringTime(1, 14, 0));
+        course1.setCourseTimes(new TimePeriod[]{period1});
+        Course course2 = new Course("CS 2340", "Dr. Feijoo", 0, 0);
+        TimePeriod period2 = new TimePeriod(course2.id,
+                new RecurringTime(1, 14, 0),
+                new RecurringTime(1, 14, 0));
+        course2.setCourseTimes(new TimePeriod[]{period2});
+        courses.insert(course1, course2);
+
+        Course[] courseList = courses.getAll();
+        assertArrayEquals(new Course[]{course1, course2}, courseList);
     }
 }
