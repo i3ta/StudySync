@@ -164,7 +164,7 @@ public class RecurringTime implements Comparable<RecurringTime> {
     @NonNull
     @Override
     public String toString() {
-        return String.format(Locale.getDefault(), "%s %d:%d", DAY_OF_WEEK[dayOfWeek], hour,
+        return String.format(Locale.getDefault(), "%s %02d:%02d", DAY_OF_WEEK[dayOfWeek], hour,
                 minute);
     }
 
