@@ -18,7 +18,7 @@ public class Course {
     public int notifyBefore;
 
     @Ignore
-    public TimePeriod[] courseTimes;
+    private TimePeriod[] courseTimes;
     @Ignore
     private static int currentId = 0;
 
@@ -46,6 +46,28 @@ public class Course {
             for (int i = 0; i < c.courseTimes.length; i++) {
                 courseTimes[i] = new TimePeriod(c.courseTimes[i]);
             }
+        }
+    }
+
+    @Ignore
+    public TimePeriod[] getCourseTimes() {
+        return courseTimes;
+    }
+
+    @Ignore
+    public void setCourseTimes(TimePeriod[] courseTimes) {
+        if (courseTimes == null) {
+            this.courseTimes = null;
+            return;
+        }
+        for (TimePeriod t: courseTimes) {
+            if (t.getCourseId() != id) {
+                throw new IllegalArgumentException("Course id must be equal to this course id");
+            }
+        }
+        this.courseTimes = new TimePeriod[courseTimes.length];
+        for (int i = 0; i < courseTimes.length; i++) {
+            this.courseTimes[i] = new TimePeriod(courseTimes[i]);
         }
     }
 
