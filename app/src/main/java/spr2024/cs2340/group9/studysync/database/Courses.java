@@ -13,6 +13,11 @@ public class Courses {
     private static CourseTimeDao courseTimeDao;
 
     /**
+     * Private constructor to enforce static usage.
+     */
+    private Courses() {}
+
+    /**
      * Create a new Courses object.
      * @param applicationContext context of the current application; use getApplicationContext() to get
      */
