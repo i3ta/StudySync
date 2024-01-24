@@ -19,8 +19,11 @@ public class Course {
 
     @Ignore
     public TimePeriod[] courseTimes;
+    @Ignore
+    private static int currentId = 0;
 
     public Course(String name, String instructorName, int color, int notifyBefore) {
+        id = currentId++;
         this.name = name;
         this.instructorName = instructorName;
         this.color = color;
