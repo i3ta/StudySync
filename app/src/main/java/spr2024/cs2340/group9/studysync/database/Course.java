@@ -35,6 +35,20 @@ public class Course {
         this.courseTimes = courseTimes;
     }
 
+    public Course(Course c) {
+        id = c.id;
+        name = c.name;
+        instructorName = c.instructorName;
+        color = c.color;
+        notifyBefore = c.notifyBefore;
+        if (c.courseTimes != null) {
+            courseTimes = new TimePeriod[c.courseTimes.length];
+            for (int i = 0; i < c.courseTimes.length; i++) {
+                courseTimes[i] = new TimePeriod(c.courseTimes[i]);
+            }
+        }
+    }
+
     @NonNull
     @Ignore
     @Override
