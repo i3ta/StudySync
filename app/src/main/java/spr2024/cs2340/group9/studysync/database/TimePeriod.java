@@ -2,6 +2,8 @@ package spr2024.cs2340.group9.studysync.database;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 public class TimePeriod {
     private int id;
     private int courseId;
@@ -75,8 +77,10 @@ public class TimePeriod {
      * @param courseTime object to get start and end time from
      */
     public void set(CourseTime courseTime) {
-        this.startTime = new RecurringTime(courseTime.startTime);
-        this.endTime = new RecurringTime(courseTime.endTime);
+        id = courseTime.id;
+        courseId = courseTime.courseId;
+        startTime = new RecurringTime(courseTime.startTime);
+        endTime = new RecurringTime(courseTime.endTime);
     }
 
     /**
@@ -135,11 +139,8 @@ public class TimePeriod {
      * @return CourseTime object with the given courseId
      */
     public CourseTime getCourseTime(int courseId) {
-        CourseTime period = new CourseTime();
-        period.courseId = courseId;
-        period.startTime = startTime.getMinutesSinceSunday();
-        period.endTime = endTime.getMinutesSinceSunday();
-        return period;
+        return new CourseTime(id, courseId, startTime.getMinutesSinceSunday(),
+                endTime.getMinutesSinceSunday());
     }
 
     /**
@@ -149,6 +150,21 @@ public class TimePeriod {
     @NonNull
     @Override
     public String toString() {
-        return String.format("(From: %s; To: %s)", startTime, endTime);
+        return String.format(Locale.getDefault(),
+                "(TimePeriod %d: Course: %d; From: %s; To: %s)",
+                id, courseId, startTime, endTime);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TimePeriod t = (TimePeriod) o;
+        return id == t.id && courseId == t.courseId && startTime.equals(t.startTime)
+                && endTime.equals(t.endTime);
     }
 }

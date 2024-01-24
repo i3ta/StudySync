@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 class CourseTime {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public int id;
 
     public int courseId;
@@ -23,10 +23,7 @@ class CourseTime {
         this.endTime = endTime;
     }
 
-    public CourseTime() {
-        id = currentId++;
-    }
-
+    @Ignore
     public CourseTime(int courseId, int startTime, int endTime) {
         this(currentId++, courseId, startTime, endTime);
     }
@@ -34,5 +31,18 @@ class CourseTime {
     @Ignore
     static int getNewId() {
         return currentId++;
+    }
+
+    @Ignore
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CourseTime t = (CourseTime) o;
+        return id == t.id && courseId == t.id && startTime == t.startTime && endTime == t.endTime;
     }
 }

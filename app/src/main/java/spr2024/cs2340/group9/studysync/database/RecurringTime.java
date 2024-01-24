@@ -221,4 +221,16 @@ public class RecurringTime implements Comparable<RecurringTime> {
                     time, 7 * 24 * 60));
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RecurringTime t = (RecurringTime) o;
+        return dayOfWeek == t.dayOfWeek && hour == t.hour && minute == t.minute;
+    }
 }

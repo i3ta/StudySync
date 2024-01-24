@@ -68,21 +68,8 @@ public class Course {
             return false;
         }
         Course c = (Course) o;
-        if (courseTimes != null && c.courseTimes == null) {
-            if (courseTimes.length != c.courseTimes.length) {
-                return false;
-            }
-            if (courseTimes != c.courseTimes) {
-                for (int i = 0; i < courseTimes.length; i++) {
-                    if (!courseTimes[i].equals(c.courseTimes[i])) {
-                        return false;
-                    }
-                }
-            }
-        } else if (courseTimes != c.courseTimes) {
-            return false;
-        }
         return id == c.id && name.equals(c.name) && instructorName.equals(c.instructorName)
-                && color == c.color && notifyBefore == c.notifyBefore;
+                && color == c.color && notifyBefore == c.notifyBefore
+                && Arrays.equals(courseTimes, c.courseTimes);
     }
 }
