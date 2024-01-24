@@ -14,7 +14,6 @@ public class Courses {
     private static CourseDatabase db;
     private static CourseDao courseDao;
     private static CourseTimeDao courseTimeDao;
-    private static int currentId = 0;
 
     /**
      * Create a new Courses object.
@@ -49,9 +48,6 @@ public class Courses {
     public void insert(Course... courses) {
         ArrayList<CourseTime> courseTimes = new ArrayList<>();
         for (Course course: courses) {
-            course.id = currentId++;
-
-            // add courseTimes
             CourseTime[] thisCourseTimes = toCourseTime(course.id, course.courseTimes);
             if (thisCourseTimes == null) {
                 continue;
