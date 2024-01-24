@@ -137,9 +137,6 @@ public class Courses {
      * @throws IllegalArgumentException if the startTime is after the endTime
      */
     public static Course[] getBetween(RecurringSlot startTime, RecurringSlot endTime) throws IllegalArgumentException {
-        if (db == null) {
-            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
-        }
         return getBetween(startTime.getMinutesSinceSunday(), endTime.getMinutesSinceSunday());
     }
 
