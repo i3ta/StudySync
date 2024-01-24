@@ -98,18 +98,28 @@ public class Courses {
      * @return courses in the time frame
      * @throws IllegalArgumentException if the startTime is after the endTime
      */
-    public static Course[] getBetween(RecurringSlot startTime, RecurringSlot endTime) throws IllegalArgumentException {
-        if (startTime.compareTo(endTime) > 0) {
+    public static Course[] getBetween(int startTime, int endTime) throws IllegalArgumentException {
+        if (startTime > endTime) {
             throw new IllegalArgumentException(String.format("The start time (%s) cannot be before " +
                     "the end time (%s).", startTime, endTime));
         }
-        int[] courseIds = courseTimeDao.getCourseIdBetween(startTime.getMinutesSinceSunday(),
-                endTime.getMinutesSinceSunday());
+        int[] courseIds = courseTimeDao.getCourseIdBetween(startTime, endTime);
         Course[] courses = courseDao.get(courseIds);
         for (Course course: courses) {
             course.setCourseTimes(toTimePeriod(courseTimeDao.get(course.id)));
         }
         return courses;
+    }
+
+    /**
+     * Get courses within a specific time frame.
+     * @param startTime beginning of the time frame, inclusive
+     * @param endTime end of the time frame, inclusive
+     * @return courses in the time frame
+     * @throws IllegalArgumentException if the startTime is after the endTime
+     */
+    public static Course[] getBetween(RecurringSlot startTime, RecurringSlot endTime) throws IllegalArgumentException {
+        return getBetween(startTime.getMinutesSinceSunday(), endTime.getMinutesSinceSunday());
     }
 
     /**
