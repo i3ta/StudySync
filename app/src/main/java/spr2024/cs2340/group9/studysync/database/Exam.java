@@ -20,9 +20,12 @@ public class Exam {
     public int notifyBefore;
 
     @Ignore
-    private static int currentId = 0;
+    static int currentId = -10;
 
     public Exam(int id, String name, long startTime, long endTime, int notifyBefore) {
+        if (currentId < 0) {
+            throw new IllegalStateException("Database must be initialized before object can be constructed.");
+        }
         this.id = id;
         this.name = name;
         this.startTime = startTime;

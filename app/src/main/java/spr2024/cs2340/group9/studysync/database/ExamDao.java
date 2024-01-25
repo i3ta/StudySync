@@ -50,4 +50,11 @@ public interface ExamDao {
      */
     @Query("DELETE FROM Exam")
     void clear();
+
+    /**
+     * Get maximum id from Exam table.
+     * @return id
+     */
+    @Query("SELECT MAX(id) FROM Exam")
+    int getId();
 }

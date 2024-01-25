@@ -25,6 +25,7 @@ public class Exams {
                     .allowMainThreadQueries()
                     .build();
             examDao = db.examDao();
+            Exam.currentId = examDao.getId() + 1;
         }
     }
 
