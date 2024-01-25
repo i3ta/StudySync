@@ -10,12 +10,19 @@ public class ToDoLists {
     private static ToDoListItemDao toDoListItemDao;
 
     /**
+     * Force static methods.
+     */
+    private ToDoLists() {}
+
+    /**
      * Create a new instance of the ToDoLists database.
      * @param applicationContext context of the current application; use getApplicationContext() to get
      */
-    public ToDoLists(Context applicationContext) {
+    public static void init(Context applicationContext) {
         if (db == null) {
-            db = Room.databaseBuilder(applicationContext, ToDoListDatabase.class, "ToDoList").build();
+            db = Room.databaseBuilder(applicationContext, ToDoListDatabase.class, "ToDoList")
+                    .allowMainThreadQueries()
+                    .build();
             toDoListDao = db.toDoListDao();
             toDoListItemDao = db.toDoListItemDao();
         }
@@ -25,9 +32,12 @@ public class ToDoLists {
      * Insert new to do list(s).
      * @param toDoLists to do list(s)
      */
-    public void insert(ToDoList... toDoLists) {
+    public static void insert(ToDoList... toDoLists) {
         toDoListDao.insert(toDoLists);
         for (ToDoList toDoList: toDoLists) {
+            if (toDoList.toDoListItems == null) {
+                continue;
+            }
             toDoListItemDao.insert(toDoList.toDoListItems);
         }
     }
@@ -36,7 +46,7 @@ public class ToDoLists {
      * Insert new to do list item(s).
      * @param toDoListItems to do list item(s)
      */
-    public void insert(ToDoListItem... toDoListItems) {
+    public static void insert(ToDoListItem... toDoListItems) {
         toDoListItemDao.insert(toDoListItems);
     }
 
@@ -44,7 +54,7 @@ public class ToDoLists {
      * Delete to do list.
      * @param toDoList to do list to delete
      */
-    public void delete(ToDoList toDoList) {
+    public static void delete(ToDoList toDoList) {
         toDoListDao.delete(toDoList);
         toDoListItemDao.deleteList(toDoList.id);
     }
@@ -53,7 +63,7 @@ public class ToDoLists {
      * Delete to do list item.
      * @param toDoListItem to do list item to delete
      */
-    public void delete(ToDoListItem toDoListItem) {
+    public static void delete(ToDoListItem toDoListItem) {
         toDoListItemDao.delete(toDoListItem);
     }
 
@@ -61,7 +71,7 @@ public class ToDoLists {
      * Delete to do list with id.
      * @param id to do list id
      */
-    public void deleteList(int id) {
+    public static void deleteList(int id) {
         toDoListDao.delete(id);
     }
 
@@ -69,7 +79,7 @@ public class ToDoLists {
      * Delete to do list item with id.
      * @param id to do list item id
      */
-    public void deleteItem(int id) {
+    public static void deleteItem(int id) {
         toDoListItemDao.delete(id);
     }
 
@@ -77,7 +87,7 @@ public class ToDoLists {
      * Get all to do lists.
      * @return to do lists
      */
-    public ToDoList[] getAllLists() {
+    public static ToDoList[] getAllLists() {
         return toDoListDao.getAll();
     }
 
@@ -85,7 +95,7 @@ public class ToDoLists {
      * Get all to do list items.
      * @return to do list items
      */
-    public ToDoListItem[] getAllItems() {
+    public static ToDoListItem[] getAllItems() {
         return toDoListItemDao.getAll();
     }
 
@@ -94,7 +104,7 @@ public class ToDoLists {
      * @param id to do list id
      * @return to do list
      */
-    public ToDoList getList(int id) {
+    public static ToDoList getList(int id) {
         ToDoList list = toDoListDao.get(id);
         list.toDoListItems = toDoListItemDao.getList(list.id);
         return list;
@@ -105,9 +115,14 @@ public class ToDoLists {
      * @param id to do list id
      * @return to do list
      */
-    public ToDoList getListIncomplete(int id) {
+    public static ToDoList getListIncomplete(int id) {
         ToDoList list = toDoListDao.get(id);
         list.toDoListItems = toDoListItemDao.getIncomplete(id);
         return list;
+    }
+
+    public static void clear() {
+        toDoListDao.clear();
+        toDoListItemDao.clear();
     }
 }
