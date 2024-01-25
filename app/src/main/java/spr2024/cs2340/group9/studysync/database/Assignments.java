@@ -106,27 +106,21 @@ public class Assignments {
      * @param endDate end of time frame
      * @return assignments
      */
-    public static Assignment[] getBetween(Date startDate, Date endDate) {
+    public static Assignment[] getBetween(long startDate, long endDate) {
         if (db == null) {
             throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
         }
-        return assignmentDao.getBetween(startDate.getTime(), endDate.getTime());
+        return assignmentDao.getBetween(startDate, endDate);
     }
 
     /**
-     * Get all assignments with a specific ordering scheme.
-     * @param order ordering scheme
+     * Get all assignments with due dates within a time frame.
+     * @param startDate start of time frame
+     * @param endDate end of time frame
      * @return assignments
      */
-    public static Assignment[] getOrder(Order order) throws IllegalArgumentException {
-        if (db == null) {
-            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
-        }
-        if (order == Order.START_TIME || order == Order.END_TIME) {
-            throw new IllegalArgumentException("Assignments cannot be ordered by START_TIME or" +
-                    "END_TIME.");
-        }
-        return assignmentDao.getAll(order.columnName);
+    public static Assignment[] getBetween(Date startDate, Date endDate) {
+        return getBetween(startDate.getTime(), endDate.getTime());
     }
 
     /**

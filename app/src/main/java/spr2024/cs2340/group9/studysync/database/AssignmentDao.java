@@ -42,7 +42,7 @@ interface AssignmentDao {
      * @param id assignment id
      * @return assignment
      */
-    @Query("SELECT * FROM Assignment WHERE id = :id ORDER BY dueDate")
+    @Query("SELECT * FROM Assignment WHERE id = :id ORDER BY dueDate ASC")
     Assignment get(int id);
 
     /**
@@ -51,7 +51,7 @@ interface AssignmentDao {
      * @param courseId course id
      * @return assignments
      */
-    @Query("SELECT * FROM Assignment WHERE courseId = :courseId ORDER BY dueDate")
+    @Query("SELECT * FROM Assignment WHERE courseId = :courseId ORDER BY dueDate ASC")
     Assignment[] getCourse(int courseId);
 
     /**
@@ -61,16 +61,8 @@ interface AssignmentDao {
      * @param endDate end time in milliseconds
      * @return assignments
      */
-    @Query("SELECT * FROM Assignment WHERE dueDate <= :startDate AND dueDate >= :endDate ORDER BY dueDate")
+    @Query("SELECT * FROM Assignment WHERE dueDate >= :startDate AND dueDate <= :endDate ORDER BY dueDate ASC")
     Assignment[] getBetween(long startDate, long endDate);
-
-    /**
-     * Get all assignments with specific sorting.
-     * @param ordering column to order by
-     * @return assignments
-     */
-    @Query("SELECT * FROM Assignment ORDER BY :ordering")
-    Assignment[] getAll(String ordering);
 
     /**
      * CLear Assignment table.
