@@ -8,7 +8,7 @@ import java.util.Locale;
  * Class that represents a single time of the week.
  * Used to represent a specific time of week (not absolute time) for courses.
  */
-public class RecurringTime implements Comparable<RecurringTime> {
+public class RecurringSlot implements Comparable<RecurringSlot> {
     private static final String[] DAY_OF_WEEK = {"Sunday", "Monday", "Tuesday", "Wednesday",
             "Thursday", "Friday", "Saturday"};
     private int dayOfWeek;
@@ -20,7 +20,7 @@ public class RecurringTime implements Comparable<RecurringTime> {
      * @param time number of minutes past 00:00 Sunday
      * @throws IllegalArgumentException if the time is negative or greater than or equal to 1 week
      */
-    public RecurringTime(int time) throws IllegalArgumentException {
+    public RecurringSlot(int time) throws IllegalArgumentException {
         set(time);
     }
 
@@ -31,7 +31,7 @@ public class RecurringTime implements Comparable<RecurringTime> {
      * @param minute int representing the minute of the hour, in the interval [0, 60)
      * @throws IllegalArgumentException if the inputs are invalid
      */
-    public RecurringTime(int dayOfWeek, int hour, int minute) throws IllegalArgumentException {
+    public RecurringSlot(int dayOfWeek, int hour, int minute) throws IllegalArgumentException {
         set(dayOfWeek, hour, minute);
     }
 
@@ -39,7 +39,7 @@ public class RecurringTime implements Comparable<RecurringTime> {
      * Deep copy a Time object.
      * @param time Time object to copy
      */
-    public RecurringTime(RecurringTime time) {
+    public RecurringSlot(RecurringSlot time) {
         this.dayOfWeek = time.dayOfWeek;
         this.hour = time.hour;
         this.minute = time.minute;
@@ -164,7 +164,7 @@ public class RecurringTime implements Comparable<RecurringTime> {
     @NonNull
     @Override
     public String toString() {
-        return String.format(Locale.getDefault(), "%s %d:%d", DAY_OF_WEEK[dayOfWeek], hour,
+        return String.format(Locale.getDefault(), "%s %02d:%02d", DAY_OF_WEEK[dayOfWeek], hour,
                 minute);
     }
 
@@ -174,7 +174,7 @@ public class RecurringTime implements Comparable<RecurringTime> {
      * @return minutes between the times
      */
     @Override
-    public int compareTo(RecurringTime time) {
+    public int compareTo(RecurringSlot time) {
         return getMinutesSinceSunday() - time.getMinutesSinceSunday();
     }
 
@@ -220,5 +220,17 @@ public class RecurringTime implements Comparable<RecurringTime> {
             throw new IllegalArgumentException(String.format("The time %d must be less than %d.",
                     time, 7 * 24 * 60));
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RecurringSlot t = (RecurringSlot) o;
+        return dayOfWeek == t.dayOfWeek && hour == t.hour && minute == t.minute;
     }
 }

@@ -33,7 +33,7 @@ public interface ToDoListDao {
      * Get all to do lists from database.
      * @return to do lists
      */
-    @Query("SELECT * FROM ToDoList ORDER BY name")
+    @Query("SELECT * FROM ToDoList")
     ToDoList[] getAll();
 
     /**
@@ -43,4 +43,17 @@ public interface ToDoListDao {
      */
     @Query("SELECT * FROM ToDoList WHERE id = :id")
     ToDoList get(int id);
+
+    /**
+     * Clear ToDoList table.
+     */
+    @Query("DELETE FROM ToDoList")
+    void clear();
+
+    /**
+     * Get maximum id from table.
+     * @return id
+     */
+    @Query("SELECT MAX(id) FROM ToDoList")
+    int getId();
 }

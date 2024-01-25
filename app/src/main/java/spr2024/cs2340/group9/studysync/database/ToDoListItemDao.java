@@ -66,4 +66,17 @@ interface ToDoListItemDao {
      */
     @Query("SELECT * FROM todolistitem WHERE toDoListId = :toDoListId AND complete = 0")
     ToDoListItem[] getIncomplete(int toDoListId);
+
+    /**
+     * Clear ToDoListItem table.
+     */
+    @Query("DELETE FROM ToDoListItem")
+    void clear();
+
+    /**
+     * Get maximum id from table.
+     * @return id
+     */
+    @Query("SELECT MAX(id) FROM ToDoListItem")
+    int getId();
 }

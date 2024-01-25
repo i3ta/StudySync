@@ -45,4 +45,17 @@ public interface CourseDao {
      */
     @Query("SELECT * FROM Course WHERE id IN (:courseIds)")
     Course[] get(int[] courseIds);
+
+    /**
+     * Clear Course table.
+     */
+    @Query("DELETE FROM Course")
+    void clear();
+
+    /**
+     * Get maximum current id.
+     * @return id
+     */
+    @Query("SELECT MAX(id) from Course")
+    int getId();
 }

@@ -64,4 +64,6 @@ dependencies {
 
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
+
+    testImplementation("org.robolectric:robolectric:4.11.1")
 }

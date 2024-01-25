@@ -11,20 +11,36 @@ import java.util.Locale;
 
 @Entity
 public class Assignment {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public int id;
 
     public String name;
     public int courseId;
-    long dueDate;
+    public long dueDate;
     public int notifyBefore;
 
     @Ignore
-    public Assignment(String name, int courseId, Date dueDate, int notifyBefore) {
+    static int currentId = -10;
+
+    public Assignment(int id, String name, int courseId, long dueDate, int notifyBefore) {
+        if (currentId < 0) {
+            throw new IllegalStateException("Database has to be initialized before class can be constructed.");
+        }
+        this.id = id;
         this.name = name;
         this.courseId = courseId;
-        this.dueDate = dueDate.getTime();
+        this.dueDate = dueDate;
         this.notifyBefore = notifyBefore;
+    }
+
+    @Ignore
+    public Assignment(String name, int courseId, long dueDate, int notifyBefore) {
+        this(currentId++, name, courseId, dueDate, notifyBefore);
+    }
+
+    @Ignore
+    public Assignment(String name, int courseId, Date dueDate, int notifyBefore) {
+        this(name, courseId, dueDate.getTime(), notifyBefore);
     }
 
     @Ignore
@@ -42,11 +58,21 @@ public class Assignment {
     @NotNull
     public String toString() {
         return String.format(Locale.getDefault(),
-                "Assignment %d:\n" +
-                "- name: %s\n" +
-                "- courseId: %d\n" +
-                "- dueDate: %s\n" +
-                "- notifyBefore: %d",
+                "Assignment %d: name: %s, courseId: %d, dueDate: %s, notifyBefore: %d",
                 id, name, courseId, getDueDate(), notifyBefore);
+    }
+
+    @Ignore
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Assignment a = (Assignment) o;
+        return id == a.id && name.equals(a.name) && courseId == a.courseId && dueDate == a.dueDate
+                && notifyBefore == a.notifyBefore;
     }
 }

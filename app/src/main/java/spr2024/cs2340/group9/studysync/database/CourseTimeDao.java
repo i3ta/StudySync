@@ -46,20 +46,24 @@ interface CourseTimeDao {
     CourseTime[] get(int courseId);
 
     /**
-     * Get course times within a specific time frame.
-     * @param startTime start of the time frame
-     * @param endTime end of the time frame
-     * @return CourseTime objects that lie between a specific time frame
-     */
-    @Query("SELECT * FROM CourseTime WHERE startTime <= :startTime AND endTime >= :endTime")
-    CourseTime[] getBetween(int startTime, int endTime);
-
-    /**
      * Get course id of courses within a specific time frame.
      * @param startTime start of the time frame
      * @param endTime end of the time frame
      * @return int array of course ids
      */
-    @Query("SELECT DISTINCT courseId FROM courseTime where startTime <= :startTime AND endTime >= :endTime")
+    @Query("SELECT DISTINCT courseId FROM courseTime where endTime >= :startTime AND startTime <= :endTime")
     int[] getCourseIdBetween(int startTime, int endTime);
+
+    /**
+     * Clear CourseTime table.
+     */
+    @Query("DELETE FROM CourseTime")
+    void clear();
+
+    /**
+     * Get maximum id from table.
+     * @return id
+     */
+    @Query("SELECT MAX(id) from CourseTime")
+    int getId();
 }
