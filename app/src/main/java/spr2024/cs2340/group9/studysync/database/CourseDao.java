@@ -51,4 +51,11 @@ public interface CourseDao {
      */
     @Query("DELETE FROM Course")
     void clear();
+
+    /**
+     * Get maximum current id.
+     * @return id
+     */
+    @Query("SELECT MAX(id) from Course")
+    int getId();
 }

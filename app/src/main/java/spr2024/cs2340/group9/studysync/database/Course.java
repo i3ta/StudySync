@@ -20,14 +20,22 @@ public class Course {
     @Ignore
     private TimeSlot[] courseTimes;
     @Ignore
-    private static int currentId = 0;
+    static int currentId = -10;
 
-    public Course(String name, String instructorName, int color, int notifyBefore) {
-        id = currentId++;
+    public Course(int id, String name, String instructorName, int color, int notifyBefore) {
+        if (currentId < 0) {
+            throw new IllegalStateException("Database must be initialized before classes can be constructed.");
+        }
+        this.id = id;
         this.name = name;
         this.instructorName = instructorName;
         this.color = color;
         this.notifyBefore = notifyBefore;
+    }
+
+    @Ignore
+    public Course(String name, String instructorName, int color, int notifyBefore) {
+        this(currentId++, name, instructorName, color, notifyBefore);
     }
 
     public Course(String name, String instructorName, int color, int notifyBefore, TimeSlot[] courseTimes) {

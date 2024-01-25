@@ -28,6 +28,8 @@ public class Courses {
                     .build();
             courseDao = db.courseDao();
             courseTimeDao = db.courseTimeDao();
+            Course.currentId = courseDao.getId() + 1;
+            CourseTime.currentId = courseTimeDao.getId() + 1;
         }
     }
 

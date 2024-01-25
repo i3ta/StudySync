@@ -59,4 +59,11 @@ interface CourseTimeDao {
      */
     @Query("DELETE FROM CourseTime")
     void clear();
+
+    /**
+     * Get maximum id from table.
+     * @return id
+     */
+    @Query("SELECT MAX(id) from CourseTime")
+    int getId();
 }
