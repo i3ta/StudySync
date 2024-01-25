@@ -131,6 +131,9 @@ public class Assignments {
      * Clear Assignment table.
      */
     public static void clear() {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         assignmentDao.clear();
     }
 }
