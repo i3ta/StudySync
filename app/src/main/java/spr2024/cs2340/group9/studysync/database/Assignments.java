@@ -14,10 +14,15 @@ public class Assignments {
     private static AssignmentDao assignmentDao;
 
     /**
+     * Private empty constructor to force static methods.
+     */
+    private Assignments() {}
+
+    /**
      * Initialize object.
      * @param applicationContext context of the current application; use getApplicationContext() to get
      */
-    public Assignments(Context applicationContext) {
+    public static void init(Context applicationContext) {
         if (db == null) {
             db = Room.databaseBuilder(applicationContext, AssignmentDatabase.class,
                     "Assignment").build();
@@ -29,7 +34,10 @@ public class Assignments {
      * Get all assignments.
      * @return assignments
      */
-    public Assignment[] getAll() {
+    public static Assignment[] getAll() {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         return assignmentDao.getAll();
     }
 
@@ -37,7 +45,10 @@ public class Assignments {
      * Insert assignments into database.
      * @param assignments assignments
      */
-    public void insert(Assignment... assignments) {
+    public static void insert(Assignment... assignments) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         assignmentDao.insert(assignments);
     }
 
@@ -45,7 +56,10 @@ public class Assignments {
      * Delete an assignment from the database.
      * @param assignment assignment to delete
      */
-    public void delete(Assignment assignment) {
+    public static void delete(Assignment assignment) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         assignmentDao.delete(assignment);
     }
 
@@ -53,7 +67,10 @@ public class Assignments {
      * Delete an assignment from the database based on the id.
      * @param id id of assignment to delete
      */
-    public void delete(int id) {
+    public static void delete(int id) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         assignmentDao.delete(id);
     }
 
@@ -62,7 +79,10 @@ public class Assignments {
      * @param id assignment id
      * @return assignment
      */
-    public Assignment get(int id) {
+    public static Assignment get(int id) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         return assignmentDao.get(id);
     }
 
@@ -71,7 +91,10 @@ public class Assignments {
      * @param courseId course id
      * @return assignments
      */
-    public Assignment[] getCourse(int courseId) {
+    public static Assignment[] getCourse(int courseId) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         return assignmentDao.getCourse(courseId);
     }
 
@@ -81,7 +104,10 @@ public class Assignments {
      * @param endDate end of time frame
      * @return assignments
      */
-    public Assignment[] getBetween(Date startDate, Date endDate) {
+    public static Assignment[] getBetween(Date startDate, Date endDate) {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         return assignmentDao.getBetween(startDate.getTime(), endDate.getTime());
     }
 
@@ -90,11 +116,21 @@ public class Assignments {
      * @param order ordering scheme
      * @return assignments
      */
-    public Assignment[] getOrder(Order order) throws IllegalArgumentException {
+    public static Assignment[] getOrder(Order order) throws IllegalArgumentException {
+        if (db == null) {
+            throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
+        }
         if (order == Order.START_TIME || order == Order.END_TIME) {
             throw new IllegalArgumentException("Assignments cannot be ordered by START_TIME or" +
                     "END_TIME.");
         }
         return assignmentDao.getAll(order.columnName);
+    }
+
+    /**
+     * Clear Assignment table.
+     */
+    public static void clear() {
+        assignmentDao.clear();
     }
 }

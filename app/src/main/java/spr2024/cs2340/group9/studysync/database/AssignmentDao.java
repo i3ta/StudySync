@@ -71,4 +71,10 @@ interface AssignmentDao {
      */
     @Query("SELECT * FROM Assignment ORDER BY :ordering")
     Assignment[] getAll(String ordering);
+
+    /**
+     * CLear Assignment table.
+     */
+    @Query("DELETE FROM Assignment")
+    void clear();
 }
