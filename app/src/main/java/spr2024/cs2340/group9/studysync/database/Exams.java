@@ -11,12 +11,19 @@ public class Exams {
     private static ExamDao examDao;
 
     /**
+     * Force static methods.
+     */
+    private Exams() {}
+
+    /**
      * Create new instance of the Exam database.
      * @param applicationContext context of the current application; use getApplicationContext() to get
      */
-    public Exams(Context applicationContext) {
+    public static void init(Context applicationContext) {
         if (db == null) {
-            db = Room.databaseBuilder(applicationContext, ExamDatabase.class, "Exam").build();
+            db = Room.databaseBuilder(applicationContext, ExamDatabase.class, "Exam")
+                    .allowMainThreadQueries()
+                    .build();
             examDao = db.examDao();
         }
     }
@@ -25,7 +32,7 @@ public class Exams {
      * Insert exams.
      * @param exams exams to insert
      */
-    public void insert(Exam... exams) {
+    public static void insert(Exam... exams) {
         examDao.insert(exams);
     }
 
@@ -33,7 +40,7 @@ public class Exams {
      * Delete an exam.
      * @param exam exam to delete
      */
-    public void delete(Exam exam) {
+    public static void delete(Exam exam) {
         examDao.delete(exam);
     }
 
@@ -41,7 +48,7 @@ public class Exams {
      * Delete an exam with the id.
      * @param id exam id to delete
      */
-    public void delete(int id) {
+    public static void delete(int id) {
         examDao.delete(id);
     }
 
@@ -49,7 +56,7 @@ public class Exams {
      * Get all exams.
      * @return exams
      */
-    public Exam[] getAll() {
+    public static Exam[] getAll() {
         return examDao.getAll();
     }
 
@@ -59,20 +66,24 @@ public class Exams {
      * @param endTime end of time frame
      * @return exams
      */
-    public Exam[] getBetween(Date startTime, Date endTime) {
-        return examDao.getBetween(startTime.getTime(), endTime.getTime());
+    public static Exam[] getBetween(long startTime, long endTime) {
+        return examDao.getBetween(startTime, endTime);
     }
 
     /**
-     * Get all exams with a specific ordering scheme.
-     * @param order ordering scheme
+     * Get all exams between startTime and endTime.
+     * @param startTime start of time frame
+     * @param endTime end of time frame
      * @return exams
-     * @throws IllegalArgumentException if Order.DUE_DATE is passed in
      */
-    public Exam[] getAll(Order order) throws IllegalArgumentException {
-        if (order == Order.DUE_DATE) {
-            throw new IllegalArgumentException("Exams can not be ordered by due date.");
-        }
-        return examDao.getAll(order.columnName);
+    public static Exam[] getBetween(Date startTime, Date endTime) {
+        return getBetween(startTime.getTime(), endTime.getTime());
+    }
+
+    /**
+     * Clear Exam table.
+     */
+    public static void clear() {
+        examDao.clear();
     }
 }
