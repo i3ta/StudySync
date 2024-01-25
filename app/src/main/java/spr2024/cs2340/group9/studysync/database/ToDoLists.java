@@ -73,6 +73,7 @@ public class ToDoLists {
      */
     public static void deleteList(int id) {
         toDoListDao.delete(id);
+        toDoListItemDao.deleteList(id);
     }
 
     /**
@@ -88,7 +89,11 @@ public class ToDoLists {
      * @return to do lists
      */
     public static ToDoList[] getAllLists() {
-        return toDoListDao.getAll();
+        ToDoList[] lists = toDoListDao.getAll();
+        for (ToDoList list: lists) {
+            list.toDoListItems = toDoListItemDao.getList(list.id);
+        }
+        return lists;
     }
 
     /**
