@@ -69,4 +69,11 @@ interface AssignmentDao {
      */
     @Query("DELETE FROM Assignment")
     void clear();
+
+    /**
+     * Get maximum id being used.
+     * @return current maximum id
+     */
+    @Query("SELECT MAX(id) FROM Assignment")
+    int getId();
 }

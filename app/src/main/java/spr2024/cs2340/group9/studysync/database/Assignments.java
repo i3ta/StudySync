@@ -29,6 +29,7 @@ public class Assignments {
                     .allowMainThreadQueries()
                     .build();
             assignmentDao = db.assignmentDao();
+            Assignment.currentId = assignmentDao.getId() + 1;
         }
     }
 
