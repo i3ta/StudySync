@@ -237,4 +237,157 @@ public class CourseDatabaseTest {
         Course[] courseList = Courses.getAll();
         assertArrayEquals(new Course[]{course1, course2}, courseList);
     }
+
+    @Test(timeout = TIMEOUT)
+    public void getBetweenShouldNotGetCourseNotInTimeFrame() {
+        Course course1 = new Course("course1", "prof1", 0, 0);
+        TimeSlot period1 = new TimeSlot(course1.id,
+                new RecurringSlot(0), new RecurringSlot(1));
+        course1.setCourseTimes(new TimeSlot[]{ period1 });
+        Courses.insert(course1);
+
+        Course[] courses = Courses.getBetween(new RecurringSlot(2), new RecurringSlot(100));
+        assertArrayEquals(new Course[]{}, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getBetweenShouldReturnOneCourseInTimeFrame() {
+        Course course1 = new Course("course1", "prof1", 0, 0);
+        TimeSlot period1 = new TimeSlot(course1.id, 0, 1);
+        course1.setCourseTimes(new TimeSlot[]{ period1 });
+        Course course2 = new Course("course2", "prof2", 0, 0);
+        TimeSlot period2 = new TimeSlot(course2.id, 2, 10);
+        course2.setCourseTimes(new TimeSlot[]{ period2 });
+        Courses.insert(course1, course2);
+
+        Course[] courses = Courses.getBetween(2, 10);
+        assertArrayEquals(new Course[]{ course2 }, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getBetweenShouldReturnMultipleCoursesInTimeFrame() {
+        Course course1 = new Course("course1", "prof1", 0, 0);
+        TimeSlot period1 = new TimeSlot(course1.id, 0, 1);
+        course1.setCourseTimes(new TimeSlot[]{ period1 });
+        Course course2 = new Course("course2", "prof2", 0, 0);
+        TimeSlot period2 = new TimeSlot(course2.id, 2, 10);
+        course2.setCourseTimes(new TimeSlot[]{ period2 });
+        Course course3 = new Course("course3", "prof3", 0, 0);
+        TimeSlot period3 = new TimeSlot(course3.id, 3, 4);
+        course3.setCourseTimes(new TimeSlot[]{ period3 });
+        Courses.insert(course1, course2, course3);
+
+        Course[] courses = Courses.getBetween(2, 10);
+        assertArrayEquals(new Course[]{ course2, course3 }, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getBetweenShouldReturnCourseStartBeforeEndInTimeFrame() {
+        Course course1 = new Course("course1", "prof1", 0, 0);
+        course1.setCourseTimes(new TimeSlot[]{ new TimeSlot(course1.id, 0, 10) });
+        Course course2 = new Course("course2", "prof2", 0, 0);
+        course2.setCourseTimes(new TimeSlot[]{ new TimeSlot(course2.id, 0, 4) });
+        Courses.insert(course1, course2);
+
+        Course[] courses = Courses.getBetween(5, 15);
+        assertArrayEquals(new Course[]{ course1 }, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getBetweenShouldReturnCourseStartInEndAfterTimeFrame() {
+        Course course1 = new Course("course1", "prof1", 0, 0);
+        course1.setCourseTimes(new TimeSlot[]{ new TimeSlot(course1.id, 10, 20) });
+        Course course2 = new Course("course2", "prof2", 0, 0);
+        course2.setCourseTimes(new TimeSlot[]{ new TimeSlot(course2.id, 16, 20) });
+        Courses.insert(course1, course2);
+
+        Course[] courses = Courses.getBetween(5, 15);
+        assertArrayEquals(new Course[]{ course1 }, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getBetweenShouldReturnCourseEndOnStartOfTimeFrame() {
+        Course course1 = new Course("course1", "prof1", 0, 0);
+        course1.setCourseTimes(new TimeSlot[]{ new TimeSlot(course1.id, 10, 20) });
+        Course course2 = new Course("course2", "prof2", 0, 0);
+        course2.setCourseTimes(new TimeSlot[]{ new TimeSlot(course2.id, 16, 19) });
+        Courses.insert(course1, course2);
+
+        Course[] courses = Courses.getBetween(20, 21);
+        assertArrayEquals(new Course[]{ course1 }, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getBetweenShouldReturnCourseStartOnEndOfTimeFrame() {
+        Course course1 = new Course("course1", "prof1", 0, 0);
+        course1.setCourseTimes(new TimeSlot[]{ new TimeSlot(course1.id, 10, 20) });
+        Course course2 = new Course("course2", "prof2", 0, 0);
+        course2.setCourseTimes(new TimeSlot[]{ new TimeSlot(course2.id, 16, 19) });
+        Courses.insert(course1, course2);
+
+        Course[] courses = Courses.getBetween(0, 10);
+        assertArrayEquals(new Course[]{ course1 }, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getOnDayWhereNoCourseOnDayShouldReturnEmptyArray() {
+        Course course1 = new Course("c1", "p1", 0, 0);
+        course1.setCourseTimes(new TimeSlot[]{ new TimeSlot(course1.id, 0, 1439)});
+        Courses.insert(course1);
+
+        Course[] courses = Courses.getOnDay(6);
+        assertArrayEquals(new Course[]{}, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getOnDayWhereCourseOnDayShouldReturnOneCourse() {
+        Course course1 = new Course("c1", "p1", 0, 0);
+        course1.setCourseTimes(new TimeSlot[]{ new TimeSlot(course1.id, 0, 1439)});
+        Courses.insert(course1);
+
+        Course[] courses = Courses.getOnDay(0);
+        assertArrayEquals(new Course[]{ course1 }, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getOnDayWhereCourseOnDayShouldReturnManyCourses() {
+        Course course1 = new Course("c1", "p1", 0, 0);
+        course1.setCourseTimes(new TimeSlot[]{ new TimeSlot(course1.id, 0, 1439)});
+        Course course2 = new Course("c2", "p2", 0, 0);
+        course2.setCourseTimes(new TimeSlot[]{ new TimeSlot(course2.id, 100, 1000)});
+        Courses.insert(course1, course2);
+
+        Course[] courses = Courses.getOnDay(0);
+        assertArrayEquals(new Course[]{ course1, course2 }, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getOnDayWhereCourseLongThanDayShouldReturnOneCourse() {
+        Course course1 = new Course("c1", "p1", 0, 0);
+        course1.setCourseTimes(new TimeSlot[]{ new TimeSlot(course1.id, 0, 4319)});
+        Courses.insert(course1);
+
+        Course[] courses = Courses.getOnDay(1);
+        assertArrayEquals(new Course[]{ course1 }, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getOnDayWhereCourseEndOnDayShouldReturnOneCourse() {
+        Course course1 = new Course("c1", "p1", 0, 0);
+        course1.setCourseTimes(new TimeSlot[]{ new TimeSlot(course1.id, 0, 1440)});
+        Courses.insert(course1);
+
+        Course[] courses = Courses.getOnDay(1);
+        assertArrayEquals(new Course[]{ course1 }, courses);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void getOnDayWhereCourseStartOnDayShouldReturnOneCourse() {
+        Course course1 = new Course("c1", "p1", 0, 0);
+        course1.setCourseTimes(new TimeSlot[]{ new TimeSlot(course1.id, 1440, 2879)});
+        Courses.insert(course1);
+
+        Course[] courses = Courses.getOnDay(1);
+        assertArrayEquals(new Course[]{ course1 }, courses);
+    }
 }
