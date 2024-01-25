@@ -11,21 +11,31 @@ import java.util.Locale;
 
 @Entity
 public class Assignment {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public int id;
 
     public String name;
     public int courseId;
-    long dueDate;
+    public long dueDate;
     public int notifyBefore;
 
-    public Assignment(String name, int courseId, long dueDate, int notifyBefore) {
+    @Ignore
+    private static int currentId = 0;
+
+    public Assignment(int id, String name, int courseId, long dueDate, int notifyBefore) {
+        this.id = id;
         this.name = name;
         this.courseId = courseId;
         this.dueDate = dueDate;
         this.notifyBefore = notifyBefore;
     }
 
+    @Ignore
+    public Assignment(String name, int courseId, long dueDate, int notifyBefore) {
+        this(currentId++, name, courseId, dueDate, notifyBefore);
+    }
+
+    @Ignore
     public Assignment(String name, int courseId, Date dueDate, int notifyBefore) {
         this(name, courseId, dueDate.getTime(), notifyBefore);
     }
@@ -45,11 +55,21 @@ public class Assignment {
     @NotNull
     public String toString() {
         return String.format(Locale.getDefault(),
-                "Assignment %d:\n" +
-                "- name: %s\n" +
-                "- courseId: %d\n" +
-                "- dueDate: %s\n" +
-                "- notifyBefore: %d",
+                "Assignment %d: name: %s, courseId: %d, dueDate: %s, notifyBefore: %d",
                 id, name, courseId, getDueDate(), notifyBefore);
+    }
+
+    @Ignore
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Assignment a = (Assignment) o;
+        return id == a.id && name.equals(a.name) && courseId == a.courseId && dueDate == a.dueDate
+                && notifyBefore == a.notifyBefore;
     }
 }
