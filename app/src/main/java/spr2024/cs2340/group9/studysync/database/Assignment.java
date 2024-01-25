@@ -20,10 +20,10 @@ public class Assignment {
     public int notifyBefore;
 
     @Ignore
-    static int currentId = -1;
+    static int currentId = -10;
 
     public Assignment(int id, String name, int courseId, long dueDate, int notifyBefore) {
-        if (id < 0) {
+        if (currentId < 0) {
             throw new IllegalStateException("Database has to be initialized before class can be constructed.");
         }
         this.id = id;
