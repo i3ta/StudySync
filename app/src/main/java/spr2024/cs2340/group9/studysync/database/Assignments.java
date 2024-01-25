@@ -25,7 +25,9 @@ public class Assignments {
     public static void init(Context applicationContext) {
         if (db == null) {
             db = Room.databaseBuilder(applicationContext, AssignmentDatabase.class,
-                    "Assignment").build();
+                    "Assignment")
+                    .allowMainThreadQueries()
+                    .build();
             assignmentDao = db.assignmentDao();
         }
     }
