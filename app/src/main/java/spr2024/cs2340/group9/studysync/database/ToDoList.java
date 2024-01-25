@@ -20,9 +20,12 @@ public class ToDoList {
     public ToDoListItem[] toDoListItems;
 
     @Ignore
-    private static int currentId = 0;
+    static int currentId = -10;
 
     public ToDoList(int id, String name) {
+        if (currentId < 0) {
+            throw new IllegalStateException("Database must be initialized before object can be constructed.");
+        }
         this.id = id;
         this.name = name;
     }

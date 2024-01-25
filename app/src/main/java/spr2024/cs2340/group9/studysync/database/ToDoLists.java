@@ -25,6 +25,8 @@ public class ToDoLists {
                     .build();
             toDoListDao = db.toDoListDao();
             toDoListItemDao = db.toDoListItemDao();
+            ToDoList.currentId = toDoListDao.getId() + 1;
+            ToDoListItem.currentId = toDoListItemDao.getId() + 1;
         }
     }
 
@@ -91,7 +93,12 @@ public class ToDoLists {
     public static ToDoList[] getAllLists() {
         ToDoList[] lists = toDoListDao.getAll();
         for (ToDoList list: lists) {
-            list.toDoListItems = toDoListItemDao.getList(list.id);
+            ToDoListItem[] items = toDoListItemDao.getList(list.id);
+            if (items.length != 0) {
+                list.toDoListItems = items;
+            } else {
+                list.toDoListItems = null;
+            }
         }
         return lists;
     }
@@ -111,7 +118,12 @@ public class ToDoLists {
      */
     public static ToDoList getList(int id) {
         ToDoList list = toDoListDao.get(id);
-        list.toDoListItems = toDoListItemDao.getList(list.id);
+        ToDoListItem[] items = toDoListItemDao.getList(list.id);
+        if (items.length != 0) {
+            list.toDoListItems = items;
+        } else {
+            list.toDoListItems = null;
+        }
         return list;
     }
 
@@ -122,7 +134,12 @@ public class ToDoLists {
      */
     public static ToDoList getListIncomplete(int id) {
         ToDoList list = toDoListDao.get(id);
-        list.toDoListItems = toDoListItemDao.getIncomplete(id);
+        ToDoListItem[] items = toDoListItemDao.getIncomplete(list.id);
+        if (items.length != 0) {
+            list.toDoListItems = items;
+        } else {
+            list.toDoListItems = null;
+        }
         return list;
     }
 

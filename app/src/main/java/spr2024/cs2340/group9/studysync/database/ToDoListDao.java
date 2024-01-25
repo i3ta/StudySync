@@ -49,4 +49,11 @@ public interface ToDoListDao {
      */
     @Query("DELETE FROM ToDoList")
     void clear();
+
+    /**
+     * Get maximum id from table.
+     * @return id
+     */
+    @Query("SELECT MAX(id) FROM ToDoList")
+    int getId();
 }
