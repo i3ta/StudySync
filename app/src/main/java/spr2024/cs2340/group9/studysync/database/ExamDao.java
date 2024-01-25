@@ -42,14 +42,12 @@ public interface ExamDao {
      * @param endTime end time
      * @return exams
      */
-    @Query("SELECT * FROM Exam WHERE startTime <= :startTime AND endTime >= :endTime")
+    @Query("SELECT * FROM Exam WHERE endTime >= :startTime AND startTime <= :endTime")
     Exam[] getBetween(long startTime, long endTime);
 
     /**
-     * Get all exams with a specific ordering scheme.
-     * @param ordering ordering scheme
-     * @return exams
+     * Clear Exam table.
      */
-    @Query("SELECT * FROM Exam ORDER BY :ordering")
-    Exam[] getAll(String ordering);
+    @Query("DELETE FROM Exam")
+    void clear();
 }
