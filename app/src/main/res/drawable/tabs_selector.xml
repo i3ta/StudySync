@@ -3,5 +3,5 @@
 <!-- Tabs styling based on https://sshex.medium.com/android-tablayout-style-customization-29ad0657d49c -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/tab_selected_style" android:state_selected="true"/>
-    <item android:drawable="@color/light_primary_tint"/>
+    <item android:drawable="@color/light_primary"/>
 </selector>
