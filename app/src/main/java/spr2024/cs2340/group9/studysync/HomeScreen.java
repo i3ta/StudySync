@@ -7,13 +7,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
-import spr2024.cs2340.group9.studysync.databinding.FragmentFirstBinding;
+import spr2024.cs2340.group9.studysync.databinding.HomeScreenBinding;
 
-public class FirstFragment extends Fragment {
+public class HomeScreen extends Fragment {
 
-    private FragmentFirstBinding binding;
+    private HomeScreenBinding binding;
 
     @Override
     public View onCreateView(
@@ -21,7 +20,7 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = HomeScreenBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -29,13 +28,6 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_HomeScreen);
-            }
-        });
     }
 
     @Override
