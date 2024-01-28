@@ -45,9 +45,6 @@ public class UpcomingFragment extends Fragment {
             Courses.insert(c);
         }
 
-//        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         binding = HomeFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
