@@ -5,7 +5,6 @@
     android:id="@+id/constraint_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="48dp"
     android:background="@color/light_primary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -124,8 +123,7 @@
         app:tabIndicatorGravity="stretch"
         app:tabIndicatorHeight="0dp"
         app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/light_secondary_tint">
-    </com.google.android.material.tabs.TabLayout>
+        app:tabTextColor="@color/light_secondary_tint"></com.google.android.material.tabs.TabLayout>
 
     <ScrollView
         android:id="@+id/scrollView_tabContent"
