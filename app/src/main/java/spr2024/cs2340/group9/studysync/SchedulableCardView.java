@@ -8,8 +8,8 @@ import androidx.cardview.widget.CardView;
 
 public class SchedulableCardView extends CardView {
 
-    private TextView courseTitle;
-    private TextView courseTime;
+    private TextView title;
+    private TextView time;
 
     public SchedulableCardView(Context context) {
         super(context);
@@ -30,15 +30,15 @@ public class SchedulableCardView extends CardView {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.card_schedulable_view, this, true);
 
-        courseTitle = findViewById(R.id.courseTitle);
-        courseTime = findViewById(R.id.courseTime);
+        title = findViewById(R.id.courseTitle);
+        time = findViewById(R.id.courseTime);
     }
 
-    public void setCourseTitle(String title) {
-        courseTitle.setText(title);
+    public void setTitle(String title) {
+        this.title.setText(title);
     }
 
-    public void setCourseTime(String time) {
-        courseTime.setText(time);
+    public void setTime(String time) {
+        this.time.setText(time);
     }
 }
