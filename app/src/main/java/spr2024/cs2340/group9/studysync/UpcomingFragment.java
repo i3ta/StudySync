@@ -180,7 +180,7 @@ public class UpcomingFragment extends Fragment {
         SchedulableCardView newCard = new SchedulableCardView(getContext());
 
         newCard.setTitle(a.name);
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         newCard.setTime(String.format("Due %s", format.format(a.getDueDate())));
 
         return newCard;
