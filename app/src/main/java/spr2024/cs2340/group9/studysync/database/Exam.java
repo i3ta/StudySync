@@ -16,63 +16,46 @@ public class Exam {
 
     public String name;
     long startTime;
-    long endTime;
     public int notifyBefore;
 
-    @Ignore
     static int currentId = -10;
 
-    public Exam(int id, String name, long startTime, long endTime, int notifyBefore) {
+    public Exam(int id, String name, long startTime, int notifyBefore) {
         if (currentId < 0) {
             throw new IllegalStateException("Database must be initialized before object can be constructed.");
         }
         this.id = id;
         this.name = name;
         this.startTime = startTime;
-        this.endTime = endTime;
         this.notifyBefore = notifyBefore;
     }
 
-    @Ignore
+
     public Exam(String name, long startTime, long endTime, int notifyBefore) {
-        this(currentId++, name, startTime, endTime, notifyBefore);
+        this(currentId++, name, startTime, notifyBefore);
     }
 
-    @Ignore
     public Exam(String name, Date startTime, Date endTime, int notifyBefore) {
         this(name, startTime.getTime(), endTime.getTime(), notifyBefore);
     }
 
-    @Ignore
     public void setStartTime(Date startTime) {
         this.startTime = startTime.getTime();
     }
 
-    @Ignore
     public Date getStartTime() {
         return new Date(startTime);
     }
 
-    @Ignore
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime.getTime();
-    }
 
-    @Ignore
-    public Date getEndTime() {
-        return new Date(endTime);
-    }
-
-    @Ignore
     @Override
     @NotNull
     public String toString() {
         return String.format(Locale.getDefault(),
                 "Exam %d: name: %s, startTime: %s, endTime: %s, notifyBefore: %d",
-                id, name, getStartTime(), getEndTime(), notifyBefore);
+                id, name, getStartTime(), notifyBefore);
     }
 
-    @Ignore
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -82,7 +65,7 @@ public class Exam {
             return false;
         }
         Exam e = (Exam) o;
-        return id == e.id && name.equals(e.name) && startTime == e.startTime && endTime == e.endTime
+        return id == e.id && name.equals(e.name) && startTime == e.startTime
                 && notifyBefore == e.notifyBefore;
     }
 }

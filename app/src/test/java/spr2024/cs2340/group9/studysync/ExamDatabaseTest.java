@@ -154,7 +154,7 @@ public class ExamDatabaseTest {
         };
         Exams.insert(a);
 
-        Exam[] assignments = Exams.getBetween(1000, 2000);
+//        Exam[] assignments = Exams.getBetween(1000, 2000);
         assertArrayEquals(new Exam[]{ a[0], a[1], a[2] }, assignments);
     }
 }

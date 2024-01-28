@@ -42,8 +42,8 @@ public interface ExamDao {
      * @param endTime end time
      * @return exams
      */
-    @Query("SELECT * FROM Exam WHERE endTime >= :startTime AND startTime <= :endTime")
-    Exam[] getBetween(long startTime, long endTime);
+//    @Query("SELECT * FROM Exam WHERE endTime >= :startTime AND startTime <= :endTime")
+//    Exam[] getBetween(long startTime, long endTime);
 
     /**
      * Clear Exam table.
