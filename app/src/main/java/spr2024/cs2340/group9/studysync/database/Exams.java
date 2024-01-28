@@ -77,9 +77,9 @@ public class Exams {
      * @param endTime end of time frame
      * @return exams
      */
-//    public static Exam[] getBetween(Date startTime, Date endTime) {
-//        return getBetween(startTime.getTime(), endTime.getTime());
-//    }
+    public static Exam[] getBetween(Date startTime, Date endTime) {
+        return examDao.getBetween(startTime.getTime(), endTime.getTime());
+    }
 
     /**
      * Clear Exam table.

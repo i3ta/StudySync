@@ -25,6 +25,8 @@ import spr2024.cs2340.group9.studysync.database.Assignment;
 import spr2024.cs2340.group9.studysync.database.Assignments;
 import spr2024.cs2340.group9.studysync.database.Course;
 import spr2024.cs2340.group9.studysync.database.Courses;
+import spr2024.cs2340.group9.studysync.database.Exam;
+import spr2024.cs2340.group9.studysync.database.Exams;
 import spr2024.cs2340.group9.studysync.database.RecurringSlot;
 import spr2024.cs2340.group9.studysync.database.TimeSlot;
 import spr2024.cs2340.group9.studysync.databinding.UpcomingFragmentBinding;
@@ -139,6 +141,8 @@ public class UpcomingFragment extends Fragment {
         courseLayout.removeAllViews();
         LinearLayout assignmentLayout = v.findViewById(R.id.linearLayout_assignments);
         assignmentLayout.removeAllViews();
+        LinearLayout examLayout = v.findViewById(R.id.linearLayout_exams);
+        examLayout.removeAllViews();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
@@ -156,6 +160,14 @@ public class UpcomingFragment extends Fragment {
         if (assignments.length > 0) {
             for (Assignment a: assignments) {
                 assignmentLayout.addView(createCard(a));
+            }
+        }
+
+        Exams.init(getActivity().getApplicationContext());
+        Exam[] exams = Exams.getBetween(getStartOfDay(d), getEndOfDay(d));
+        if (exams.length > 0) {
+            for (Exam e: exams) {
+                examLayout.addView(createCard(e));
             }
         }
     }
@@ -188,6 +200,20 @@ public class UpcomingFragment extends Fragment {
         newCard.setTitle(a.name);
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         newCard.setTime(String.format("Due %s", format.format(a.getDueDate())));
+
+        return newCard;
+    }
+
+    private SchedulableCardView createCard(Exam e) {
+        SchedulableCardView newCard = new SchedulableCardView(getContext());
+
+        newCard.setTitle(e.name);
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        newCard.setTime(String.format("Starts %s",
+                format.format(e.getStartTime())));
+        if (e.location != null && !e.location.isEmpty()) {
+            newCard.setLocation(e.location);
+        }
 
         return newCard;
     }
