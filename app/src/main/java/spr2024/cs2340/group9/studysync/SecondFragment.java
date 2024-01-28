@@ -44,6 +44,8 @@ public class SecondFragment extends Fragment {
         examsHelper = new Exams();
         examsHelper.init(requireContext());
 
+//        examsHelper.clear();
+
         // Load exams from the database
         updateExamListView();
 
@@ -51,13 +53,13 @@ public class SecondFragment extends Fragment {
     }
 
     private void showDateTimeInputDialog() {
-        System.out.println("here");
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null);
 
         // Find views in the custom layout
         DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
         TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
+        EditText locationEditText = dialogView.findViewById(R.id.locationEditText);
         Button okButton = dialogView.findViewById(R.id.okButton);
 
         // Set up date picker
@@ -93,12 +95,13 @@ public class SecondFragment extends Fragment {
 
                 // Get the text from EditText
                 String userInput = titleEditText.getText().toString();
+                String userInput1 = locationEditText.getText().toString();
 
                 // Construct Calendar object from selected date and time
                 Calendar selectedDateTime = Calendar.getInstance();
                 selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
 
-                Exam newExam = new Exam(userInput, selectedDateTime.getTimeInMillis(), 0);
+                Exam newExam = new Exam(userInput, userInput1, selectedDateTime.getTimeInMillis(), 0);
                 examsHelper.insert(newExam);
 
                 // Update the ListView

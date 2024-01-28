@@ -15,12 +15,14 @@ public class Exam {
     public int id;
 
     public String name;
+    public String location;
     long startTime;
     public int notifyBefore;
 
 
-    public Exam(String name, long startTime, int notifyBefore) {
+    public Exam(String name, String location, long startTime, int notifyBefore) {
         this.name = name;
+        this.location = location;
         this.startTime = startTime;
         this.notifyBefore = notifyBefore;
     }
@@ -39,6 +41,14 @@ public class Exam {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     @Override

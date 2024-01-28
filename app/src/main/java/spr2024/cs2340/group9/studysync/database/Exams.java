@@ -23,6 +23,7 @@ public class Exams {
         if (db == null) {
             db = Room.databaseBuilder(applicationContext, ExamDatabase.class, "Exam")
                     .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .build();
             examDao = db.examDao();
         }

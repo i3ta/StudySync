@@ -31,16 +31,17 @@ public class ExamAdapter extends ArrayAdapter<Exam> {
 
         Exam exam = getItem(position);
 
-        // Set up the TextViews in your custom layout
+        // Set up the TextViews in custom layout
         TextView titleTextView = view.findViewById(R.id.titleTextView);
+        TextView locationTextView = view.findViewById(R.id.locationTextView);
         TextView dateTextView = view.findViewById(R.id.dateTextView);
 
-        // Set the values
         titleTextView.setText(exam.getName());
 
         // You may format the date according to your needs
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-        dateTextView.setText(dateFormat.format(exam.getStartTime()));
+        dateTextView.setText("Time: " + dateFormat.format(exam.getStartTime()));
+        locationTextView.setText("Location: " + exam.getLocation());
 
         return view;
     }
