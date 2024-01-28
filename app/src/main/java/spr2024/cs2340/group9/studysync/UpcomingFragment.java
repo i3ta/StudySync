@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -24,7 +23,7 @@ import spr2024.cs2340.group9.studysync.database.RecurringSlot;
 import spr2024.cs2340.group9.studysync.database.TimeSlot;
 import spr2024.cs2340.group9.studysync.databinding.HomeFragmentBinding;
 
-public class HomeFragment extends Fragment {
+public class UpcomingFragment extends Fragment {
 
     private HomeFragmentBinding binding;
 
@@ -56,7 +55,6 @@ public class HomeFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // Set initial values
         TabLayout dateTabs = view.findViewById(R.id.tabLayout_dateTabs);

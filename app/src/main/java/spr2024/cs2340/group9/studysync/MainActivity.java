@@ -2,13 +2,12 @@ package spr2024.cs2340.group9.studysync;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
-
-import androidx.core.view.WindowCompat;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,36 +15,57 @@ import androidx.navigation.ui.NavigationUI;
 
 import spr2024.cs2340.group9.studysync.databinding.ActivityMainBinding;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private UpcomingFragment upcomingFragment = new UpcomingFragment();
+
+    // Fragments for testing
+    private FirstFragment firstFragment = new FirstFragment();
+    private SecondFragment secondFragment = new SecondFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
         setSupportActionBar(binding.toolbar);
+        setContentView(binding.getRoot());
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
-            }
-        });
+        // Get a reference to the BottomNavigationView
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        // Set the listener
+        bottomNavigationView.setOnItemSelectedListener(navListener);
+
+        System.out.println("Set up main activity with listener.");
     }
+
+    private final NavigationBarView.OnItemSelectedListener navListener = (item) -> {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.upcoming) {
+            navController.navigate(R.id.upcomingFragment);
+        } else if (itemId == R.id.courses) {
+            navController.navigate(R.id.firstFragment);
+        } else if (itemId == R.id.assignments) {
+            navController.navigate(R.id.secondFragment);
+        } // Add other navigation actions here
+
+        return true;
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
