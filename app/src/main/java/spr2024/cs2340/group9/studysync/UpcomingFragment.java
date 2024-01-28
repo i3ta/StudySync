@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -21,11 +22,11 @@ import spr2024.cs2340.group9.studysync.database.Course;
 import spr2024.cs2340.group9.studysync.database.Courses;
 import spr2024.cs2340.group9.studysync.database.RecurringSlot;
 import spr2024.cs2340.group9.studysync.database.TimeSlot;
-import spr2024.cs2340.group9.studysync.databinding.HomeFragmentBinding;
+import spr2024.cs2340.group9.studysync.databinding.UpcomingFragmentBinding;
 
 public class UpcomingFragment extends Fragment {
 
-    private HomeFragmentBinding binding;
+    private UpcomingFragmentBinding binding;
 
     @Override
     public View onCreateView(
@@ -45,7 +46,7 @@ public class UpcomingFragment extends Fragment {
             Courses.insert(c);
         }
 
-        binding = HomeFragmentBinding.inflate(inflater, container, false);
+        binding = UpcomingFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -55,7 +56,33 @@ public class UpcomingFragment extends Fragment {
 
         // Set initial values
         TabLayout dateTabs = view.findViewById(R.id.tabLayout_dateTabs);
-        dateTabs.getTabAt(6).select();
+
+        Calendar calendar = Calendar.getInstance();
+        int daysToSubtract = (calendar.get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY + 7) % 7;
+        calendar.add(Calendar.DATE, -daysToSubtract);
+
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM", Locale.getDefault());
+        String firstMonth = monthFormat.format(calendar.getTime());
+
+        for (int i = 0; i < 7; i++) {
+            String date = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+            dateTabs.addTab(dateTabs.newTab().setText(date));
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        String lastMonth = monthFormat.format(calendar.getTime());
+
+        TextView monthTextView = view.findViewById(R.id.textView);
+        if (firstMonth.equals(lastMonth)) {
+            monthTextView.setText(firstMonth);
+        } else {
+            monthTextView.setText(firstMonth + " - " + lastMonth);
+        }
+
+        // Reset calendar to today
+        calendar = Calendar.getInstance();
+        // Calendar days of week go from 1 to 7, for Sunday through Saturday
+        dateTabs.getTabAt(calendar.get(Calendar.DAY_OF_WEEK) - 1).select();
 
         setCards(view, new Date());
 
