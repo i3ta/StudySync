@@ -14,10 +14,15 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import spr2024.cs2340.group9.studysync.database.Assignment;
+import spr2024.cs2340.group9.studysync.database.Assignments;
 import spr2024.cs2340.group9.studysync.database.Course;
 import spr2024.cs2340.group9.studysync.database.Courses;
 import spr2024.cs2340.group9.studysync.database.RecurringSlot;
@@ -44,11 +49,34 @@ public class UpcomingFragment extends Fragment {
                     new TimeSlot(c.id, new RecurringSlot(3, 8, 0), new RecurringSlot(3, 9, 15))
             });
             Courses.insert(c);
+
+            Assignments.init(getActivity().getApplicationContext());
+            Assignments.clear();
+
+
+
+            Assignment a = new Assignment("CHEM 1212L Pre-Lab", 0, getDate(2024, 1, 23, 12, 30, 0, 0), 0);
+            System.out.printf("Assignment set for %s.\n", a.getDueDate().toString());
+            Assignments.insert(a);
         }
 
         binding = UpcomingFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
+    }
+
+    private Date getDate(int year, int month, int date, int hrs, int min, int s, int ms) {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1); // Months are 0-based in Calendar
+        calendar.set(Calendar.DAY_OF_MONTH, date);
+        calendar.set(Calendar.HOUR_OF_DAY, hrs);
+        calendar.set(Calendar.MINUTE, min);
+        calendar.set(Calendar.SECOND, s);
+        calendar.set(Calendar.MILLISECOND, ms);
+
+        return calendar.getTime();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -92,7 +120,7 @@ public class UpcomingFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 int d = tab.getPosition();
                 Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.DAY_OF_WEEK, d);
+                cal.set(Calendar.DAY_OF_WEEK, d + 1);
 
                 Date date = cal.getTime();
                 setCards(view, date);
@@ -109,15 +137,25 @@ public class UpcomingFragment extends Fragment {
     private void setCards(@NonNull View v, Date d) {
         LinearLayout courseLayout = v.findViewById(R.id.linearLayout_courses);
         courseLayout.removeAllViews();
+        LinearLayout assignmentLayout = v.findViewById(R.id.linearLayout_assignments);
+        assignmentLayout.removeAllViews();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
 
         Courses.init(getActivity().getApplicationContext());
-        Course[] courses = Courses.getOnDay(cal.get(Calendar.DAY_OF_WEEK) % 7);
+        Course[] courses = Courses.getOnDay(cal.get(Calendar.DAY_OF_WEEK) - 1);
         if (courses.length > 0) {
             for (Course c : courses) {
                 courseLayout.addView(createCard(c));
+            }
+        }
+
+        Assignments.init(getActivity().getApplicationContext());
+        Assignment[] assignments = Assignments.getBetween(getStartOfDay(d), getEndOfDay(d));
+        if (assignments.length > 0) {
+            for (Assignment a: assignments) {
+                assignmentLayout.addView(createCard(a));
             }
         }
     }
@@ -125,7 +163,7 @@ public class UpcomingFragment extends Fragment {
     private SchedulableCardView createCard(Course c) {
         SchedulableCardView newCard = new SchedulableCardView(getContext());
 
-        newCard.setCourseTitle(c.name);
+        newCard.setTitle(c.name);
 
         StringBuilder sb = new StringBuilder();
         for (TimeSlot t : c.getCourseTimes()) {
@@ -139,9 +177,43 @@ public class UpcomingFragment extends Fragment {
                     st.getDayOfWeekString(), st.getHour(), st.getMinute(),
                     (sameDay ? "" : et.getDayOfWeekString()), et.getHour(), et.getMinute()));
         }
-        newCard.setCourseTime(sb.toString());
+        newCard.setTime(sb.toString());
 
         return newCard;
+    }
+
+    private SchedulableCardView createCard(Assignment a) {
+        SchedulableCardView newCard = new SchedulableCardView(getContext());
+
+        newCard.setTitle(a.name);
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        newCard.setTime(String.format("Due %s", format.format(a.getDueDate())));
+
+        return newCard;
+    }
+
+    private Date getStartOfDay(Date d) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d);
+
+        // Set the calendar to start of date
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    private Date getEndOfDay(Date d) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d);
+
+        // Set the calendar to end of date
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTime();
     }
 
     @Override
