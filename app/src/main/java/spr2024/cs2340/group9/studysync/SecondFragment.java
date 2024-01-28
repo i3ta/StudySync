@@ -1,8 +1,6 @@
 package spr2024.cs2340.group9.studysync;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +8,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TimePicker;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
+import spr2024.cs2340.group9.studysync.adapters.ExamAdapter;
+import spr2024.cs2340.group9.studysync.database.Exam;
+import spr2024.cs2340.group9.studysync.database.Exams;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class SecondFragment extends Fragment {
 
     private Button addButton;
+    private ListView examListView;
+    private Exams examsHelper;
+    private ExamAdapter examAdapter;
 
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_second, container, false);
 
         addButton = view.findViewById(R.id.add_button);
@@ -36,11 +37,21 @@ public class SecondFragment extends Fragment {
             }
         });
 
+        // Initialization
+        examListView = view.findViewById(R.id.listView);
+        examAdapter = new ExamAdapter(requireContext(), new ArrayList<Exam>());
+        examListView.setAdapter(examAdapter);
+        examsHelper = new Exams();
+        examsHelper.init(requireContext());
+
+        // Load exams from the database
+        updateExamListView();
+
         return view;
     }
 
     private void showDateTimeInputDialog() {
-        // Inflate the custom layout
+        System.out.println("here");
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null);
 
         // Find views in the custom layout
@@ -60,15 +71,14 @@ public class SecondFragment extends Fragment {
 
         // Set up time picker
         timePicker.setIs24HourView(true);
-        timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
-        timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
+        timePicker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+        timePicker.setMinute(calendar.get(Calendar.MINUTE));
 
         // Create the dialog
         final AlertDialog dialog = new AlertDialog.Builder(requireContext())
                 .setView(dialogView)
                 .create();
 
-        // Set up button click listener
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,21 +88,35 @@ public class SecondFragment extends Fragment {
                 int dayOfMonth = datePicker.getDayOfMonth();
 
                 // Get the selected time from TimePicker
-                int hourOfDay = timePicker.getCurrentHour();
-                int minute = timePicker.getCurrentMinute();
+                int hourOfDay = timePicker.getHour();
+                int minute = timePicker.getMinute();
 
                 // Get the text from EditText
                 String userInput = titleEditText.getText().toString();
 
-                // Handle the selected date, time, and user input here
-                // You may want to save this information or perform some other action
+                // Construct Calendar object from selected date and time
+                Calendar selectedDateTime = Calendar.getInstance();
+                selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
 
-                // Dismiss the dialog
+                Exam newExam = new Exam(userInput, selectedDateTime.getTimeInMillis(), 0);
+                examsHelper.insert(newExam);
+
+                // Update the ListView
+                updateExamListView();
+
                 dialog.dismiss();
             }
         });
-
-        // Show the dialog
         dialog.show();
     }
+
+    private void updateExamListView() {
+        // Load exams from the database using your Exams helper class
+        Exam[] exams = examsHelper.getAll();
+
+        // Update the adapter with the loaded exams
+        examAdapter.clear();
+        examAdapter.addAll(Arrays.asList(exams));
+    }
+
 }

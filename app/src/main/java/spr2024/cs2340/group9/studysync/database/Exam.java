@@ -11,32 +11,18 @@ import java.util.Locale;
 
 @Entity
 public class Exam {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     public String name;
     long startTime;
     public int notifyBefore;
 
-    static int currentId = -10;
 
-    public Exam(int id, String name, long startTime, int notifyBefore) {
-        if (currentId < 0) {
-            throw new IllegalStateException("Database must be initialized before object can be constructed.");
-        }
-        this.id = id;
+    public Exam(String name, long startTime, int notifyBefore) {
         this.name = name;
         this.startTime = startTime;
         this.notifyBefore = notifyBefore;
-    }
-
-
-    public Exam(String name, long startTime, long endTime, int notifyBefore) {
-        this(currentId++, name, startTime, notifyBefore);
-    }
-
-    public Exam(String name, Date startTime, Date endTime, int notifyBefore) {
-        this(name, startTime.getTime(), endTime.getTime(), notifyBefore);
     }
 
     public void setStartTime(Date startTime) {
@@ -47,6 +33,13 @@ public class Exam {
         return new Date(startTime);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     @NotNull

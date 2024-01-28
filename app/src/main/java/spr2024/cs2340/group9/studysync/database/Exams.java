@@ -13,7 +13,7 @@ public class Exams {
     /**
      * Force static methods.
      */
-    private Exams() {}
+    public Exams() {}
 
     /**
      * Create new instance of the Exam database.
@@ -25,7 +25,6 @@ public class Exams {
                     .allowMainThreadQueries()
                     .build();
             examDao = db.examDao();
-            Exam.currentId = examDao.getId() + 1;
         }
     }
 
