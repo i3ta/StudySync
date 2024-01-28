@@ -38,7 +38,7 @@ public class UpcomingFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        final boolean TESTING = true;
+        final boolean TESTING = false;
 
         if (TESTING) {
             Courses.init(getActivity().getApplicationContext());
