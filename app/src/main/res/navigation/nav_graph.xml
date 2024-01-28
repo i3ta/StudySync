@@ -3,34 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/HomeFragment">
+    app:startDestination="@id/upcomingFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="spr2024.cs2340.group9.studysync.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/upcomingFragment"
+        android:name="spr2024.cs2340.group9.studysync.UpcomingFragment" />
 
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-        <action
-            android:id="@+id/action_FirstFragment_to_HomeScreen"
-            app:destination="@id/HomeFragment" />
-    </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="spr2024.cs2340.group9.studysync.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/firstFragment"
+        android:name="spr2024.cs2340.group9.studysync.FirstFragment" />
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
     <fragment
-        android:id="@+id/HomeFragment"
-        android:name="spr2024.cs2340.group9.studysync.HomeFragment"
-        android:label="This Week"
-        tools:layout="@layout/home_fragment" />
+        android:id="@+id/secondFragment"
+        android:name="spr2024.cs2340.group9.studysync.SecondFragment" />
+
+    <!-- Add other fragments here -->
 </navigation>

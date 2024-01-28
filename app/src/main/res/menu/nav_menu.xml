@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/upcoming"
+        android:icon="@drawable/outline_nest_clock_farsight_analog_24"
+        android:title="Upcoming" />
+
+    <item
+        android:id="@+id/courses"
+        android:icon="@drawable/outline_school_24"
+        android:title="Courses" />
+
+    <item
+        android:id="@+id/assignments"
+        android:icon="@drawable/outline_assignment_24"
+        android:title="Assignments" />
+
+    <item
+        android:id="@+id/exams"
+        android:icon="@drawable/outline_fact_check_24"
+        android:title="Exams" />
+
+    <item
+        android:id="@+id/todo"
+        android:icon="@drawable/outline_checklist_24"
+        android:title="To-Do" />
+</menu>
