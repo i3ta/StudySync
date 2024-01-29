@@ -67,3 +67,10 @@ dependencies {
 
     testImplementation("org.robolectric:robolectric:4.11.1")
 }
+
+dependencies {
+    val work_version = "2.9.0"
+
+    // (Java only)
+    implementation("androidx.work:work-runtime:$work_version")
+}
