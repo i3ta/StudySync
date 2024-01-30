@@ -11,7 +11,7 @@ import java.util.Locale;
 
 @Entity
 public class ToDoList {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     public String name;
@@ -19,26 +19,23 @@ public class ToDoList {
     @Ignore
     public ToDoListItem[] toDoListItems;
 
-    @Ignore
-    static int currentId = -10;
 
-    public ToDoList(int id, String name) {
-        if (currentId < 0) {
-            throw new IllegalStateException("Database must be initialized before object can be constructed.");
-        }
-        this.id = id;
+    public ToDoList(String name) {
         this.name = name;
     }
 
-    @Ignore
-    public ToDoList(String name) {
-        this(currentId++, name);
-    }
 
     @Ignore
     public ToDoList(ToDoList list) {
-        id = list.id;
         name = list.name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Ignore

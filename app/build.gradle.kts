@@ -64,6 +64,10 @@ dependencies {
 
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
+    // Material Design
+    implementation("com.google.android.material:material:1.2.1")
+    // Swiping Decorator for editing and deleting items
+    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
 
     testImplementation("org.robolectric:robolectric:4.11.1")
 }

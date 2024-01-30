@@ -25,8 +25,6 @@ public class ToDoLists {
                     .build();
             toDoListDao = db.toDoListDao();
             toDoListItemDao = db.toDoListItemDao();
-            ToDoList.currentId = toDoListDao.getId() + 1;
-            ToDoListItem.currentId = toDoListItemDao.getId() + 1;
         }
     }
 
