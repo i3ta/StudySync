@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">StudySync</string>
+    <string name="channel_name">StudySync</string>
+    <string name="channel_desc">Notifications for StudySync app</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
