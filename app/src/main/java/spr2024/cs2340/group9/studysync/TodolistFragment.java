@@ -1,6 +1,7 @@
 package spr2024.cs2340.group9.studysync;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,17 +16,22 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import spr2024.cs2340.group9.studysync.database.ToDoList;
+import spr2024.cs2340.group9.studysync.database.ToDoLists;
 
 /**
- *This class is for the ToDoList page, by clicking on ToDoList on this page you can enter ToDoListItem Page
+ *This class is for the ToDoList page, by clicking on ToDoList
+ * on this page you can enter ToDoListItem Page, by long clicking
+ * you can delete a to do list
  */
 public class TodolistFragment extends Fragment {
 
-    private ArrayList<ToDoList> toDoLists; // Assume you have a data source for your ListView
+    private List<ToDoList> toDoLists; // Assume you have a data source for your ListView
     private ListView listViewToDoLists;
+    private ToDoLists toDoListDB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +48,10 @@ public class TodolistFragment extends Fragment {
 
         listViewToDoLists = view.findViewById(R.id.todolists_listView);
         listViewToDoLists.setAdapter(adapter);
+        toDoListDB = new ToDoLists();
+        toDoListDB.init(getContext());
+
+        updateToDoListView();
 
         Button addButton = view.findViewById(R.id.tododlist_addbutton);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +71,33 @@ public class TodolistFragment extends Fragment {
                 // Navigate to ToDoListItemsActivity
                 Intent intent = new Intent(requireContext(), ToDoListItemsActivity.class);
                 intent.putExtra("todoListName", selectedToDoList.getName());
+                intent.putExtra("todoListid",selectedToDoList.getId());
                 startActivity(intent);
+            }
+        });
+        listViewToDoLists.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ToDoList selectedToDoList = toDoLists.get(position);
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
+                builder.setTitle("Delete To Do List");
+                builder.setMessage("Are You Sure?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        toDoListDB.deleteList(selectedToDoList.getId());
+                        updateToDoListView();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                androidx.appcompat.app.AlertDialog dialog = builder.create();
+                dialog.show();
+                return true;
             }
         });
 
@@ -85,17 +121,10 @@ public class TodolistFragment extends Fragment {
                 // Get the user input
                 String todoName = editTextTodoName.getText().toString();
 
-                // Add the new ToDoList
+                // Add the new ToDoList to DB
                 ToDoList toDoList = new ToDoList(todoName);
-                toDoLists.add(toDoList);
-
-                // Update the ArrayAdapter with the new data
-                ArrayAdapter<String> adapter = (ArrayAdapter<String>) listViewToDoLists.getAdapter();
-                adapter.clear();
-                adapter.addAll(getToDoListNames());
-                adapter.notifyDataSetChanged();
-
-                // Dismiss the dialog
+                toDoListDB.insert(toDoList);
+                updateToDoListView();
                 dialog.dismiss();
             }
         });
@@ -109,6 +138,17 @@ public class TodolistFragment extends Fragment {
         });
 
         dialog.show();
+    }
+
+    private void updateToDoListView() {
+        // Load exams from the database using your Exams helper class
+        toDoLists  = Arrays.asList(toDoListDB.getAllLists());
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) listViewToDoLists.getAdapter();
+
+        // Update the adapter with the loaded exams
+        adapter.clear();
+        adapter.addAll(getToDoListNames());
+        adapter.notifyDataSetChanged();
     }
 
     private List<String> getToDoListNames() {

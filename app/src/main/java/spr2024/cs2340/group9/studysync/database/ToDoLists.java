@@ -12,7 +12,7 @@ public class ToDoLists {
     /**
      * Force static methods.
      */
-    private ToDoLists() {}
+//    private ToDoLists() {}
 
     /**
      * Create a new instance of the ToDoLists database.
@@ -125,6 +125,12 @@ public class ToDoLists {
         return list;
     }
 
+    public static ToDoListItem[] getListItems(int id) {
+        ToDoList list = toDoListDao.get(id);
+        ToDoListItem[] items = toDoListItemDao.getList(list.id);
+        return items;
+    }
+
     /**
      * Get to do list with only incomplete items.
      * @param id to do list id
@@ -139,6 +145,14 @@ public class ToDoLists {
             list.toDoListItems = null;
         }
         return list;
+    }
+
+    public static void updateItemName(int id, String newName){
+        toDoListItemDao.updateNameById(id,newName);
+    }
+
+    public static void updateItemComplete(int id, Boolean newComplete){
+        toDoListItemDao.updateCompleteById(id, newComplete);
     }
 
     public static void clear() {

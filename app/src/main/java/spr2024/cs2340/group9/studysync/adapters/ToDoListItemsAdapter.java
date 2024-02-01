@@ -18,15 +18,18 @@ import spr2024.cs2340.group9.studysync.MainActivity;
 import spr2024.cs2340.group9.studysync.R;
 import spr2024.cs2340.group9.studysync.ToDoListItemsActivity;
 import spr2024.cs2340.group9.studysync.database.ToDoListItem;
+import spr2024.cs2340.group9.studysync.database.ToDoLists;
 
 public class ToDoListItemsAdapter extends RecyclerView.Adapter<ToDoListItemsAdapter.MyViewHolder> {
     private List<ToDoListItem> toDoListItemList;
     private ToDoListItemsActivity activity;
-
+    private ToDoLists toDoListItemDB;
     //db helper
 
     public ToDoListItemsAdapter(ToDoListItemsActivity activity) {
         this.activity = activity;
+        toDoListItemDB = new ToDoLists();
+        toDoListItemDB.init(activity.getApplicationContext());
     }
 
     @NonNull
@@ -44,10 +47,13 @@ public class ToDoListItemsAdapter extends RecyclerView.Adapter<ToDoListItemsAdap
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // update complete
                 if(isChecked){
                     //db update complete=1
+                    toDoListItemDB.updateItemComplete(item.getId(), true);
                 }else{
-                    //db update complete=1
+                    //db update complete=0
+                    toDoListItemDB.updateItemComplete(item.getId(), false);
                 }
             }
         });
@@ -64,7 +70,9 @@ public class ToDoListItemsAdapter extends RecyclerView.Adapter<ToDoListItemsAdap
 
     public void removeTask(int pos){
         ToDoListItem item = toDoListItemList.get(pos);
-        // delete in db
+        // delete todolistItem in db
+        // TODO: To be fixed: can't delete two items consecutively
+        toDoListItemDB.delete(item);
         toDoListItemList.remove(pos);
         notifyItemRemoved(pos);
     }

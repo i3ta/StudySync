@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import spr2024.cs2340.group9.studysync.database.ToDoListItem;
+import spr2024.cs2340.group9.studysync.database.ToDoLists;
 
 /**
  *This class is for adding ToDoListItems inside ToDoList
@@ -26,10 +27,17 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
     private EditText editText;
     private Button okButton;
     private Button cancelButton;
-    //db helper
+    private ToDoLists toDoListDB;
+    private int ToDoListId;
 
-    public static AddToDoListItem newInstance(){
-        return new AddToDoListItem();
+    public void setToDoListId(int toDoListId) {
+        ToDoListId = toDoListId;
+    }
+
+    public static AddToDoListItem newInstance(int ToDoListId){
+        AddToDoListItem item = new AddToDoListItem();
+        item.setToDoListId(ToDoListId);
+        return item;
     }
 
     @Nullable
@@ -48,6 +56,8 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
         cancelButton = view.findViewById(R.id.buttonCancel);
 
         //db initialization
+        toDoListDB = new ToDoLists();
+        toDoListDB.init(getContext());
 
         boolean isUpdate = false;
 
@@ -89,12 +99,13 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
                 String text = editText.getText().toString();
                 if(finalIsUpdate){
                     int id = bundle.getInt("id");
-                    //update in db
+                    //TODO:update in db
+                    toDoListDB.updateItemName(id, text);
                 }
                 else{
-                    ToDoListItem item = new ToDoListItem(1,text,false); //todolistid to be updated
+                    ToDoListItem item = new ToDoListItem(ToDoListId,text,false);
                     //insert to db
-
+                    toDoListDB.insert(item);
                 }
                 dismiss();
             }
