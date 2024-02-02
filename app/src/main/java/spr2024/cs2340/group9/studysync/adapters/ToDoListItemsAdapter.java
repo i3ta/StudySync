@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import spr2024.cs2340.group9.studysync.AddToDoListItem;
@@ -71,10 +72,11 @@ public class ToDoListItemsAdapter extends RecyclerView.Adapter<ToDoListItemsAdap
     public void removeTask(int pos){
         ToDoListItem item = toDoListItemList.get(pos);
         // delete todolistItem in db
-        // TODO: To be fixed: can't delete two items consecutively
         toDoListItemDB.delete(item);
-        toDoListItemList.remove(pos);
-        notifyItemRemoved(pos);
+        // Update the list in adapter
+        List<ToDoListItem> mutableList = new ArrayList<>(toDoListItemList);
+        mutableList.remove(pos);
+        setTask(mutableList);
     }
 
     public void editTask(int pos){
