@@ -10,29 +10,50 @@ import java.util.Locale;
 
 @Entity
 public class ToDoListItem {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     public int toDoListId;
     public String name;
     public boolean complete;
 
-    @Ignore
-    static int currentId = -10;
 
-    public ToDoListItem(int id, int toDoListId, String name, boolean complete) {
-        if (currentId < 0) {
-            throw new IllegalStateException("Database must be initialized before object can be constructed.");
-        }
-        this.id = id;
+    public ToDoListItem(int toDoListId, String name, boolean complete) {
         this.toDoListId = toDoListId;
         this.name = name;
         this.complete = complete;
     }
 
-    @Ignore
-    public ToDoListItem(int toDoListId, String name, boolean complete) {
-        this(currentId++, toDoListId, name, complete);
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getToDoListId() {
+        return toDoListId;
+    }
+
+    public void setToDoListId(int toDoListId) {
+        this.toDoListId = toDoListId;
     }
 
     @Ignore
