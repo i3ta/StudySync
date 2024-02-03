@@ -79,4 +79,20 @@ interface ToDoListItemDao {
      */
     @Query("SELECT MAX(id) FROM ToDoListItem")
     int getId();
+
+    /**
+     * Update the name of an existing ToDoListItem by its ID.
+     * @param id ID of the ToDoListItem to update
+     * @param newName New name for the ToDoListItem
+     */
+    @Query("UPDATE ToDoListItem SET name = :newName WHERE id = :id")
+    void updateNameById(int id, String newName);
+
+    /**
+     * Update the complete status of an existing ToDoListItem by its ID.
+     * @param id ID of the ToDoListItem to update
+     * @param newComplete New complete status for the ToDoListItem
+     */
+    @Query("UPDATE ToDoListItem SET complete = :newComplete WHERE id = :id")
+    void updateCompleteById(int id, boolean newComplete);
 }
