@@ -14,10 +14,10 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import spr2024.cs2340.group9.studysync.adapters.ToDoListItemsAdapter;
 
 /**
- *This class is for editing and deleting items by swiping.
+ *This class is for editing and deleting items by swiping
  */
 public class RecyclerViewHelper extends ItemTouchHelper.SimpleCallback {
-    private final ToDoListItemsAdapter adapter;
+    private ToDoListItemsAdapter adapter;
 
     public RecyclerViewHelper(ToDoListItemsAdapter adapter) {
         super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
@@ -31,20 +31,30 @@ public class RecyclerViewHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        final int pos = viewHolder.getAbsoluteAdapterPosition();
+        final int pos = viewHolder.getAdapterPosition();
         // Right Swipe Delete
         if(direction == ItemTouchHelper.RIGHT){
             AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
             builder.setTitle("Delete Task");
             builder.setMessage("Are You Sure?");
-            builder.setPositiveButton("Yes", (dialog, which) -> {
-                adapter.removeTask(pos);
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    adapter.removeTask(pos);
+//                    adapter.notifyItemChanged(pos);
+                }
             });
-            builder.setNegativeButton("Cancel", (dialog, which) -> adapter.notifyItemChanged(pos));
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    adapter.notifyItemChanged(pos);
+                }
+            });
             AlertDialog dialog = builder.create();
             dialog.show();
-        } else{
-            // left Swipe Edit
+        }
+        // left Swipe Edit
+        else{
             adapter.editTask(pos);
         }
     }

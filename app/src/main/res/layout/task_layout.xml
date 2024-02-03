@@ -20,9 +20,8 @@
             android:layout_height="wrap_content"
             android:buttonTint="@color/black"
             android:id="@+id/checkbox"
-            android:text="@string/PlaceholderText"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"/>
+            android:text="Tasks"
+            android:paddingStart="8dp"/>
 
     </RelativeLayout>
 

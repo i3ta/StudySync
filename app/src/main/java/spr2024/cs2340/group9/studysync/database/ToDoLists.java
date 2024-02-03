@@ -12,7 +12,7 @@ public class ToDoLists {
     /**
      * Force static methods.
      */
-    private ToDoLists() {}
+//    private ToDoLists() {}
 
     /**
      * Create a new instance of the ToDoLists database.
@@ -125,37 +125,36 @@ public class ToDoLists {
         return list;
     }
 
-    /**
-     * Get to-do list items with list id.
-     * @param id list id
-     * @return to-do list items
-     */
     public static ToDoListItem[] getListItems(int id) {
         ToDoList list = toDoListDao.get(id);
-        return toDoListItemDao.getList(list.id);
+        ToDoListItem[] items = toDoListItemDao.getList(list.id);
+        return items;
     }
 
     /**
-     * Change the name of the to-do list item.
-     * @param id item id
-     * @param newName new name
+     * Get to do list with only incomplete items.
+     * @param id to do list id
+     * @return to do list
      */
+    public static ToDoList getListIncomplete(int id) {
+        ToDoList list = toDoListDao.get(id);
+        ToDoListItem[] items = toDoListItemDao.getIncomplete(list.id);
+        if (items.length != 0) {
+            list.toDoListItems = items;
+        } else {
+            list.toDoListItems = null;
+        }
+        return list;
+    }
+
     public static void updateItemName(int id, String newName){
         toDoListItemDao.updateNameById(id,newName);
     }
 
-    /**
-     * Overwrite to-do list item.
-     * @param id item id
-     * @param newComplete whether the item has been completed
-     */
     public static void updateItemComplete(int id, Boolean newComplete){
         toDoListItemDao.updateCompleteById(id, newComplete);
     }
 
-    /**
-     * Clear to-do lists and items
-     */
     public static void clear() {
         toDoListDao.clear();
         toDoListItemDao.clear();
