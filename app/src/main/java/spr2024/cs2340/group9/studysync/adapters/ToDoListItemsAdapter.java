@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -22,11 +23,11 @@ import spr2024.cs2340.group9.studysync.database.ToDoLists;
 
 public class ToDoListItemsAdapter extends RecyclerView.Adapter<ToDoListItemsAdapter.MyViewHolder> {
     private List<ToDoListItem> toDoListItemList;
-    private ToDoListItemsActivity activity;
+    private FragmentActivity activity;
     private ToDoLists toDoListItemDB;
     //db helper
 
-    public ToDoListItemsAdapter(ToDoListItemsActivity activity) {
+    public ToDoListItemsAdapter(FragmentActivity activity) {
         this.activity = activity;
         toDoListItemDB = new ToDoLists();
         toDoListItemDB.init(activity.getApplicationContext());
