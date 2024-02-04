@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (itemId == R.id.upcoming) {
             navController.navigate(R.id.upcomingFragment);
-        } else if (itemId == R.id.courses) {
-            navController.navigate(R.id.firstFragment);
+        } else if (itemId == R.id.todo) {
+            navController.navigate(R.id.toDoListFragment);
         } else if (itemId == R.id.exams) {
             navController.navigate(R.id.examFragment);
         } // Add other navigation actions here
