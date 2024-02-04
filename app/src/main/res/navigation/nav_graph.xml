@@ -1,32 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/upcomingFragment">
 
     <fragment
         android:id="@+id/upcomingFragment"
-        android:name="spr2024.cs2340.group9.studysync.UpcomingFragment"
-        android:label="Upcoming" />
+        android:name="spr2024.cs2340.group9.studysync.UpcomingFragment" />
+
+    <fragment
+        android:id="@+id/firstFragment"
+        android:name="spr2024.cs2340.group9.studysync.FirstFragment" />
 
     <fragment
         android:id="@+id/examFragment"
-        android:name="spr2024.cs2340.group9.studysync.ExamFragment"
-        android:label="Exams" />
-
-    <fragment
-        android:id="@+id/toDoListFragment"
-        android:name="spr2024.cs2340.group9.studysync.TodolistFragment"
-        android:label="To Do Lists" >
-        <action
-            android:id="@+id/action_toDoListFragment_to_textViewTodoListName"
-            app:destination="@id/textViewTodoListName" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/textViewTodoListName"
-        android:name="spr2024.cs2340.group9.studysync.ToDoListItemsActivity"
-        android:label="To Do Lists" />
+        android:name="spr2024.cs2340.group9.studysync.ExamFragment" />
 
     <!-- Add other fragments here -->
 </navigation>
