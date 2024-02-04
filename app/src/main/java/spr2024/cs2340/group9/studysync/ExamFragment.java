@@ -61,6 +61,7 @@ public class ExamFragment extends Fragment {
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
         EditText locationEditText = dialogView.findViewById(R.id.locationEditText);
         Button okButton = dialogView.findViewById(R.id.save_button);
+        Button cancelButton = dialogView.findViewById(R.id.cancel_button);
 
         // Set up date picker
         final Calendar calendar = Calendar.getInstance();
@@ -81,35 +82,37 @@ public class ExamFragment extends Fragment {
                 .setView(dialogView)
                 .create();
 
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get the selected date from DatePicker
-                int year = datePicker.getYear();
-                int month = datePicker.getMonth();
-                int dayOfMonth = datePicker.getDayOfMonth();
+        okButton.setOnClickListener(v -> {
+            // Get the selected date from DatePicker
+            int year = datePicker.getYear();
+            int month = datePicker.getMonth();
+            int dayOfMonth = datePicker.getDayOfMonth();
 
-                // Get the selected time from TimePicker
-                int hourOfDay = timePicker.getHour();
-                int minute = timePicker.getMinute();
+            // Get the selected time from TimePicker
+            int hourOfDay = timePicker.getHour();
+            int minute = timePicker.getMinute();
 
-                // Get the text from EditText
-                String userInput = titleEditText.getText().toString();
-                String userInput1 = locationEditText.getText().toString();
+            // Get the text from EditText
+            String userInput = titleEditText.getText().toString();
+            String userInput1 = locationEditText.getText().toString();
 
-                // Construct Calendar object from selected date and time
-                Calendar selectedDateTime = Calendar.getInstance();
-                selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
+            // Construct Calendar object from selected date and time
+            Calendar selectedDateTime = Calendar.getInstance();
+            selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
 
-                Exam newExam = new Exam(userInput, userInput1, selectedDateTime.getTimeInMillis(), 0);
-                examsHelper.insert(newExam);
+            Exam newExam = new Exam(userInput, userInput1, selectedDateTime.getTimeInMillis(), 0);
+            examsHelper.insert(newExam);
 
-                // Update the ListView
-                updateExamListView();
+            // Update the ListView
+            updateExamListView();
 
-                dialog.dismiss();
-            }
+            dialog.dismiss();
         });
+
+        cancelButton.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
         dialog.show();
     }
 
