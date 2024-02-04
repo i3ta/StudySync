@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import spr2024.cs2340.group9.studysync.database.Assignment;
 import spr2024.cs2340.group9.studysync.database.Assignments;
@@ -51,6 +52,7 @@ public class UpcomingFragment extends Fragment {
 
         // Set initial values
         TabLayout dateTabs = view.findViewById(R.id.tabLayout_dateTabs);
+        dateTabs.removeAllTabs();
 
         Calendar calendar = Calendar.getInstance();
         int daysToSubtract = (calendar.get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY + 7) % 7;
@@ -77,7 +79,7 @@ public class UpcomingFragment extends Fragment {
         // Reset calendar to today
         calendar = Calendar.getInstance();
         // Calendar days of week go from 1 to 7, for Sunday through Saturday
-        dateTabs.getTabAt(calendar.get(Calendar.DAY_OF_WEEK) - 1).select();
+        Objects.requireNonNull(dateTabs.getTabAt(calendar.get(Calendar.DAY_OF_WEEK) - 1)).select();
 
         setCards(view, new Date());
 
@@ -231,12 +233,12 @@ public class UpcomingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().hide();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().show();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
     }
 }

@@ -10,7 +10,7 @@
         android:id="@+id/exam_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Exam Schedule"
+        android:text="@string/Exam_Title"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/add_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exam_header">
@@ -35,10 +35,13 @@
 
     <Button
         android:id="@+id/add_button"
-        android:layout_width="61dp"
-        android:layout_height="59dp"
-        android:text="+"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:text="@string/Plus"
         android:backgroundTint="#393E46"
+        android:textAlignment="center"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
