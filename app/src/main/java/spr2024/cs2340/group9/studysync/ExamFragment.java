@@ -60,7 +60,7 @@ public class ExamFragment extends Fragment {
         TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
         EditText locationEditText = dialogView.findViewById(R.id.locationEditText);
-        Button okButton = dialogView.findViewById(R.id.okButton);
+        Button okButton = dialogView.findViewById(R.id.save_button);
 
         // Set up date picker
         final Calendar calendar = Calendar.getInstance();
