@@ -84,7 +84,7 @@ public class TodolistFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 ToDoList selectedToDoList = toDoLists.get(position);
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Delete To Do List");
                 builder.setMessage("Are You Sure?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
