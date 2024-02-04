@@ -29,4 +29,6 @@
     <string name="Upcoming_CoursesTitle">Courses</string>
     <string name="Upcoming_ExamsTitle">Exams</string>
     <string name="Upcoming_AssignmentsTitle">Assignments</string>
+    <string name="channel_name">StudySync Notifications</string>
+    <string name="channel_desc">StudySync Notifications</string>
 </resources>
