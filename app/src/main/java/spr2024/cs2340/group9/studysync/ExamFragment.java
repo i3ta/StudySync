@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-public class SecondFragment extends Fragment {
+public class ExamFragment extends Fragment {
 
     private Button addButton;
     private ListView examListView;
@@ -27,7 +27,7 @@ public class SecondFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_second, container, false);
+        View view = inflater.inflate(R.layout.exams_fragment, container, false);
 
         addButton = view.findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {

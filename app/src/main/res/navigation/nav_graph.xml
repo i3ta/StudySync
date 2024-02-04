@@ -14,8 +14,8 @@
         android:name="spr2024.cs2340.group9.studysync.FirstFragment" />
 
     <fragment
-        android:id="@+id/secondFragment"
-        android:name="spr2024.cs2340.group9.studysync.SecondFragment" />
+        android:id="@+id/examFragment"
+        android:name="spr2024.cs2340.group9.studysync.ExamFragment" />
 
     <!-- Add other fragments here -->
 </navigation>
