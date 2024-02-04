@@ -14,9 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -31,6 +28,9 @@ import spr2024.cs2340.group9.studysync.database.RecurringSlot;
 import spr2024.cs2340.group9.studysync.database.TimeSlot;
 import spr2024.cs2340.group9.studysync.databinding.UpcomingFragmentBinding;
 
+/**
+ * Fragment for upcoming page.
+ */
 public class UpcomingFragment extends Fragment {
 
     private UpcomingFragmentBinding binding;
