@@ -35,6 +35,10 @@ public class Exam {
         return new Date(startTime);
     }
 
+    public Date getNotifyDate() {
+        return new Date(startTime - (long) notifyBefore * 60 * 1000);
+    }
+
     public String getName() {
         return name;
     }

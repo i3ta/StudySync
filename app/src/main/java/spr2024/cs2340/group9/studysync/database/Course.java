@@ -6,6 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @Entity
 public class Course {
@@ -77,6 +78,17 @@ public class Course {
         for (int i = 0; i < courseTimes.length; i++) {
             this.courseTimes[i] = new TimeSlot(courseTimes[i]);
         }
+    }
+
+    @Ignore
+    public Date getNextStart() {
+        Date next = null;
+        for (TimeSlot t: courseTimes) {
+            if (next == null || next.after(t.getNextStart())) {
+                next = t.getNextStart();
+            }
+        }
+        return next;
     }
 
     @NonNull

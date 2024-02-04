@@ -49,6 +49,11 @@ public class Assignment {
     }
 
     @Ignore
+    public Date getNotifyDate() {
+        return new Date(dueDate - (long) notifyBefore * 60 * 1000);
+    }
+
+    @Ignore
     public void setDueDate(Date date) {
         dueDate = date.getTime();
     }

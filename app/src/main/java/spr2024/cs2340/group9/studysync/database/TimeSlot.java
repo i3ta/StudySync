@@ -1,8 +1,16 @@
 package spr2024.cs2340.group9.studysync.database;
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
+import java.util.Date;
 
 public class TimeSlot {
     private int id;
@@ -149,6 +157,27 @@ public class TimeSlot {
     public CourseTime getCourseTime(int courseId) {
         return new CourseTime(id, courseId, startTime.getMinutesSinceSunday(),
                 endTime.getMinutesSinceSunday());
+    }
+
+    /**
+     * Get the next start time.
+     * @return Date of next start time
+     */
+    public Date getNextStart() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LocalDate nowLocalDate = LocalDate.now();
+            LocalDateTime startDateTime = nowLocalDate.with(
+                    TemporalAdjusters.nextOrSame(DayOfWeek.of(startTime.getDayOfWeek() + 1)))
+                    .atTime(startTime.getHour(), startTime.getMinute());
+            Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
+            Date now = new Date();
+            if (!startDate.after(now)) {
+                startDate.setTime(startDate.getTime() + 7 * 24 * 60 * 1000);
+            }
+            return startDate;
+        } else {
+            return null;
+        }
     }
 
     /**

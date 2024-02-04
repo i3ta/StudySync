@@ -75,5 +75,5 @@ dependencies {
     implementation("androidx.work:work-runtime:$work_version")
 
     // Notifications
-    implementation("androidx.core:core-ktx:2.2.0")
+    implementation("androidx.core:core:1.12.0")
 }
