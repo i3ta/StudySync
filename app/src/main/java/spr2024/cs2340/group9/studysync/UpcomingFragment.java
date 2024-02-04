@@ -126,7 +126,7 @@ public class UpcomingFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
 
-        Courses.init(getActivity().getApplicationContext());
+        Courses.init(requireContext());
         Course[] courses = Courses.getOnDay(cal.get(Calendar.DAY_OF_WEEK) - 1);
         if (courses.length > 0) {
             for (Course c : courses) {
@@ -134,7 +134,7 @@ public class UpcomingFragment extends Fragment {
             }
         }
 
-        Assignments.init(getActivity().getApplicationContext());
+        Assignments.init(requireContext());
         Assignment[] assignments = Assignments.getBetween(getStartOfDay(d), getEndOfDay(d));
         if (assignments.length > 0) {
             for (Assignment a: assignments) {
@@ -142,7 +142,7 @@ public class UpcomingFragment extends Fragment {
             }
         }
 
-        Exams.init(getActivity().getApplicationContext());
+        Exams.init(requireContext());
         Exam[] exams = Exams.getBetween(getStartOfDay(d), getEndOfDay(d));
         if (exams.length > 0) {
             for (Exam e: exams) {
