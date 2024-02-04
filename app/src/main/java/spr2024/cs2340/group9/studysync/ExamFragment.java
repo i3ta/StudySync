@@ -10,6 +10,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TimePicker;
+
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import spr2024.cs2340.group9.studysync.adapters.ExamAdapter;
 import spr2024.cs2340.group9.studysync.database.Exam;
@@ -30,12 +32,7 @@ public class ExamFragment extends Fragment {
         View view = inflater.inflate(R.layout.exams_fragment, container, false);
 
         addButton = view.findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDateTimeInputDialog();
-            }
-        });
+        addButton.setOnClickListener(v -> showDateTimeInputDialog());
 
         // Initialization
         examListView = view.findViewById(R.id.listView);
@@ -124,5 +121,4 @@ public class ExamFragment extends Fragment {
         examAdapter.clear();
         examAdapter.addAll(Arrays.asList(exams));
     }
-
 }
