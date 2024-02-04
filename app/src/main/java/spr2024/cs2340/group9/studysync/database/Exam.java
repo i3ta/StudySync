@@ -71,4 +71,8 @@ public class Exam {
         return id == e.id && name.equals(e.name) && startTime == e.startTime
                 && notifyBefore == e.notifyBefore;
     }
+
+    public int getId() {
+        return id;
+    }
 }
