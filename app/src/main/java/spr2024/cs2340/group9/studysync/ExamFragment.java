@@ -1,12 +1,10 @@
 package spr2024.cs2340.group9.studysync;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,17 +13,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import spr2024.cs2340.group9.studysync.adapters.ExamAdapter;
-import spr2024.cs2340.group9.studysync.database.Exam;
-import spr2024.cs2340.group9.studysync.database.Exams;
-import spr2024.cs2340.group9.studysync.database.ToDoList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import spr2024.cs2340.group9.studysync.adapters.ExamAdapter;
+import spr2024.cs2340.group9.studysync.database.Exam;
+import spr2024.cs2340.group9.studysync.database.Exams;
+
+/**
+ * Exam Fragment.
+ */
 public class ExamFragment extends Fragment {
 
     private Button addButton;
@@ -85,6 +85,9 @@ public class ExamFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Initializes dateTimeInputDialog.
+     */
     private void showDateTimeInputDialog() {
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null);
 
@@ -149,6 +152,9 @@ public class ExamFragment extends Fragment {
         dialog.show();
     }
 
+    /**
+     * Updates exam list view with updated database.
+     */
     private void updateExamListView() {
         // Load exams from the database using your Exams helper class
         Exam[] exams = Exams.getAll();

@@ -18,6 +18,9 @@ import android.view.MenuItem;
 
 import spr2024.cs2340.group9.studysync.databinding.ActivityMainBinding;
 
+/**
+ * Main activity.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
@@ -37,9 +40,8 @@ public class MainActivity extends AppCompatActivity {
         // Get a reference to the BottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        // Set the listener
+        // Set the listener for the bottom navigation view
         bottomNavigationView.setOnItemSelectedListener(navListener);
-//        System.out.println("Set up main activity with listener.");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setOnMenuItemClickListener((item) -> {
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Lambda for BottomNavigationView listener.
+     */
     private final NavigationBarView.OnItemSelectedListener navListener = (item) -> {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         int itemId = item.getItemId();
