@@ -17,13 +17,12 @@ import java.util.List;
 
 import spr2024.cs2340.group9.studysync.AddToDoListItem;
 import spr2024.cs2340.group9.studysync.R;
-import spr2024.cs2340.group9.studysync.ToDoListItemsActivity;
 import spr2024.cs2340.group9.studysync.database.ToDoListItem;
 import spr2024.cs2340.group9.studysync.database.ToDoLists;
 
 public class ToDoListItemsAdapter extends RecyclerView.Adapter<ToDoListItemsAdapter.MyViewHolder> {
     private List<ToDoListItem> toDoListItemList;
-    private FragmentActivity activity;
+    private final FragmentActivity activity;
     //db helper
 
     public ToDoListItemsAdapter(FragmentActivity activity) {
@@ -43,18 +42,9 @@ public class ToDoListItemsAdapter extends RecyclerView.Adapter<ToDoListItemsAdap
         final ToDoListItem item = toDoListItemList.get(position);
         holder.checkBox.setText(item.getName());
         holder.checkBox.setChecked(item.isComplete());
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // update complete
-                if (isChecked) {
-                    //db update complete=1
-                    ToDoLists.updateItemComplete(item.getId(), true);
-                } else{
-                    //db update complete=0
-                    ToDoLists.updateItemComplete(item.getId(), false);
-                }
-            }
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // update complete
+            ToDoLists.updateItemComplete(item.getId(), isChecked);
         });
     }
 
