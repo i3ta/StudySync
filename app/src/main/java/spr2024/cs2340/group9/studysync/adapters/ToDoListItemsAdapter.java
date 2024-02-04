@@ -24,13 +24,11 @@ import spr2024.cs2340.group9.studysync.database.ToDoLists;
 public class ToDoListItemsAdapter extends RecyclerView.Adapter<ToDoListItemsAdapter.MyViewHolder> {
     private List<ToDoListItem> toDoListItemList;
     private FragmentActivity activity;
-    private ToDoLists toDoListItemDB;
     //db helper
 
     public ToDoListItemsAdapter(FragmentActivity activity) {
         this.activity = activity;
-        toDoListItemDB = new ToDoLists();
-        toDoListItemDB.init(activity.getApplicationContext());
+        ToDoLists.init(activity.getApplicationContext());
     }
 
     @NonNull
@@ -49,12 +47,12 @@ public class ToDoListItemsAdapter extends RecyclerView.Adapter<ToDoListItemsAdap
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // update complete
-                if(isChecked){
+                if (isChecked) {
                     //db update complete=1
-                    toDoListItemDB.updateItemComplete(item.getId(), true);
-                }else{
+                    ToDoLists.updateItemComplete(item.getId(), true);
+                } else{
                     //db update complete=0
-                    toDoListItemDB.updateItemComplete(item.getId(), false);
+                    ToDoLists.updateItemComplete(item.getId(), false);
                 }
             }
         });
@@ -72,7 +70,7 @@ public class ToDoListItemsAdapter extends RecyclerView.Adapter<ToDoListItemsAdap
     public void removeTask(int pos){
         ToDoListItem item = toDoListItemList.get(pos);
         // delete todolistItem in db
-        toDoListItemDB.delete(item);
+        ToDoLists.delete(item);
         // Update the list in adapter
         List<ToDoListItem> mutableList = new ArrayList<>(toDoListItemList);
         mutableList.remove(pos);

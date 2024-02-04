@@ -29,7 +29,6 @@ public class ToDoListItemsActivity extends Fragment implements DialogCloseListen
     private RecyclerView recyclerView;
     private List<ToDoListItem> toDoListItems;
     private ToDoListItemsAdapter adapter;
-    private ToDoLists toDoListsDB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,8 +48,7 @@ public class ToDoListItemsActivity extends Fragment implements DialogCloseListen
         recyclerView.setAdapter(adapter);
 
         // Initialize DB
-        toDoListsDB = new ToDoLists();
-        toDoListsDB.init(getContext());
+        ToDoLists.init(getContext());
 
         // Display the items in DB on recyclerView
         updateView();
@@ -79,7 +77,7 @@ public class ToDoListItemsActivity extends Fragment implements DialogCloseListen
     }
     public void updateView(){
         int todoListId = getArguments().getInt("todoListid", 1);
-        toDoListItems = Arrays.asList(toDoListsDB.getListItems(todoListId));
+        toDoListItems = Arrays.asList(ToDoLists.getListItems(todoListId));
         Collections.reverse(toDoListItems);
         adapter.setTask(toDoListItems);
     }

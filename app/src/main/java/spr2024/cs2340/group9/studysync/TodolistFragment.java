@@ -34,7 +34,6 @@ public class TodolistFragment extends Fragment {
 
     private List<ToDoList> toDoLists; // Assume you have a data source for your ListView
     private ListView listViewToDoLists;
-    private ToDoLists toDoListDB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,8 +50,7 @@ public class TodolistFragment extends Fragment {
 
         listViewToDoLists = view.findViewById(R.id.todolists_listView);
         listViewToDoLists.setAdapter(adapter);
-        toDoListDB = new ToDoLists();
-        toDoListDB.init(getContext());
+        ToDoLists.init(getContext());
 
         updateToDoListView();
 
@@ -91,7 +89,7 @@ public class TodolistFragment extends Fragment {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        toDoListDB.deleteList(selectedToDoList.getId());
+                        ToDoLists.deleteList(selectedToDoList.getId());
                         updateToDoListView();
                     }
                 });
@@ -129,7 +127,7 @@ public class TodolistFragment extends Fragment {
 
                 // Add the new ToDoList to DB
                 ToDoList toDoList = new ToDoList(todoName);
-                toDoListDB.insert(toDoList);
+                ToDoLists.insert(toDoList);
                 updateToDoListView();
                 dialog.dismiss();
             }
@@ -148,7 +146,7 @@ public class TodolistFragment extends Fragment {
 
     private void updateToDoListView() {
         // Load exams from the database using your Exams helper class
-        toDoLists  = Arrays.asList(toDoListDB.getAllLists());
+        toDoLists  = Arrays.asList(ToDoLists.getAllLists());
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) listViewToDoLists.getAdapter();
 
         // Update the adapter with the loaded exams
