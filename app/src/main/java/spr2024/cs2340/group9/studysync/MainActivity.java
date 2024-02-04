@@ -24,12 +24,12 @@ import spr2024.cs2340.group9.studysync.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        spr2024.cs2340.group9.studysync.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setSupportActionBar(binding.toolbar);
         setContentView(binding.getRoot());
 
@@ -42,17 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the listener for the bottom navigation view
         bottomNavigationView.setOnItemSelectedListener(navListener);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setOnMenuItemClickListener((item) -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.edit) {
-                if (navController.getCurrentDestination().getId() == R.id.examFragment) {
-
-                }
-            }
-            return true;
-        });
     }
 
     /**

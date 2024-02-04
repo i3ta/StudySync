@@ -37,7 +37,7 @@ public class UpcomingFragment extends Fragment {
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
 
@@ -71,7 +71,7 @@ public class UpcomingFragment extends Fragment {
         if (firstMonth.equals(lastMonth)) {
             monthTextView.setText(firstMonth);
         } else {
-            monthTextView.setText(firstMonth + " - " + lastMonth);
+            monthTextView.setText(String.format("%s - %s", firstMonth, lastMonth));
         }
 
         // Reset calendar to today
@@ -120,7 +120,7 @@ public class UpcomingFragment extends Fragment {
             }
         } else {
             TextView textView = new TextView(requireContext());
-            textView.setText("You have no courses on this day.");
+            textView.setText(R.string.Upcoming_NoCourseLabel);
             textView.setPadding(48, 8,8,8);
             courseLayout.addView(textView);
         }
@@ -133,7 +133,7 @@ public class UpcomingFragment extends Fragment {
             }
         } else {
             TextView textView = new TextView(requireContext());
-            textView.setText("You have no assignments due on this day.");
+            textView.setText(R.string.Upcoming_NoAssignmentsDueLabel);
             textView.setPadding(48, 8,8,8);
             assignmentLayout.addView(textView);
         }
@@ -146,7 +146,7 @@ public class UpcomingFragment extends Fragment {
             }
         } else {
             TextView textView = new TextView(requireContext());
-            textView.setText("You have no courses exams on this day.");
+            textView.setText(R.string.Upcoming_NoExamsLabel);
             textView.setPadding(48, 8,8,8);
             examLayout.addView(textView);
         }
@@ -178,7 +178,7 @@ public class UpcomingFragment extends Fragment {
         SchedulableCardView newCard = new SchedulableCardView(getContext());
 
         newCard.setTitle(a.name);
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
         newCard.setTime(String.format("Due %s", format.format(a.getDueDate())));
 
         return newCard;
@@ -188,7 +188,7 @@ public class UpcomingFragment extends Fragment {
         SchedulableCardView newCard = new SchedulableCardView(getContext());
 
         newCard.setTitle(e.name);
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
         newCard.setTime(String.format("Starts %s",
                 format.format(e.getStartTime())));
         if (e.location != null && !e.location.isEmpty()) {
@@ -231,12 +231,12 @@ public class UpcomingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().hide();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().show();
     }
 }

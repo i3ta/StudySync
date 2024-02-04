@@ -1,7 +1,6 @@
 package spr2024.cs2340.group9.studysync.database;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +58,7 @@ public class Exam {
     @NotNull
     public String toString() {
         return String.format(Locale.getDefault(),
-                "Exam %d: name: %s, startTime: %s, endTime: %s, notifyBefore: %d",
+                "Exam %d: name: %s, startTime: %s, notifyBefore: %d",
                 id, name, getStartTime(), notifyBefore);
     }
 

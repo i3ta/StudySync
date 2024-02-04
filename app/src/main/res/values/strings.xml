@@ -45,4 +45,9 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="Exam_TimeLabel">"Time: "</string>
+    <string name="Exam_LocationLabel">"Location: "</string>
+    <string name="Upcoming_NoCourseLabel">You have no courses on this day.</string>
+    <string name="Upcoming_NoAssignmentsDueLabel">You have no assignments due on this day.</string>
+    <string name="Upcoming_NoExamsLabel">You have no courses exams on this day.</string>
 </resources>
