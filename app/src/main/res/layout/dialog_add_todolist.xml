@@ -27,6 +27,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/light_accent"
         android:text="OK"
+        android:backgroundTint="#393E46"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -39,6 +40,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/light_accent"
         android:text="Cancel"
+        android:backgroundTint="#393E46"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/todolist_buttonOk"
         app:layout_constraintStart_toStartOf="parent"

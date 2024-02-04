@@ -35,15 +35,18 @@
                 android:layout_height="wrap_content"
                 android:hint="Enter Location" />
 
-            <DatePicker
-                android:id="@+id/datePicker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:headerBackground="#393E46"
+            android:yearListSelectorColor="#393E46" />
 
-            <TimePicker
-                android:id="@+id/timePicker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:headerBackground="#393E46" />
 
         </LinearLayout>
     </ScrollView>
