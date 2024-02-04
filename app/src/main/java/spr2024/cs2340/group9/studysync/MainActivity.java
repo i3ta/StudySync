@@ -21,12 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    private UpcomingFragment upcomingFragment = new UpcomingFragment();
-
-    // Fragments for testing
-    private FirstFragment firstFragment = new FirstFragment();
-    private ExamFragment secondFragment = new ExamFragment();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
