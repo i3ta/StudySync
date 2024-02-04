@@ -62,6 +62,15 @@ public class Exams {
     }
 
     /**
+     * Get exam with a specific id.
+     * @param id id
+     * @return exams
+     */
+    public static Exam get(int id) {
+        return examDao.get(id);
+    }
+
+    /**
      * Get all exams between startTime and endTime.
      * @param startTime start of time frame
      * @param endTime end of time frame

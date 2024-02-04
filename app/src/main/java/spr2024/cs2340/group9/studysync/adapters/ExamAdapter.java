@@ -35,6 +35,7 @@ public class ExamAdapter extends ArrayAdapter<Exam> {
         TextView titleTextView = view.findViewById(R.id.titleTextView);
         TextView locationTextView = view.findViewById(R.id.locationTextView);
         TextView dateTextView = view.findViewById(R.id.dateTextView);
+        TextView hiddenIdView = view.findViewById(R.id.hiddenId);
 
         titleTextView.setText(exam.getName());
 
@@ -42,6 +43,7 @@ public class ExamAdapter extends ArrayAdapter<Exam> {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm");
         dateTextView.setText("Time: " + dateFormat.format(exam.getStartTime()));
         locationTextView.setText("Location: " + exam.getLocation());
+        hiddenIdView.setText(String.valueOf(exam.getId()));
 
         return view;
     }

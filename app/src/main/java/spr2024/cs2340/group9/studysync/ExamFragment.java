@@ -1,14 +1,17 @@
 package spr2024.cs2340.group9.studysync;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import spr2024.cs2340.group9.studysync.adapters.ExamAdapter;
 import spr2024.cs2340.group9.studysync.database.Exam;
 import spr2024.cs2340.group9.studysync.database.Exams;
+import spr2024.cs2340.group9.studysync.database.ToDoList;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -46,6 +51,36 @@ public class ExamFragment extends Fragment {
 
         // Load exams from the database
         updateExamListView();
+
+
+        examListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView myInvisibleView = view.findViewById(R.id.hiddenId);
+                String valueString = myInvisibleView.getText().toString();
+                int examId = Integer.parseInt(valueString);
+                Exam selectedExam = Exams.get(examId);
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Delete To Do List");
+                builder.setMessage("Are You Sure?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Exams.delete(selectedExam.getId());
+                        updateExamListView();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                androidx.appcompat.app.AlertDialog dialog = builder.create();
+                dialog.show();
+                return true;
+            }
+        });
 
         return view;
     }

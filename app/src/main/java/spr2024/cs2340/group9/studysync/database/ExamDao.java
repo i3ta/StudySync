@@ -37,6 +37,14 @@ public interface ExamDao {
     Exam[] getAll();
 
     /**
+     * Get Exam with id.
+     * @param id id
+     * @return exam
+     */
+    @Query("SELECT * FROM Exam WHERE id = :id")
+    Exam get(int id);
+
+    /**
      * Get all exams within a specific time frame.
      * @param startTime start time
      * @param endTime end time
