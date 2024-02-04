@@ -2,11 +2,13 @@ package spr2024.cs2340.group9.studysync;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,55 +23,54 @@ import spr2024.cs2340.group9.studysync.database.ToDoListItem;
 import spr2024.cs2340.group9.studysync.database.ToDoLists;
 
 /**
- *This is the main activity for ToDoListItem page
+ *This is the main fragment for ToDoListItem page
  */
-public class ToDoListItemsActivity extends AppCompatActivity implements DialogCloseListener{
+public class ToDoListItemsActivity extends Fragment implements DialogCloseListener{
     private RecyclerView recyclerView;
     private List<ToDoListItem> toDoListItems;
     private ToDoListItemsAdapter adapter;
     private ToDoLists toDoListsDB;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todo_list_items);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_todo_list_items, container, false);
 
-        // Retrieve ToDoList name from intent extras
-        String todoListName = getIntent().getStringExtra("todoListName");
+        // Retrieve ToDoList name from arguments
+        String todoListName = getArguments().getString("todoListName");
 
-        TextView textView = findViewById(R.id.textViewTodoListName);
+        TextView textView = view.findViewById(R.id.textViewTodoListName);
         textView.setText(todoListName);
         toDoListItems = new ArrayList<>();
-        adapter = new ToDoListItemsAdapter(ToDoListItemsActivity.this);
+        adapter = new ToDoListItemsAdapter(getActivity());
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
         // Initialize DB
         toDoListsDB = new ToDoLists();
-        toDoListsDB.init(getApplicationContext());
+        toDoListsDB.init(getContext());
 
         // Display the items in DB on recyclerView
         updateView();
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        Button addItemButton = findViewById(R.id.todolistitem_add_button);
+        Button addItemButton = view.findViewById(R.id.todolistitem_add_button);
         addItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int todoListId = getIntent().getIntExtra("todoListid", 1);
-                AddToDoListItem.newInstance(todoListId).show(getSupportFragmentManager(), "AddToDoListItem");
+                int todoListId = getArguments().getInt("todoListid", 1);
+                AddToDoListItem.newInstance(todoListId).show(getChildFragmentManager(), "AddToDoListItem");
                 updateView();
-//                adapter.notifyDataSetChanged();
             }
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewHelper(adapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
 
+        return view;
+    }
 
     @Override
     public void DialogClose(DialogInterface dialogInterface) {
@@ -77,7 +78,7 @@ public class ToDoListItemsActivity extends AppCompatActivity implements DialogCl
         adapter.notifyDataSetChanged();
     }
     public void updateView(){
-        int todoListId = getIntent().getIntExtra("todoListid", 1);
+        int todoListId = getArguments().getInt("todoListid", 1);
         toDoListItems = Arrays.asList(toDoListsDB.getListItems(todoListId));
         Collections.reverse(toDoListItems);
         adapter.setTask(toDoListItems);

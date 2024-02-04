@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,11 +70,14 @@ public class TodolistFragment extends Fragment {
                 // Handle click on ToDoList row
                 ToDoList selectedToDoList = toDoLists.get(position);
 
-                // Navigate to ToDoListItemsActivity
-                Intent intent = new Intent(requireContext(), ToDoListItemsActivity.class);
-                intent.putExtra("todoListName", selectedToDoList.getName());
-                intent.putExtra("todoListid",selectedToDoList.getId());
-                startActivity(intent);
+                // Create a Bundle to hold the arguments
+                Bundle args = new Bundle();
+                args.putString("todoListName", selectedToDoList.getName());
+                args.putInt("todoListid", selectedToDoList.getId());
+
+                // Use NavController to navigate
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_toDoListFragment_to_textViewTodoListName, args);
             }
         });
         listViewToDoLists.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

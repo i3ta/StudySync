@@ -17,6 +17,15 @@
     <fragment
         android:id="@+id/toDoListFragment"
         android:name="spr2024.cs2340.group9.studysync.TodolistFragment"
+        android:label="To Do Lists" >
+        <action
+            android:id="@+id/action_toDoListFragment_to_textViewTodoListName"
+            app:destination="@id/textViewTodoListName" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/textViewTodoListName"
+        android:name="spr2024.cs2340.group9.studysync.ToDoListItemsActivity"
         android:label="To Do Lists" />
 
     <!-- Add other fragments here -->
