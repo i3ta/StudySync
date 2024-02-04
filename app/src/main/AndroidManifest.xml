@@ -26,8 +26,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NotifActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".ToDoListItemsActivity"
+            android:label="ToDoListItems"
+            android:theme="@style/Theme.StudySync" />
     </application>
 
 </manifest>
