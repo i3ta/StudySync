@@ -13,7 +13,7 @@ public class Exams {
     /**
      * Force static methods.
      */
-    private Exams() {}
+    public Exams() {}
 
     /**
      * Create new instance of the Exam database.
@@ -69,6 +69,16 @@ public class Exams {
     public static Exam get(int id) {
         return examDao.get(id);
     }
+
+    /**
+     * Get all exams between startTime and endTime.
+     * @param startTime start of time frame
+     * @param endTime end of time frame
+     * @return exams
+     */
+//    public static Exam[] getBetween(long startTime, long endTime) {
+//        return examDao.getBetween(startTime, endTime);
+//    }
 
     /**
      * Get all exams between startTime and endTime.
