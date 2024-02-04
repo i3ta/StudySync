@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/upcomingFragment">
 
@@ -10,12 +9,12 @@
         android:name="spr2024.cs2340.group9.studysync.UpcomingFragment" />
 
     <fragment
-        android:id="@+id/firstFragment"
-        android:name="spr2024.cs2340.group9.studysync.FirstFragment" />
+        android:id="@+id/examFragment"
+        android:name="spr2024.cs2340.group9.studysync.ExamFragment" />
 
     <fragment
-        android:id="@+id/secondFragment"
-        android:name="spr2024.cs2340.group9.studysync.SecondFragment" />
+        android:id="@+id/toDoListFragment"
+        android:name="spr2024.cs2340.group9.studysync.TodolistFragment" />
 
     <!-- Add other fragments here -->
 </navigation>

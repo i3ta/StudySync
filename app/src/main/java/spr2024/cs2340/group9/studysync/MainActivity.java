@@ -7,19 +7,15 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import spr2024.cs2340.group9.studysync.databinding.ActivityMainBinding;
-
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
+
+import spr2024.cs2340.group9.studysync.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Fragments for testing
     private FirstFragment firstFragment = new FirstFragment();
-    private SecondFragment secondFragment = new SecondFragment();
+    private ExamFragment secondFragment = new ExamFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (itemId == R.id.upcoming) {
             navController.navigate(R.id.upcomingFragment);
-        } else if (itemId == R.id.courses) {
-            navController.navigate(R.id.firstFragment);
-        } else if (itemId == R.id.assignments) {
-            navController.navigate(R.id.secondFragment);
+        } else if (itemId == R.id.todo) {
+            navController.navigate(R.id.toDoListFragment);
+        } else if (itemId == R.id.exams) {
+            navController.navigate(R.id.examFragment);
         } // Add other navigation actions here
 
         return true;
