@@ -27,7 +27,6 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
     private EditText editText;
     private Button okButton;
     private Button cancelButton;
-    private ToDoLists toDoListDB;
     private int ToDoListId;
 
     public void setToDoListId(int toDoListId) {
@@ -56,8 +55,7 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
         cancelButton = view.findViewById(R.id.buttonCancel);
 
         //db initialization
-        toDoListDB = new ToDoLists();
-        toDoListDB.init(getContext());
+        ToDoLists.init(getContext());
 
         boolean isUpdate = false;
 
@@ -100,12 +98,12 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
                 if(finalIsUpdate){
                     int id = bundle.getInt("id");
                     //TODO:update in db
-                    toDoListDB.updateItemName(id, text);
+                    ToDoLists.updateItemName(id, text);
                 }
                 else{
                     ToDoListItem item = new ToDoListItem(ToDoListId,text,false);
                     //insert to db
-                    toDoListDB.insert(item);
+                    ToDoLists.insert(item);
                 }
                 dismiss();
             }

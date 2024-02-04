@@ -30,9 +30,20 @@ public class ExamFragment extends Fragment {
 
     private Button addButton;
     private ListView examListView;
-    private Exams examsHelper;
     private ExamAdapter examAdapter;
 
+    /**
+     * Creates Exam view
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.exams_fragment, container, false);
@@ -44,42 +55,31 @@ public class ExamFragment extends Fragment {
         examListView = view.findViewById(R.id.listView);
         examAdapter = new ExamAdapter(requireContext(), new ArrayList<Exam>());
         examListView.setAdapter(examAdapter);
-        examsHelper = new Exams();
-        examsHelper.init(requireContext());
-
-//        examsHelper.clear();
+        Exams.init(requireContext());
 
         // Load exams from the database
         updateExamListView();
 
+        // Long hold response
+        examListView.setOnItemLongClickListener((parent, view1, position, id) -> {
+            TextView myInvisibleView = view1.findViewById(R.id.hiddenId);
+            String valueString = myInvisibleView.getText().toString();
+            int examId = Integer.parseInt(valueString);
+            Exam selectedExam = Exams.get(examId);
 
-        examListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView myInvisibleView = view.findViewById(R.id.hiddenId);
-                String valueString = myInvisibleView.getText().toString();
-                int examId = Integer.parseInt(valueString);
-                Exam selectedExam = Exams.get(examId);
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
-                builder.setTitle("Delete To Do List");
-                builder.setMessage("Are You Sure?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Exams.delete(selectedExam.getId());
-                        updateExamListView();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            // Build an alert with code
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
+            builder.setTitle("Delete To Do List");
+            builder.setMessage("Are You Sure?");
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                Exams.delete(selectedExam.getId());
+                updateExamListView();
+            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> {});
+            androidx.appcompat.app.AlertDialog dialog = builder.create();
+            dialog.show();
 
-                    }
-                });
-                androidx.appcompat.app.AlertDialog dialog = builder.create();
-                dialog.show();
-                return true;
-            }
+            return true;
         });
 
         return view;
@@ -134,7 +134,7 @@ public class ExamFragment extends Fragment {
             selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
 
             Exam newExam = new Exam(userInput, userInput1, selectedDateTime.getTimeInMillis(), 0);
-            examsHelper.insert(newExam);
+            Exams.insert(newExam);
 
             // Update the ListView
             updateExamListView();
@@ -151,13 +151,16 @@ public class ExamFragment extends Fragment {
 
     private void updateExamListView() {
         // Load exams from the database using your Exams helper class
-        Exam[] exams = examsHelper.getAll();
+        Exam[] exams = Exams.getAll();
 
         // Update the adapter with the loaded exams
         examAdapter.clear();
         examAdapter.addAll(Arrays.asList(exams));
     }
 
+    /**
+     * Hides action bar
+     */
     @Override
     public void onResume() {
         super.onResume();
