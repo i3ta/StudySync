@@ -10,12 +10,12 @@
         android:name="spr2024.cs2340.group9.studysync.UpcomingFragment" />
 
     <fragment
-        android:id="@+id/firstFragment"
-        android:name="spr2024.cs2340.group9.studysync.FirstFragment" />
-
-    <fragment
         android:id="@+id/examFragment"
         android:name="spr2024.cs2340.group9.studysync.ExamFragment" />
+
+    <fragment
+        android:id="@+id/toDoListFragment"
+        android:name="spr2024.cs2340.group9.studysync.TodolistFragment" />
 
     <!-- Add other fragments here -->
 </navigation>
