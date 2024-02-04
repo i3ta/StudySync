@@ -26,7 +26,6 @@ import spr2024.cs2340.group9.studysync.database.ToDoLists;
 public class AddToDoListItem extends BottomSheetDialogFragment {
     private EditText editText;
     private Button okButton;
-    private Button cancelButton;
     private int ToDoListId;
 
     /**
@@ -51,8 +50,7 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_add_todolist, container, false);
-        return view;
+        return inflater.inflate(R.layout.dialog_add_todolist, container, false);
     }
 
     @Override
@@ -61,7 +59,7 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
 
         editText = view.findViewById(R.id.todolist_editText);
         okButton = view.findViewById(R.id.todolist_buttonOk);
-        cancelButton = view.findViewById(R.id.buttonCancel);
+        Button cancelButton = view.findViewById(R.id.buttonCancel);
 
         // db initialization
         ToDoLists.init(getContext());

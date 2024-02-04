@@ -27,9 +27,6 @@ import spr2024.cs2340.group9.studysync.database.Exams;
  * Exam Fragment.
  */
 public class ExamFragment extends Fragment {
-
-    private Button addButton;
-    private ListView examListView;
     private ExamAdapter examAdapter;
 
     /**
@@ -42,18 +39,18 @@ public class ExamFragment extends Fragment {
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
      *
-     * @return
+     * @return View created
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.exams_fragment, container, false);
 
-        addButton = view.findViewById(R.id.add_button);
+        Button addButton = view.findViewById(R.id.add_button);
         addButton.setOnClickListener(v -> showDateTimeInputDialog());
 
         // Initialization
-        examListView = view.findViewById(R.id.listView);
-        examAdapter = new ExamAdapter(requireContext(), new ArrayList<Exam>());
+        ListView examListView = view.findViewById(R.id.listView);
+        examAdapter = new ExamAdapter(requireContext(), new ArrayList<>());
         examListView.setAdapter(examAdapter);
         Exams.init(requireContext());
 
@@ -145,9 +142,7 @@ public class ExamFragment extends Fragment {
             dialog.dismiss();
         });
 
-        cancelButton.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
     }
@@ -170,12 +165,12 @@ public class ExamFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().hide();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().show();
     }
 }
