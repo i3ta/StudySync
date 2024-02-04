@@ -13,6 +13,7 @@
         android:layout_height="48dp"
         android:layout_marginBottom="40dp"
         android:text="+"
+        android:backgroundTint="#393E46"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
