@@ -13,7 +13,7 @@ public class Exams {
     /**
      * Force static methods.
      */
-    public Exams() {}
+    private Exams() {}
 
     /**
      * Create new instance of the Exam database.

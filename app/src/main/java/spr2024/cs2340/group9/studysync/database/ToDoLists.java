@@ -12,7 +12,7 @@ public class ToDoLists {
     /**
      * Force static methods.
      */
-//    private ToDoLists() {}
+    private ToDoLists() {}
 
     /**
      * Create a new instance of the ToDoLists database.

@@ -21,27 +21,19 @@ import spr2024.cs2340.group9.studysync.database.ToDoListItem;
 import spr2024.cs2340.group9.studysync.database.ToDoLists;
 
 /**
- *This class is for adding ToDoListItems fragments inside ToDoList.
+ *This class is for adding ToDoListItems inside ToDoList
  */
 public class AddToDoListItem extends BottomSheetDialogFragment {
     private EditText editText;
     private Button okButton;
+    private Button cancelButton;
     private int ToDoListId;
 
-    /**
-     * Initializes item by setting toDoListId so it knows which id to search for in DB.
-     * @param toDoListId to-do list id
-     */
     public void setToDoListId(int toDoListId) {
         ToDoListId = toDoListId;
     }
 
-    /**
-     * Creates new toDoListItem from id from static context.
-     * @param ToDoListId id to create new from
-     * @return ToDoListItem
-     */
-    public static AddToDoListItem newInstance(int ToDoListId) {
+    public static AddToDoListItem newInstance(int ToDoListId){
         AddToDoListItem item = new AddToDoListItem();
         item.setToDoListId(ToDoListId);
         return item;
@@ -50,7 +42,8 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_add_todolist, container, false);
+        View view = inflater.inflate(R.layout.dialog_add_todolist, container, false);
+        return view;
     }
 
     @Override
@@ -59,9 +52,9 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
 
         editText = view.findViewById(R.id.todolist_editText);
         okButton = view.findViewById(R.id.todolist_buttonOk);
-        Button cancelButton = view.findViewById(R.id.buttonCancel);
+        cancelButton = view.findViewById(R.id.buttonCancel);
 
-        // db initialization
+        //db initialization
         ToDoLists.init(getContext());
 
         boolean isUpdate = false;
@@ -71,14 +64,15 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
             isUpdate = true;
             String task = bundle.getString("task");
             editText.setText(task);
-            assert task != null;
             if(task.length() > 0){
                 okButton.setEnabled(false);
             }
         }
         editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -92,27 +86,35 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
-        });
+            public void afterTextChanged(Editable s) {
 
+            }
+        });
         boolean finalIsUpdate = isUpdate;
-
-        okButton.setOnClickListener(v -> {
-            String text = editText.getText().toString();
-            if(finalIsUpdate){
-                int id = bundle.getInt("id");
-                //TODO:update in db
-                ToDoLists.updateItemName(id, text);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = editText.getText().toString();
+                if(finalIsUpdate){
+                    int id = bundle.getInt("id");
+                    //TODO:update in db
+                    ToDoLists.updateItemName(id, text);
+                }
+                else{
+                    ToDoListItem item = new ToDoListItem(ToDoListId,text,false);
+                    //insert to db
+                    ToDoLists.insert(item);
+                }
+                dismiss();
             }
-            else{
-                ToDoListItem item = new ToDoListItem(ToDoListId,text,false);
-                //insert to db
-                ToDoLists.insert(item);
-            }
-            dismiss();
         });
 
-        cancelButton.setOnClickListener(v -> dismiss());
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     @Override
