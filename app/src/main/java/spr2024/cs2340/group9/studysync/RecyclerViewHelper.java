@@ -14,7 +14,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import spr2024.cs2340.group9.studysync.adapters.ToDoListItemsAdapter;
 
 /**
- *This class is for editing and deleting items by swiping
+ *This class is for editing and deleting items by swiping.
  */
 public class RecyclerViewHelper extends ItemTouchHelper.SimpleCallback {
     private ToDoListItemsAdapter adapter;

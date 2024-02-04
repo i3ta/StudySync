@@ -5,9 +5,12 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
+import androidx.cardview.widget.CardView;
+
+/**
+ * View for CardViews for schedulable items (courses, assignments, and exams).
+ */
 public class SchedulableCardView extends CardView {
 
     private TextView title;
