@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="This Week"
+            android:text="@string/Upcoming_Title"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
-            android:text="February"
+            android:text="@string/PlaceholderText"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -56,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Sun"
+            android:text="@string/Abbr_Sunday"
             android:textAlignment="center" />
 
         <TextView
@@ -64,7 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Mon"
+            android:text="@string/Abbr_Monday"
             android:textAlignment="center" />
 
         <TextView
@@ -72,7 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Tue"
+            android:text="@string/Abbr_Tuesday"
             android:textAlignment="center" />
 
         <TextView
@@ -80,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Wed"
+            android:text="@string/Abbr_Wednesday"
             android:textAlignment="center" />
 
         <TextView
@@ -88,7 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Thu"
+            android:text="@string/Abbr_Thursday"
             android:textAlignment="center" />
 
         <TextView
@@ -96,7 +95,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Fri"
+            android:text="@string/Abbr_Friday"
             android:textAlignment="center" />
 
         <TextView
@@ -104,7 +103,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Sat"
+            android:text="@string/Abbr_Saturday"
             android:textAlignment="center" />
 
     </LinearLayout>
@@ -123,7 +122,9 @@
         app:tabIndicatorGravity="stretch"
         app:tabIndicatorHeight="0dp"
         app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/light_secondary_tint"></com.google.android.material.tabs.TabLayout>
+        app:tabTextColor="@color/light_secondary_tint">
+        <!--Dates for this week will go here-->
+    </com.google.android.material.tabs.TabLayout>
 
     <ScrollView
         android:id="@+id/scrollView_tabContent"
@@ -148,13 +149,19 @@
                 android:layout_height="wrap_content"
                 android:background="@color/light_primary_tint"
                 android:paddingStart="16dp"
-                android:text="Courses" />
+                android:paddingEnd="16dp"
+                android:text="@string/Upcoming_CoursesTitle" />
 
             <LinearLayout
                 android:id="@+id/linearLayout_courses"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView10"
@@ -162,13 +169,19 @@
                 android:layout_height="wrap_content"
                 android:background="@color/light_primary_tint"
                 android:paddingStart="16dp"
-                android:text="Exams" />
+                android:paddingEnd="16dp"
+                android:text="@string/Upcoming_ExamsTitle" />
 
             <LinearLayout
                 android:id="@+id/linearLayout_exams"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView11"
@@ -176,13 +189,19 @@
                 android:layout_height="wrap_content"
                 android:background="@color/light_primary_tint"
                 android:paddingStart="16dp"
-                android:text="Assignments" />
+                android:paddingEnd="16dp"
+                android:text="@string/Upcoming_AssignmentsTitle" />
 
             <LinearLayout
                 android:id="@+id/linearLayout_assignments"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
