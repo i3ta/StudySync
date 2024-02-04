@@ -15,6 +15,11 @@
         android:label="Exams" />
 
     <fragment
+        android:id="@+id/courseFragment"
+        android:name="spr2024.cs2340.group9.studysync.CourseFragment"
+        android:label="Exams" />
+
+    <fragment
         android:id="@+id/toDoListFragment"
         android:name="spr2024.cs2340.group9.studysync.TodolistFragment"
         android:label="To Do Lists" >
