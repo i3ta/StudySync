@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import spr2024.cs2340.group9.studysync.adapters.ExamAdapter;
@@ -120,5 +121,17 @@ public class ExamFragment extends Fragment {
         // Update the adapter with the loaded exams
         examAdapter.clear();
         examAdapter.addAll(Arrays.asList(exams));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }
