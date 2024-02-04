@@ -132,6 +132,11 @@ public class UpcomingFragment extends Fragment {
             for (Course c : courses) {
                 courseLayout.addView(createCard(c));
             }
+        } else {
+            TextView textView = new TextView(requireContext());
+            textView.setText("You have no courses on this day.");
+            textView.setPadding(48, 8,8,8);
+            courseLayout.addView(textView);
         }
 
         Assignments.init(requireContext());
@@ -140,6 +145,11 @@ public class UpcomingFragment extends Fragment {
             for (Assignment a: assignments) {
                 assignmentLayout.addView(createCard(a));
             }
+        } else {
+            TextView textView = new TextView(requireContext());
+            textView.setText("You have no assignments due on this day.");
+            textView.setPadding(48, 8,8,8);
+            assignmentLayout.addView(textView);
         }
 
         Exams.init(requireContext());
@@ -148,6 +158,11 @@ public class UpcomingFragment extends Fragment {
             for (Exam e: exams) {
                 examLayout.addView(createCard(e));
             }
+        } else {
+            TextView textView = new TextView(requireContext());
+            textView.setText("You have no courses exams on this day.");
+            textView.setPadding(48, 8,8,8);
+            examLayout.addView(textView);
         }
     }
 
