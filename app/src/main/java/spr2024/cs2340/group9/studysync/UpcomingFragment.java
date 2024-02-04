@@ -14,10 +14,12 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 import spr2024.cs2340.group9.studysync.database.Assignment;
 import spr2024.cs2340.group9.studysync.database.Assignments;
@@ -29,16 +31,13 @@ import spr2024.cs2340.group9.studysync.database.RecurringSlot;
 import spr2024.cs2340.group9.studysync.database.TimeSlot;
 import spr2024.cs2340.group9.studysync.databinding.UpcomingFragmentBinding;
 
-/**
- * Fragment for upcoming page.
- */
 public class UpcomingFragment extends Fragment {
 
     private UpcomingFragmentBinding binding;
 
     @Override
     public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
+            LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
 
@@ -47,12 +46,25 @@ public class UpcomingFragment extends Fragment {
 
     }
 
+    private Date getDate(int year, int month, int date, int hrs, int min, int s, int ms) {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1); // Months are 0-based in Calendar
+        calendar.set(Calendar.DAY_OF_MONTH, date);
+        calendar.set(Calendar.HOUR_OF_DAY, hrs);
+        calendar.set(Calendar.MINUTE, min);
+        calendar.set(Calendar.SECOND, s);
+        calendar.set(Calendar.MILLISECOND, ms);
+
+        return calendar.getTime();
+    }
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // Set initial values
         TabLayout dateTabs = view.findViewById(R.id.tabLayout_dateTabs);
-        dateTabs.removeAllTabs();
 
         Calendar calendar = Calendar.getInstance();
         int daysToSubtract = (calendar.get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY + 7) % 7;
@@ -73,13 +85,13 @@ public class UpcomingFragment extends Fragment {
         if (firstMonth.equals(lastMonth)) {
             monthTextView.setText(firstMonth);
         } else {
-            monthTextView.setText(String.format("%s - %s", firstMonth, lastMonth));
+            monthTextView.setText(firstMonth + " - " + lastMonth);
         }
 
         // Reset calendar to today
         calendar = Calendar.getInstance();
         // Calendar days of week go from 1 to 7, for Sunday through Saturday
-        Objects.requireNonNull(dateTabs.getTabAt(calendar.get(Calendar.DAY_OF_WEEK) - 1)).select();
+        dateTabs.getTabAt(calendar.get(Calendar.DAY_OF_WEEK) - 1).select();
 
         setCards(view, new Date());
 
@@ -122,7 +134,7 @@ public class UpcomingFragment extends Fragment {
             }
         } else {
             TextView textView = new TextView(requireContext());
-            textView.setText(R.string.Upcoming_NoCourseLabel);
+            textView.setText("You have no courses on this day.");
             textView.setPadding(48, 8,8,8);
             courseLayout.addView(textView);
         }
@@ -135,7 +147,7 @@ public class UpcomingFragment extends Fragment {
             }
         } else {
             TextView textView = new TextView(requireContext());
-            textView.setText(R.string.Upcoming_NoAssignmentsDueLabel);
+            textView.setText("You have no assignments due on this day.");
             textView.setPadding(48, 8,8,8);
             assignmentLayout.addView(textView);
         }
@@ -148,7 +160,7 @@ public class UpcomingFragment extends Fragment {
             }
         } else {
             TextView textView = new TextView(requireContext());
-            textView.setText(R.string.Upcoming_NoExamsLabel);
+            textView.setText("You have no courses exams on this day.");
             textView.setPadding(48, 8,8,8);
             examLayout.addView(textView);
         }
@@ -190,7 +202,7 @@ public class UpcomingFragment extends Fragment {
         SchedulableCardView newCard = new SchedulableCardView(getContext());
 
         newCard.setTitle(e.name);
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         newCard.setTime(String.format("Starts %s",
                 format.format(e.getStartTime())));
         if (e.location != null && !e.location.isEmpty()) {
@@ -233,12 +245,12 @@ public class UpcomingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }
