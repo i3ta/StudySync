@@ -7,6 +7,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -38,8 +39,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the listener
         bottomNavigationView.setOnItemSelectedListener(navListener);
+//        System.out.println("Set up main activity with listener.");
 
-        System.out.println("Set up main activity with listener.");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setOnMenuItemClickListener((item) -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.edit) {
+                if (navController.getCurrentDestination().getId() == R.id.examFragment) {
+
+                }
+            }
+            return true;
+        });
     }
 
     private final NavigationBarView.OnItemSelectedListener navListener = (item) -> {
