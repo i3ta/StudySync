@@ -46,20 +46,6 @@ public class UpcomingFragment extends Fragment {
 
     }
 
-    private Date getDate(int year, int month, int date, int hrs, int min, int s, int ms) {
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month - 1); // Months are 0-based in Calendar
-        calendar.set(Calendar.DAY_OF_MONTH, date);
-        calendar.set(Calendar.HOUR_OF_DAY, hrs);
-        calendar.set(Calendar.MINUTE, min);
-        calendar.set(Calendar.SECOND, s);
-        calendar.set(Calendar.MILLISECOND, ms);
-
-        return calendar.getTime();
-    }
-
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
