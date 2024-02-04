@@ -40,27 +40,6 @@ public class UpcomingFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        final boolean TESTING = false;
-
-        if (TESTING) {
-            Courses.init(getActivity().getApplicationContext());
-            Courses.clear();
-            Course c = new Course("CS 2340", "Dr. Feijoo", 0, 0);
-            c.setCourseTimes(new TimeSlot[]{
-                    new TimeSlot(c.id, new RecurringSlot(1, 8, 0), new RecurringSlot(1, 9, 15)),
-                    new TimeSlot(c.id, new RecurringSlot(3, 8, 0), new RecurringSlot(3, 9, 15))
-            });
-            Courses.insert(c);
-
-            Assignments.init(getActivity().getApplicationContext());
-            Assignments.clear();
-
-
-
-            Assignment a = new Assignment("CHEM 1212L Pre-Lab", 0, getDate(2024, 1, 23, 12, 30, 0, 0), 0);
-            System.out.printf("Assignment set for %s.\n", a.getDueDate().toString());
-            Assignments.insert(a);
-        }
 
         binding = UpcomingFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
