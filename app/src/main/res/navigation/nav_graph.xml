@@ -6,15 +6,18 @@
 
     <fragment
         android:id="@+id/upcomingFragment"
-        android:name="spr2024.cs2340.group9.studysync.UpcomingFragment" />
+        android:name="spr2024.cs2340.group9.studysync.UpcomingFragment"
+        android:label="Upcoming" />
 
     <fragment
         android:id="@+id/examFragment"
-        android:name="spr2024.cs2340.group9.studysync.ExamFragment" />
+        android:name="spr2024.cs2340.group9.studysync.ExamFragment"
+        android:label="Exams" />
 
     <fragment
         android:id="@+id/toDoListFragment"
-        android:name="spr2024.cs2340.group9.studysync.TodolistFragment" />
+        android:name="spr2024.cs2340.group9.studysync.TodolistFragment"
+        android:label="To Do Lists" />
 
     <!-- Add other fragments here -->
 </navigation>
