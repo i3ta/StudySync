@@ -1,6 +1,7 @@
 package spr2024.cs2340.group9.studysync.notifications;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,16 +18,24 @@ import spr2024.cs2340.group9.studysync.MainActivity;
 import spr2024.cs2340.group9.studysync.R;
 
 public class NotificationBuilder {
-    private static String CHANNEL_ID = "your_channel_id"; // Set your channel id
+    private static String CHANNEL_ID = "studysync_notifications"; // Set your channel id
     private static Context context;
+    private static Activity activity;
+    private static boolean initialized = false;
 
     public static void init(Context context) {
+        if (initialized) {
+            return;
+        }
         NotificationBuilder.context = context;
+        NotificationBuilder.activity = activity;
         buildNotificationChannel();
+        initialized = true;
     }
 
     private static void buildNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            System.out.println("Building Notification Channel...");
             String name = context.getString(R.string.channel_name);
             String desc = context.getString(R.string.channel_desc);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -49,6 +58,7 @@ public class NotificationBuilder {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(name)
                 .setContentText(time)
+                .setSmallIcon(R.drawable.outline_nest_clock_farsight_analog_24)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(desc))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -58,16 +68,6 @@ public class NotificationBuilder {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         // notificationId is a unique int for each notification that you must define
         int notificationId = 1;
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
         notificationManager.notify(notificationId, builder.build());
     }
 }
