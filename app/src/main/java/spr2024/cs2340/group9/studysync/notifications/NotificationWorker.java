@@ -1,13 +1,20 @@
 package spr2024.cs2340.group9.studysync.notifications;
 
+import android.app.Notification;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.room.Room;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import spr2024.cs2340.group9.studysync.database.Assignment;
 import spr2024.cs2340.group9.studysync.database.Assignments;
@@ -17,6 +24,7 @@ import spr2024.cs2340.group9.studysync.database.Exam;
 import spr2024.cs2340.group9.studysync.database.Exams;
 
 public class NotificationWorker extends Worker {
+    private static Date lastNotified;
     public NotificationWorker(
             @NonNull Context context,
             @NonNull WorkerParameters params){
@@ -31,7 +39,21 @@ public class NotificationWorker extends Worker {
         generateNotificationsForCourses();
         generateNotificationsForAssignments();
         generateNotificationsForExams();
+
+        Date now = new Date();
+        // notification loop
+        WorkRequest request = new OneTimeWorkRequest.Builder(NotificationWorker.class)
+                .setInitialDelay(1, TimeUnit.MINUTES)
+                .build();
+        WorkManager.getInstance(getApplicationContext()).enqueue(request);
+        insertDatabase(request.getId());
+
         return Result.success();
+    }
+
+    private void insertDatabase(UUID id) {
+        NotificationDatabaseHelper.init(getApplicationContext());
+        NotificationDatabaseHelper.insert(id);
     }
 
     private boolean sameTime(Date date1, Date date2) {
@@ -70,6 +92,7 @@ public class NotificationWorker extends Worker {
         Exam[] exams = Exams.getAll();
         for (Exam e: exams) {
             if (sameTime(e.getNotifyDate(), now.getTime())) {
+                System.out.printf("Notifying %s\n", e);
                 NotificationBuilder.notify(e.name, "", e.notifyBefore);
             }
         }

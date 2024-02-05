@@ -66,7 +66,7 @@ public class ExamFragment extends Fragment {
 
             // Build an alert with code
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
-            builder.setTitle("Delete To Do List");
+            builder.setTitle("Delete Exam");
             builder.setMessage("Are You Sure?");
             builder.setPositiveButton("Yes", (dialog, which) -> {
                 Exams.delete(selectedExam.getId());
