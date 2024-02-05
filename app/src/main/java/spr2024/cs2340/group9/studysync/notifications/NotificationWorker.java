@@ -42,7 +42,7 @@ public class NotificationWorker extends Worker {
         Date now = new Date();
         // notification loop
         WorkRequest request = new OneTimeWorkRequest.Builder(NotificationWorker.class)
-                .setInitialDelay(1, TimeUnit.MINUTES)
+                .setInitialDelay(timeToNextMinute(), TimeUnit.MILLISECONDS)
                 .build();
         WorkManager.getInstance(getApplicationContext()).enqueue(request);
         insertDatabase(request.getId());
@@ -50,13 +50,28 @@ public class NotificationWorker extends Worker {
         return Result.success();
     }
 
+    private long timeToNextMinute() {
+        Calendar calendar = Calendar.getInstance();
+        int seconds = 60 - calendar.get(Calendar.SECOND);
+        int millis = 1000 - calendar.get(Calendar.MILLISECOND);
+        return seconds * 1000L + millis;
+    }
+
     private void insertDatabase(UUID id) {
         NotificationDatabaseHelper.init(getApplicationContext());
         NotificationDatabaseHelper.insert(id);
     }
 
+    private Date truncTime(Date d) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
     private boolean sameTime(Date date1, Date date2) {
-        return Math.abs(date1.getTime() - date2.getTime()) < 30 * 1000;
+        return truncTime(date1).equals(truncTime(date2));
     }
 
     private void generateNotificationsForCourses() {
