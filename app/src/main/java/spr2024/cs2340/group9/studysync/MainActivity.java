@@ -9,11 +9,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import spr2024.cs2340.group9.studysync.databinding.ActivityMainBinding;
+import spr2024.cs2340.group9.studysync.notifications.NotificationWorker;
 
 /**
  * Main activity.
@@ -39,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the listener for the bottom navigation view
         bottomNavigationView.setOnItemSelectedListener(navListener);
+
+        // Start notification loop
+        WorkManager manager = WorkManager.getInstance(getApplicationContext());
+        manager.enqueue(OneTimeWorkRequest.from(NotificationWorker.class));
     }
 
     /**
