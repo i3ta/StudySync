@@ -58,6 +58,10 @@ public class Course {
         }
     }
 
+    public Course() {
+        this(null, null, 0, 0);
+    }
+
     @Ignore
     public TimeSlot[] getCourseTimes() {
         return courseTimes;

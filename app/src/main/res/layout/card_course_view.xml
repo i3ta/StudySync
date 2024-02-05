@@ -28,15 +28,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/location"
+            android:id="@+id/instructorName"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:drawablePadding="8dp"
             android:text="@string/PlaceholderText"
+            app:drawableLeftCompat="@drawable/outline_person_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:drawableLeftCompat="@drawable/outline_location_on_24" />
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <TextView
             android:id="@+id/timeStart"
@@ -45,20 +45,21 @@
             android:drawablePadding="8dp"
             android:text="@string/PlaceholderText"
             app:drawableLeftCompat="@drawable/outline_nest_clock_farsight_analog_24"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location" />
+            app:layout_constraintTop_toBottomOf="@id/instructorName" />
 
         <TextView
             android:id="@+id/timeEnd"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:drawablePadding="8dp"
             android:text="@string/PlaceholderText"
-            app:drawableLeftCompat="@drawable/outline_nest_clock_farsight_analog_24"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/timeStart" />
+            app:layout_constraintStart_toEndOf="@+id/timeStart"
+            app:layout_constraintTop_toBottomOf="@+id/instructorName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

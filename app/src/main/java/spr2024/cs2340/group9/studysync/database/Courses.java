@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import java.util.Arrays;
+
 /**
  * Class to interface between the DAO and the rest of the code
  */
@@ -124,7 +126,10 @@ public class Courses {
                     "the end time (%s).", startTime, endTime));
         }
         int[] courseIds = courseTimeDao.getCourseIdBetween(startTime, endTime);
-        Course[] courses = courseDao.get(courseIds);
+        Course[] courses = new Course[courseIds.length];
+        for (int i = 0; i < courseIds.length; i++) {
+            courses[i] = courseDao.get(courseIds[i]);
+        }
         for (Course course: courses) {
             course.setCourseTimes(toTimePeriod(courseTimeDao.get(course.id)));
         }
