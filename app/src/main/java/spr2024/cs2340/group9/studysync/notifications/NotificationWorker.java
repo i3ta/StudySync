@@ -81,7 +81,10 @@ public class NotificationWorker extends Worker {
             Date notif = new Date(nextStart.getTime() - (long) c.notifyBefore * 60 * 1000);
             if (sameTime(cal.getTime(), notif)) {
                 String notifTitle = String.format("Upcoming Exam: %s", c.name);
-                String notifDesc = String.format(Locale.getDefault(), "The course \"%s\" is starting in %d minutes.", c.name, c.notifyBefore);
+                String notifDesc = String.format(Locale.getDefault(),
+                        "The course \"%s\" is starting %s.",
+                        c.name,
+                        (c.notifyBefore == 0 ? "now" : String.format(Locale.getDefault(), "in %d minutes", c.notifyBefore)));
                 NotificationBuilder.notify(notifTitle, notifDesc);
             }
         }
@@ -96,7 +99,10 @@ public class NotificationWorker extends Worker {
         for (Assignment a: assignments) {
             if (sameTime(a.getNotifyDate(), now.getTime())) {
                 String notifTitle = String.format("Upcoming Exam: %s", a.name);
-                String notifDesc = String.format(Locale.getDefault(), "The assignment \"%s\" is due in %d minutes.", a.name, a.notifyBefore);
+                String notifDesc = String.format(Locale.getDefault(),
+                        "The assignment \"%s\" is due %s.",
+                        a.name,
+                        (a.notifyBefore == 0 ? "now" : String.format(Locale.getDefault(), "in %d minutes", a.notifyBefore)));
                 NotificationBuilder.notify(notifTitle, notifDesc);
             }
         }
@@ -109,7 +115,10 @@ public class NotificationWorker extends Worker {
         for (Exam e: exams) {
             if (sameTime(e.getNotifyDate(), now.getTime())) {
                 String notifTitle = String.format("Upcoming Exam: %s", e.name);
-                String notifDesc = String.format(Locale.getDefault(), "The exam \"%s\" is occurring in %d minutes.", e.name, e.notifyBefore);
+                String notifDesc = String.format(Locale.getDefault(),
+                        "The exam \"%s\" is occurring %s.",
+                        e.name,
+                        (e.notifyBefore == 0 ? "now" : String.format(Locale.getDefault(), "in %d minutes", e.notifyBefore)));
                 NotificationBuilder.notify(notifTitle, notifDesc);
             }
         }
