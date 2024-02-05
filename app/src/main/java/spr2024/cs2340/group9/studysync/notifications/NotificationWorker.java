@@ -23,7 +23,6 @@ import spr2024.cs2340.group9.studysync.database.Exam;
 import spr2024.cs2340.group9.studysync.database.Exams;
 
 public class NotificationWorker extends Worker {
-    private static Date lastNotified;
     public NotificationWorker(
             @NonNull Context context,
             @NonNull WorkerParameters params){
@@ -39,7 +38,6 @@ public class NotificationWorker extends Worker {
         generateNotificationsForAssignments();
         generateNotificationsForExams();
 
-        Date now = new Date();
         // notification loop
         WorkRequest request = new OneTimeWorkRequest.Builder(NotificationWorker.class)
                 .setInitialDelay(timeToNextMinute(), TimeUnit.MILLISECONDS)
