@@ -26,6 +26,7 @@ public class NotificationWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+        System.out.println("NotificationWorker doWork...");
         NotificationBuilder.init(getApplicationContext());
         generateNotificationsForCourses();
         generateNotificationsForAssignments();
