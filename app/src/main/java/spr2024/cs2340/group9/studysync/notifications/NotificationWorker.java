@@ -1,10 +1,8 @@
 package spr2024.cs2340.group9.studysync.notifications;
 
-import android.app.Notification;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.room.Room;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -13,6 +11,7 @@ import androidx.work.WorkerParameters;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -68,7 +67,9 @@ public class NotificationWorker extends Worker {
             Date nextStart = c.getNextStart();
             Date notif = new Date(nextStart.getTime() - (long) c.notifyBefore * 60 * 1000);
             if (sameTime(cal.getTime(), notif)) {
-                NotificationBuilder.notify(c.name, "", c.notifyBefore);
+                String notifTitle = String.format("Upcoming Exam: %s", c.name);
+                String notifDesc = String.format(Locale.getDefault(), "The course \"%s\" is starting in %d minutes.", c.name, c.notifyBefore);
+                NotificationBuilder.notify(notifTitle, notifDesc);
             }
         }
     }
@@ -81,7 +82,9 @@ public class NotificationWorker extends Worker {
         Assignment[] assignments = Assignments.getBetween(now.getTime(), tmr.getTime());
         for (Assignment a: assignments) {
             if (sameTime(a.getNotifyDate(), now.getTime())) {
-                NotificationBuilder.notify(a.name, "", a.notifyBefore);
+                String notifTitle = String.format("Upcoming Exam: %s", a.name);
+                String notifDesc = String.format(Locale.getDefault(), "The assignment \"%s\" is due in %d minutes.", a.name, a.notifyBefore);
+                NotificationBuilder.notify(notifTitle, notifDesc);
             }
         }
     }
@@ -92,8 +95,9 @@ public class NotificationWorker extends Worker {
         Exam[] exams = Exams.getAll();
         for (Exam e: exams) {
             if (sameTime(e.getNotifyDate(), now.getTime())) {
-                System.out.printf("Notifying %s\n", e);
-                NotificationBuilder.notify(e.name, "", e.notifyBefore);
+                String notifTitle = String.format("Upcoming Exam: %s", e.name);
+                String notifDesc = String.format(Locale.getDefault(), "The exam \"%s\" is occurring in %d minutes.", e.name, e.notifyBefore);
+                NotificationBuilder.notify(notifTitle, notifDesc);
             }
         }
     }

@@ -1,26 +1,21 @@
 package spr2024.cs2340.group9.studysync.notifications;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import spr2024.cs2340.group9.studysync.MainActivity;
 import spr2024.cs2340.group9.studysync.R;
 
 public class NotificationBuilder {
-    private static String CHANNEL_ID = "studysync_notifications"; // Set your channel id
+    private static final String CHANNEL_ID = "studysync_notifications"; // Set your channel id
     private static Context context;
-    private static Activity activity;
     private static boolean initialized = false;
 
     public static void init(Context context) {
@@ -28,44 +23,48 @@ public class NotificationBuilder {
             return;
         }
         NotificationBuilder.context = context;
-        NotificationBuilder.activity = activity;
         buildNotificationChannel();
         initialized = true;
     }
 
     private static void buildNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            System.out.println("Building Notification Channel...");
             String name = context.getString(R.string.channel_name);
             String desc = context.getString(R.string.channel_desc);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(desc);
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            channel.enableVibration(true);
+            channel.setVibrationPattern(new long[]{1000, 2000});
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
 
-    public static void notify(String name, String desc, int timeToEvent) {
-        buildNotification(name, String.valueOf(timeToEvent), desc);
+    public static void notify(String name, String desc) {
+        buildNotification(name, desc);
     }
 
-    private static void buildNotification(String name, String time, String desc) {
+    private static void buildNotification(String name, String desc) {
+        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context.getApplicationContext(), CHANNEL_ID)
                 .setContentTitle(name)
-                .setContentText(time)
+                .setContentText(desc)
                 .setSmallIcon(R.drawable.outline_nest_clock_farsight_analog_24)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(desc))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(desc))
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            builder.setChannelId(CHANNEL_ID);
+        }
         // notificationId is a unique int for each notification that you must define
         int notificationId = 1;
         notificationManager.notify(notificationId, builder.build());
