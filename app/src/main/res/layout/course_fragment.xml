@@ -32,6 +32,7 @@
             android:id="@+id/course_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/light_primary"
             app:tabIndicatorColor="#000000"
             app:tabTextColor="#000000">
 
@@ -39,37 +40,38 @@
                 android:id="@+id/monday_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="M" />
+                android:text="@string/Abbr_Monday" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tuesday_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="T" />
+                android:text="@string/Abbr_Tuesday" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/wednesday_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="W" />
+                android:text="@string/Abbr_Wednesday" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/thursday_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="R" />
+                android:text="@string/Abbr_Thursday" />
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/friday_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="F" />
+                android:text="@string/Abbr_Friday" />
         </com.google.android.material.tabs.TabLayout>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/light_secondary">
+            android:backgroundTint="@color/light_secondary"
+            android:paddingBottom="48dp">
 
             <LinearLayout
                 android:id="@+id/course_linear_layout"
@@ -84,8 +86,10 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
-        android:backgroundTint="@color/light_secondary"
+        android:backgroundTint="@color/light_secondary_tint"
         android:text="@string/Plus"
+        android:textAlignment="center"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

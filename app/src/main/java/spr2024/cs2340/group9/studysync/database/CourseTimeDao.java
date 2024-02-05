@@ -34,7 +34,7 @@ interface CourseTimeDao {
      * Get all course times.
      * @return array of CourseTime objects
      */
-    @Query("SELECT * FROM CourseTime")
+    @Query("SELECT * FROM CourseTime ORDER BY startTime ASC")
     CourseTime[] getAll();
 
     /**
@@ -42,7 +42,7 @@ interface CourseTimeDao {
      * @param courseId course id
      * @return array of CourseTime objects with the course id
      */
-    @Query("SELECT * FROM CourseTime WHERE courseId = :courseId")
+    @Query("SELECT * FROM CourseTime WHERE courseId = :courseId ORDER BY startTime ASC")
     CourseTime[] get(int courseId);
 
     /**
@@ -51,7 +51,7 @@ interface CourseTimeDao {
      * @param endTime end of the time frame
      * @return int array of course ids
      */
-    @Query("SELECT DISTINCT courseId FROM courseTime where endTime >= :startTime AND startTime <= :endTime")
+    @Query("SELECT DISTINCT courseId FROM courseTime where endTime >= :startTime AND startTime <= :endTime ORDER BY startTime ASC")
     int[] getCourseIdBetween(int startTime, int endTime);
 
     /**

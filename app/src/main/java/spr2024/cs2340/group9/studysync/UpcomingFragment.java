@@ -118,6 +118,9 @@ public class UpcomingFragment extends Fragment {
         Course[] courses = Courses.getOnDay(cal.get(Calendar.DAY_OF_WEEK) - 1);
         if (courses.length > 0) {
             for (Course c : courses) {
+                if (c == null) {
+                    continue;
+                }
                 courseLayout.addView(createCard(c));
             }
         } else {
