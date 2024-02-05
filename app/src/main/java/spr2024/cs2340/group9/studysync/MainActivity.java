@@ -9,11 +9,16 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import spr2024.cs2340.group9.studysync.databinding.ActivityMainBinding;
+import spr2024.cs2340.group9.studysync.notifications.NotificationDatabaseHelper;
+import spr2024.cs2340.group9.studysync.notifications.NotificationRequest;
+import spr2024.cs2340.group9.studysync.notifications.NotificationWorker;
 
 /**
  * Main activity.
@@ -39,6 +44,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the listener for the bottom navigation view
         bottomNavigationView.setOnItemSelectedListener(navListener);
+
+        // Clear running notification workers
+        WorkManager manager = WorkManager.getInstance(getApplicationContext());
+        NotificationDatabaseHelper.init(getApplicationContext());
+        NotificationRequest[] requests = NotificationDatabaseHelper.get();
+        for (NotificationRequest req: requests) {
+            manager.cancelWorkById(req.id);
+        }
+
+        // Start notification loop
+        manager.enqueue(OneTimeWorkRequest.from(NotificationWorker.class));
     }
 
     /**

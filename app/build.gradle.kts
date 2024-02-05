@@ -66,7 +66,7 @@ dependencies {
     testImplementation("androidx.room:room-testing:$room_version")
 
     // Material Design
-    implementation("com.google.android.material:material:1.2.1")
+    implementation("com.google.android.material:material:1.11.0")
     // Swiping Decorator for editing and deleting items
     implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
 

@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Objects;
 
 import spr2024.cs2340.group9.studysync.adapters.ExamAdapter;
 import spr2024.cs2340.group9.studysync.database.Exam;
@@ -66,7 +67,7 @@ public class ExamFragment extends Fragment {
 
             // Build an alert with code
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
-            builder.setTitle("Delete To Do List");
+            builder.setTitle("Delete Exam");
             builder.setMessage("Are You Sure?");
             builder.setPositiveButton("Yes", (dialog, which) -> {
                 Exams.delete(selectedExam.getId());
@@ -168,12 +169,12 @@ public class ExamFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().hide();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().show();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
     }
 }
