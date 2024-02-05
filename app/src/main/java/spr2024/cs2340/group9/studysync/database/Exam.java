@@ -15,7 +15,7 @@ public class Exam {
 
     public String name;
     public String location;
-    long startTime;
+    public long startTime;
     public int notifyBefore;
 
 
@@ -52,6 +52,18 @@ public class Exam {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public int getNotifyBefore() {
+        return notifyBefore;
+    }
+
+    public void setNotifyBefore(int notifyBefore) {
+        this.notifyBefore = notifyBefore;
     }
 
     @Override
