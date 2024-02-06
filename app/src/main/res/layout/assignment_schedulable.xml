@@ -29,6 +29,15 @@
                 android:autofillHints="@string/Exam_enter_title"
                 android:inputType="text" />
 
+            <EditText
+                android:id="@+id/notifyBeforeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter minutes to notify before"
+                android:autofillHints="Enter minutes to notify before"
+                android:inputType="text" />
+
+
             <DatePicker
                 android:id="@+id/datePicker"
                 android:layout_width="match_parent"

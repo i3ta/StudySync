@@ -37,6 +37,14 @@
                 android:autofillHints="Enter Instructor Name"
                 android:inputType="text" />
 
+            <EditText
+                android:id="@+id/notifyBeforeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Minutes before start time to notify"
+                android:inputType="number" />
+
             <TimePicker
                 android:id="@+id/timePickerStart"
                 android:layout_width="match_parent"

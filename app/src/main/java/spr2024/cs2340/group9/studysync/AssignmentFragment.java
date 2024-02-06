@@ -9,23 +9,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
-import spr2024.cs2340.group9.studysync.adapters.ExamAdapter;
 import spr2024.cs2340.group9.studysync.database.Assignment;
-import spr2024.cs2340.group9.studysync.database.Course;
-import spr2024.cs2340.group9.studysync.database.Courses;
-import spr2024.cs2340.group9.studysync.database.Exam;
-import spr2024.cs2340.group9.studysync.database.Exams;
+import spr2024.cs2340.group9.studysync.database.Assignments;
 import spr2024.cs2340.group9.studysync.database.TimeSlot;
 
 /**
@@ -34,46 +25,19 @@ import spr2024.cs2340.group9.studysync.database.TimeSlot;
 public class AssignmentFragment extends Fragment {
 
     private Button addButton;
-    private ListView assignmentListView;
-    private Assignment assignmentHelper;
-    private LinearLayout courses;
-
-    private int currentDay = 0;
+    private LinearLayout assignmentListView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.exams_fragment, container, false);
+        View view = inflater.inflate(R.layout.assignment_fragment, container, false);
 
         addButton = view.findViewById(R.id.add_button);
         addButton.setOnClickListener(v -> showDateTimeInputDialog());
 
         // Initialization
-        ListView assignmentListView = view.findViewById(R.id.listView);
+        assignmentListView = view.findViewById(R.id.linearLayout);
 
         // Load exams from the database
         updateAssignmentList();
-
-        /* Long hold response
-        assignmentListView.setOnItemLongClickListener((parent, view1, position, id) -> {
-            TextView myInvisibleView = view1.findViewById(R.id.hiddenId);
-            String valueString = myInvisibleView.getText().toString();
-            int examId = Integer.parseInt(valueString);
-            Exam selectedExam = Exams.get(examId);
-
-            // Build an alert with code
-            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
-            builder.setTitle("Delete To Do List");
-            builder.setMessage("Are You Sure?");
-            builder.setPositiveButton("Yes", (dialog, which) -> {
-                Exams.delete(selectedExam.getId());
-                updateExamListView();
-            });
-            builder.setNegativeButton("Cancel", (dialog, which) -> {});
-            androidx.appcompat.app.AlertDialog dialog = builder.create();
-            dialog.show();
-
-            return true;
-        });
-        */
 
         return view;
     }
@@ -82,12 +46,12 @@ public class AssignmentFragment extends Fragment {
      * Initializes dateTimeInputDialog.
      */
     private void showDateTimeInputDialog() {
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null);
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.assignment_schedulable, null);
 
         DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
         TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
-        EditText locationEditText = dialogView.findViewById(R.id.locationEditText);
+        EditText notifyBeforeText = dialogView.findViewById(R.id.notifyBeforeEditText);
         Button okButton = dialogView.findViewById(R.id.save_button);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
 
@@ -121,15 +85,14 @@ public class AssignmentFragment extends Fragment {
             int minute = timePicker.getMinute();
 
             // Get the text from EditText
-            String userInput = titleEditText.getText().toString();
-            String userInput1 = locationEditText.getText().toString();
+            String titleInput = titleEditText.getText().toString();
 
             // Construct Calendar object from selected date and time
             Calendar selectedDateTime = Calendar.getInstance();
             selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
-
-            Exam newExam = new Exam(userInput, userInput1, selectedDateTime.getTimeInMillis(), 0);
-            Exams.insert(newExam);
+            //notify one hour before
+            Assignment newAssignment = new Assignment(titleInput,0, selectedDateTime.getTimeInMillis(), Integer.parseInt(notifyBeforeText.getText().toString()));
+            Assignments.insert(newAssignment);
 
             // Update the ListView
             updateAssignmentList();
@@ -146,30 +109,25 @@ public class AssignmentFragment extends Fragment {
      * Updates exam list view with updated database.
      */
     private void updateAssignmentList() {
-        courses.removeAllViews();
-        Assignment[] assignments = // Retrieve assignments from the database
+        assignmentListView.removeAllViews();
+        Calendar now = Calendar.getInstance();
+        Calendar future = Calendar.getInstance();
+        future.add(Calendar.MONTH, 1);
+        Assignment[] assignments = Assignments.getBetween(now.getTime(), future.getTime());
         for (Assignment assignment : assignments) {
-            View assignmentView = createAssignmentView(assignment);
-            courses.addView(assignmentView);
+            View assignmentView = createCard(assignment);
+            assignmentListView.addView(assignmentView);
         }
     }
 
-    private SchedulableCardViewCourse createCard(Course c, int currentDay) {
-        SchedulableCardViewCourse newCard = new SchedulableCardViewCourse(getContext());
+    private AssignmentSchedulableCardView createCard(Assignment a) {
+        AssignmentSchedulableCardView newCard = new AssignmentSchedulableCardView(requireContext());
 
-        newCard.setTitle(c.name);
-
-        StringBuilder sbStart = new StringBuilder();
         TimeSlot time = null;
-        for (TimeSlot t : c.getCourseTimes()) {
-            if (t.getStartTime().getDayOfWeek() == currentDay) {
-                time = t;
-                break;
-            }
-        }
-        assert time != null;
-        newCard.setTimeStart(time.getStartTime().toString());
-        newCard.setTimeEnd(time.getEndTime().toString());
+
+        newCard.setTitle(a.name);
+        newCard.setNotifyBefore(String.valueOf(a.notifyBefore));
+        newCard.setDueDate(a.getDueDate().toString());
 
         return newCard;
     }

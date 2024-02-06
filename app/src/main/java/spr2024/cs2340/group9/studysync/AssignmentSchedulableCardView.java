@@ -11,32 +11,35 @@ import androidx.cardview.widget.CardView;
 /**
  * View for CardViews for schedulable items (courses, assignments, and exams).
  */
-public class SchedulableCardViewAssignment extends CardView {
+public class AssignmentSchedulableCardView extends CardView {
 
     TextView title;
     TextView dueDate;
 
-    public SchedulableCardViewAssignment(Context context) {
+    TextView notifyBefore;
+
+    public AssignmentSchedulableCardView(Context context) {
         super(context);
         init(context);
     }
 
-    public SchedulableCardViewAssignment(Context context, AttributeSet attrs) {
+    public AssignmentSchedulableCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public SchedulableCardViewAssignment(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AssignmentSchedulableCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     private void init(Context context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.assignment_schedulable, this, true);
+        inflater.inflate(R.layout.assignment_card, this, true);
 
         title = findViewById(R.id.title);
-        dueDate = findViewById(R.id.timeStart);
+        dueDate = findViewById(R.id.dueDate);
+        notifyBefore = findViewById(R.id.notifyBefore);
     }
 
     public void setTitle(String title) {
@@ -48,5 +51,12 @@ public class SchedulableCardViewAssignment extends CardView {
         ViewGroup.LayoutParams params = this.dueDate.getLayoutParams();
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         this.dueDate.setLayoutParams(params);
+    }
+
+    public void setNotifyBefore(String notifyBefore) {
+        this.notifyBefore.setText(String.format("Minutes before notification: %s", notifyBefore));
+        ViewGroup.LayoutParams params = this.notifyBefore.getLayoutParams();
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        this.notifyBefore.setLayoutParams(params);
     }
 }

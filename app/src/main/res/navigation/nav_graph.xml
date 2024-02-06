@@ -17,7 +17,12 @@
     <fragment
         android:id="@+id/courseFragment"
         android:name="spr2024.cs2340.group9.studysync.CourseFragment"
-        android:label="Exams" />
+        android:label="Courses" />
+
+    <fragment
+        android:id="@+id/assignmentFragment"
+        android:name="spr2024.cs2340.group9.studysync.AssignmentFragment"
+        android:label="Assignments" />
 
     <fragment
         android:id="@+id/toDoListFragment"
