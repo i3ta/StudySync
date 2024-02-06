@@ -9,24 +9,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
-import spr2024.cs2340.group9.studysync.adapters.ExamAdapter;
 import spr2024.cs2340.group9.studysync.database.Assignment;
 import spr2024.cs2340.group9.studysync.database.Assignments;
-import spr2024.cs2340.group9.studysync.database.Course;
-import spr2024.cs2340.group9.studysync.database.Courses;
-import spr2024.cs2340.group9.studysync.database.Exam;
-import spr2024.cs2340.group9.studysync.database.Exams;
 import spr2024.cs2340.group9.studysync.database.TimeSlot;
 
 /**
@@ -61,6 +51,7 @@ public class AssignmentFragment extends Fragment {
         DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
         TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
+        EditText notifyBeforeText = dialogView.findViewById(R.id.notifyBeforeEditText);
         Button okButton = dialogView.findViewById(R.id.save_button);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
 
@@ -94,13 +85,13 @@ public class AssignmentFragment extends Fragment {
             int minute = timePicker.getMinute();
 
             // Get the text from EditText
-            String userInput = titleEditText.getText().toString();
+            String titleInput = titleEditText.getText().toString();
 
             // Construct Calendar object from selected date and time
             Calendar selectedDateTime = Calendar.getInstance();
             selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
             //notify one hour before
-            Assignment newAssignment = new Assignment(userInput,0, selectedDateTime.getTimeInMillis(), 1);
+            Assignment newAssignment = new Assignment(titleInput,0, selectedDateTime.getTimeInMillis(), Integer.parseInt(notifyBeforeText.getText().toString()));
             Assignments.insert(newAssignment);
 
             // Update the ListView
@@ -129,11 +120,13 @@ public class AssignmentFragment extends Fragment {
         }
     }
 
-    private SchedulableCardViewAssignment createCard(Assignment a) {
-        SchedulableCardViewAssignment newCard = new SchedulableCardViewAssignment(requireContext());
+    private AssignmentSchedulableCardView createCard(Assignment a) {
+        AssignmentSchedulableCardView newCard = new AssignmentSchedulableCardView(requireContext());
+
+        TimeSlot time = null;
 
         newCard.setTitle(a.name);
-
+        newCard.setNotifyBefore(String.valueOf(a.notifyBefore));
         newCard.setDueDate(a.getDueDate().toString());
 
         return newCard;
