@@ -67,7 +67,7 @@ public class ExamFragment extends Fragment {
             Exam selectedExam = Exams.get(examId);
 
             // Build an alert with options to edit or delete
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
             builder.setTitle("Select Action");
             builder.setItems(new CharSequence[]{"Edit", "Delete"}, (dialog, which) -> {
                 if (which == 0) {
@@ -79,10 +79,8 @@ public class ExamFragment extends Fragment {
                     updateExamListView();
                 }
             });
-//            builder.setNegativeButton("Cancel", (dialog, which) -> {});
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
+            builder.setNegativeButton("Cancel", null);
+            builder.show();
             return true;
         });
 

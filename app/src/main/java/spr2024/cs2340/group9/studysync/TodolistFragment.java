@@ -74,23 +74,61 @@ public class TodolistFragment extends Fragment {
             navController.navigate(R.id.action_toDoListFragment_to_textViewTodoListName, args);
         });
 
-        // Long click; show dialog for delete
         listViewToDoLists.setOnItemLongClickListener((parent, view12, position, id) -> {
             ToDoList selectedToDoList = toDoLists.get(position);
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
-            builder.setTitle("Delete To Do List");
-            builder.setMessage("Are You Sure?");
-            builder.setPositiveButton("Yes", (dialog, which) -> {
-                ToDoLists.deleteList(selectedToDoList.getId());
-                updateToDoListView();
+            builder.setTitle("Select Action");
+
+            builder.setItems(new String[]{"Edit", "Delete"}, (dialog, which) -> {
+                if (which == 0) {
+                    showAddTodoDialog(selectedToDoList);
+                    updateToDoListView();
+                    // Edit option selected
+                } else if (which == 1) {
+                    // Delete the to-do list
+                    ToDoLists.delete(selectedToDoList);
+                    updateToDoListView();
+                }
             });
-            builder.setNegativeButton("Cancel", (dialog, which) -> {});
-            androidx.appcompat.app.AlertDialog dialog = builder.create();
-            dialog.show();
+
+            builder.setNegativeButton("Cancel", null);
+            builder.show();
+
             return true;
         });
 
+
         return view;
+    }
+
+    private void showAddTodoDialog(ToDoList selectedToDoList) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_todolist, null);
+        builder.setView(dialogView);
+
+        EditText editTextTodoName = dialogView.findViewById(R.id.todolist_editText);
+        Button buttonOk = dialogView.findViewById(R.id.todolist_buttonOk);
+        Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
+
+        AlertDialog dialog = builder.create();
+
+        buttonOk.setOnClickListener(v -> {
+            // Get the user input
+            String todoName = editTextTodoName.getText().toString();
+
+            // Add the new ToDoList to DB
+            selectedToDoList.setName(todoName);
+            ToDoLists.insert(selectedToDoList);
+            updateToDoListView();
+            dialog.dismiss();
+        });
+
+        buttonCancel.setOnClickListener(v -> {
+            // Dismiss the dialog
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
     private void showAddTodoDialog() {
