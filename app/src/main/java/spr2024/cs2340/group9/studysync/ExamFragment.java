@@ -79,7 +79,7 @@ public class ExamFragment extends Fragment {
                     updateExamListView();
                 }
             });
-            builder.setNegativeButton("Cancel", (dialog, which) -> {});
+//            builder.setNegativeButton("Cancel", (dialog, which) -> {});
             AlertDialog dialog = builder.create();
             dialog.show();
 
