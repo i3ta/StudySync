@@ -53,10 +53,10 @@ public class AssignmentSchedulableCardView extends CardView {
         this.dueDate.setLayoutParams(params);
     }
 
-    public void setNotifyBefore(String notifyBefore) {
+    public void setNotifyBefore(boolean notify, String notifyBefore) {
         this.notifyBefore.setText(String.format("Minutes before notification: %s", notifyBefore));
         ViewGroup.LayoutParams params = this.notifyBefore.getLayoutParams();
-        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        params.height = notify ? ViewGroup.LayoutParams.WRAP_CONTENT : 0;
         this.notifyBefore.setLayoutParams(params);
     }
 }

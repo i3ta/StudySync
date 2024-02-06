@@ -133,7 +133,7 @@ public class AssignmentFragment extends Fragment {
         TimeSlot time = null;
 
         newCard.setTitle(a.name);
-        newCard.setNotifyBefore(String.valueOf(a.notifyBefore));
+        newCard.setNotifyBefore(a.notify, String.valueOf(a.notifyBefore));
         newCard.setDueDate(a.getDueDate().toString());
 
         return newCard;
