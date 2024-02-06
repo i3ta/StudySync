@@ -146,7 +146,6 @@ public class CourseFragment extends Fragment {
         courseLinearLayout.removeAllViews();
         Course[] courses = Courses.getOnDay(currentDay);
         for (Course course: courses) {
-            System.out.println(course.toString());
             courseLinearLayout.addView(createCard(course, currentDay));
         }
     }

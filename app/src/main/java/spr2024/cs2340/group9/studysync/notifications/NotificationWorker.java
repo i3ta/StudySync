@@ -80,7 +80,7 @@ public class NotificationWorker extends Worker {
             Date nextStart = c.getNextStart();
             Date notif = new Date(nextStart.getTime() - (long) c.notifyBefore * 60 * 1000);
             if (sameTime(cal.getTime(), notif)) {
-                String notifTitle = String.format("Upcoming Exam: %s", c.name);
+                String notifTitle = String.format("Upcoming Course: %s", c.name);
                 String notifDesc = String.format(Locale.getDefault(),
                         "The course \"%s\" is starting %s.",
                         c.name,
@@ -98,7 +98,7 @@ public class NotificationWorker extends Worker {
         Assignment[] assignments = Assignments.getBetween(now.getTime(), tmr.getTime());
         for (Assignment a: assignments) {
             if (sameTime(a.getNotifyDate(), now.getTime())) {
-                String notifTitle = String.format("Upcoming Exam: %s", a.name);
+                String notifTitle = String.format("Upcoming Assignment: %s", a.name);
                 String notifDesc = String.format(Locale.getDefault(),
                         "The assignment \"%s\" is due %s.",
                         a.name,
