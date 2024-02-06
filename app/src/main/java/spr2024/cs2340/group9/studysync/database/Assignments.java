@@ -27,6 +27,7 @@ public class Assignments {
             db = Room.databaseBuilder(applicationContext, AssignmentDatabase.class,
                     "Assignment")
                     .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .build();
             assignmentDao = db.assignmentDao();
             Assignment.currentId = assignmentDao.getId() + 1;

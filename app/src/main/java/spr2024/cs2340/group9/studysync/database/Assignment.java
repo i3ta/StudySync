@@ -17,12 +17,13 @@ public class Assignment {
     public String name;
     public int courseId;
     public long dueDate;
+    public boolean notify;
     public int notifyBefore;
 
     @Ignore
     static int currentId = -10;
 
-    public Assignment(int id, String name, int courseId, long dueDate, int notifyBefore) {
+    public Assignment(int id, String name, int courseId, long dueDate, boolean notify, int notifyBefore) {
         if (currentId < 0) {
             throw new IllegalStateException("Database has to be initialized before class can be constructed.");
         }
@@ -34,13 +35,13 @@ public class Assignment {
     }
 
     @Ignore
-    public Assignment(String name, int courseId, long dueDate, int notifyBefore) {
-        this(currentId++, name, courseId, dueDate, notifyBefore);
+    public Assignment(String name, int courseId, long dueDate, boolean notify, int notifyBefore) {
+        this(currentId++, name, courseId, dueDate, notify, notifyBefore);
     }
 
     @Ignore
-    public Assignment(String name, int courseId, Date dueDate, int notifyBefore) {
-        this(name, courseId, dueDate.getTime(), notifyBefore);
+    public Assignment(String name, int courseId, Date dueDate, boolean notify, int notifyBefore) {
+        this(name, courseId, dueDate.getTime(), notify, notifyBefore);
     }
 
     @Ignore

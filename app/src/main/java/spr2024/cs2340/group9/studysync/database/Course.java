@@ -16,6 +16,7 @@ public class Course {
     public String name;
     public String instructorName;
     public int color;
+    public boolean notify;
     public int notifyBefore;
 
     @Ignore
@@ -23,7 +24,7 @@ public class Course {
     @Ignore
     static int currentId = -10;
 
-    public Course(int id, String name, String instructorName, int color, int notifyBefore) {
+    public Course(int id, String name, String instructorName, int color, boolean notify, int notifyBefore) {
         if (currentId < 0) {
             throw new IllegalStateException("Database must be initialized before classes can be constructed.");
         }
@@ -31,16 +32,17 @@ public class Course {
         this.name = name;
         this.instructorName = instructorName;
         this.color = color;
+        this.notify = notify;
         this.notifyBefore = notifyBefore;
     }
 
     @Ignore
-    public Course(String name, String instructorName, int color, int notifyBefore) {
-        this(currentId++, name, instructorName, color, notifyBefore);
+    public Course(String name, String instructorName, int color, boolean notify, int notifyBefore) {
+        this(currentId++, name, instructorName, color, notify, notifyBefore);
     }
 
-    public Course(String name, String instructorName, int color, int notifyBefore, TimeSlot[] courseTimes) {
-        this(name, instructorName, color, notifyBefore);
+    public Course(String name, String instructorName, int color, boolean notify, int notifyBefore, TimeSlot[] courseTimes) {
+        this(name, instructorName, color, notify, notifyBefore);
         this.courseTimes = courseTimes;
     }
 
@@ -59,7 +61,7 @@ public class Course {
     }
 
     public Course() {
-        this(null, null, 0, 0);
+        this(null, null, 0, false, 0);
     }
 
     @Ignore

@@ -124,12 +124,13 @@ public class CourseFragment extends Fragment {
             String userInputTitle = titleEditText.getText().toString();
             String userInputInstructor = instructorNameEditText.getText().toString();
 
-            //(String name, String instructorName, int color, int notifyBefore)
+            //(String name, String instructorName, int color, boolean notify, int notifyBefore)
             c.name = userInputTitle;
             c.instructorName = userInputInstructor;
             TimeSlot timeSlot = new TimeSlot(c.id,
                     new RecurringSlot(currentDay, hourOfDayStart, minuteStart),
                     new RecurringSlot(currentDay, hourOfDayEnd, minuteEnd));
+            c.notify = false; // TODO: Connect to switch
             c.setCourseTimes(new TimeSlot[]{timeSlot});
             Courses.insert(c);
 
