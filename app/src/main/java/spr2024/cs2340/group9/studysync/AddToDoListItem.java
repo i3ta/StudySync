@@ -101,7 +101,6 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
             String text = editText.getText().toString();
             if(finalIsUpdate){
                 int id = bundle.getInt("id");
-                //TODO:update in db
                 ToDoLists.updateItemName(id, text);
             }
             else{

@@ -26,13 +26,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exam_header">
+        app:layout_constraintTop_toBottomOf="@+id/exam_header"
+        app:layout_constraintWidth_percent="0.95">
 
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="64dp" />
+            android:paddingBottom="64dp"
+            android:divider="@null"
+            android:dividerHeight="10dp"/>
     </LinearLayout>
 
     <Button
