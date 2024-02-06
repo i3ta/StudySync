@@ -18,6 +18,8 @@ public class CourseCardView extends CardView {
     private TextView timeEnd;
     private TextView instructorName;
 
+    private TextView notifyBefore;
+
     public CourseCardView(Context context) {
         super(context);
         init(context);
@@ -41,6 +43,7 @@ public class CourseCardView extends CardView {
         timeStart = findViewById(R.id.timeStart);
         timeEnd = findViewById(R.id.timeEnd);
         instructorName = findViewById(R.id.instructorName);
+        notifyBefore = findViewById(R.id.notifyBefore);
     }
 
     public void setTitle(String title) {
@@ -75,5 +78,12 @@ public class CourseCardView extends CardView {
         ViewGroup.LayoutParams params = this.instructorName.getLayoutParams();
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         this.instructorName.setLayoutParams(params);
+    }
+
+    public void setNotifyBefore(String notifyBefore) {
+        this.notifyBefore.setText(String.format("Minutes to notify before: %s", notifyBefore));
+        ViewGroup.LayoutParams params = this.notifyBefore.getLayoutParams();
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        this.notifyBefore.setLayoutParams(params);
     }
 }

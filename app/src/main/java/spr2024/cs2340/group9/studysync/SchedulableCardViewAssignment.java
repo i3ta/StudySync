@@ -33,10 +33,10 @@ public class SchedulableCardViewAssignment extends CardView {
 
     private void init(Context context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.assignment_schedulable, this, true);
+        inflater.inflate(R.layout.assignment_card, this, true);
 
         title = findViewById(R.id.title);
-        dueDate = findViewById(R.id.timeStart);
+        dueDate = findViewById(R.id.dueDate);
     }
 
     public void setTitle(String title) {

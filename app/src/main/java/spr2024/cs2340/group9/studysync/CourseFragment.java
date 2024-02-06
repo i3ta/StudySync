@@ -93,12 +93,16 @@ public class CourseFragment extends Fragment {
         TimePicker timePickerEnd = courseDialogView.findViewById(R.id.timePickerEnd);
         EditText titleEditText = courseDialogView.findViewById(R.id.titleEditText);
         EditText instructorNameEditText = courseDialogView.findViewById(R.id.instructorNameEditText);
+        EditText notifyBeforeText = courseDialogView.findViewById(R.id.notifyBeforeEditText);
         Button okButton = courseDialogView.findViewById(R.id.save_button);
         Button cancelButton = courseDialogView.findViewById(R.id.cancel_button);
 
         timePickerStart.setIs24HourView(true);
         timePickerEnd.setIs24HourView(true);
 
+        if (c.notifyBefore > 0) {
+            notifyBeforeText.setText(String.valueOf(c.notifyBefore));
+        }
         if (c.name != null) {
             titleEditText.setText(c.name);
         }
@@ -124,14 +128,17 @@ public class CourseFragment extends Fragment {
             // Get the text from EditText
             String userInputTitle = titleEditText.getText().toString();
             String userInputInstructor = instructorNameEditText.getText().toString();
+            String userInputNotify = notifyBeforeText.getText().toString();
 
             //(String name, String instructorName, int color, int notifyBefore)
             c.name = userInputTitle;
             c.instructorName = userInputInstructor;
+            c.notifyBefore = Integer.valueOf(userInputNotify);
             TimeSlot timeSlot = new TimeSlot(c.id,
                     new RecurringSlot(currentDay, hourOfDayStart, minuteStart),
                     new RecurringSlot(currentDay, hourOfDayEnd, minuteEnd));
             c.setCourseTimes(new TimeSlot[]{timeSlot});
+
             Courses.insert(c);
 
             updateCourseList();
@@ -156,6 +163,7 @@ public class CourseFragment extends Fragment {
 
         newCard.setTitle(c.name);
         newCard.setInstructorName(c.instructorName);
+        newCard.setNotifyBefore(String.valueOf(c.notifyBefore));
 
         TimeSlot time = null;
         for (TimeSlot t : c.getCourseTimes()) {

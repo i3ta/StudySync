@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(R.id.examFragment);
         } else if (itemId == R.id.courses) {
             navController.navigate(R.id.courseFragment);
+        } else if (itemId == R.id.assignments) {
+        navController.navigate(R.id.assignmentFragment);
         }
 
         return true;
