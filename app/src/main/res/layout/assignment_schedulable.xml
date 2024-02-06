@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,29 +30,23 @@
                 android:inputType="text" />
 
             <EditText
-                android:id="@+id/instructorNameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter Instructor Name"
-                android:autofillHints="Enter Instructor Name"
-                android:inputType="text" />
-
-            <EditText
                 android:id="@+id/notifyBeforeEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Minutes before start time to notify"
-                android:inputType="number" />
+                android:hint="Enter minutes to notify before"
+                android:autofillHints="Enter minutes to notify before"
+                android:inputType="text" />
 
-            <TimePicker
-                android:id="@+id/timePickerStart"
+
+            <DatePicker
+                android:id="@+id/datePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:headerBackground="#393E46" />
+                android:headerBackground="#393E46"
+                android:yearListSelectorColor="#393E46" />
 
             <TimePicker
-                android:id="@+id/timePickerEnd"
+                android:id="@+id/timePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:headerBackground="#393E46" />

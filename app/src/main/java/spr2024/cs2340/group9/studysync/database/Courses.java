@@ -213,5 +213,6 @@ public class Courses {
             throw new IllegalStateException("Database function can not be run because the database has not been initialized.");
         }
         courseDao.clear();
+        courseTimeDao.clear();
     }
 }
