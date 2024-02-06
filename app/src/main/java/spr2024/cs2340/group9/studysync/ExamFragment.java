@@ -59,30 +59,103 @@ public class ExamFragment extends Fragment {
         // Load exams from the database
         updateExamListView();
 
-        // Long hold response
+        // Long Click to edit or delete the exam item
         examListView.setOnItemLongClickListener((parent, view1, position, id) -> {
             TextView myInvisibleView = view1.findViewById(R.id.hiddenId);
             String valueString = myInvisibleView.getText().toString();
             int examId = Integer.parseInt(valueString);
             Exam selectedExam = Exams.get(examId);
 
-            // Build an alert with code
-            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
-            builder.setTitle("Delete Exam");
-            builder.setMessage("Are You Sure?");
-            builder.setPositiveButton("Yes", (dialog, which) -> {
-                Exams.delete(selectedExam.getId());
-                updateExamListView();
+            // Build an alert with options to edit or delete
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
+            builder.setTitle("Select Action");
+            builder.setItems(new CharSequence[]{"Edit", "Delete"}, (dialog, which) -> {
+                if (which == 0) {
+                    // Edit option selected, show edit dialog
+                    showEditDialog(selectedExam);
+                } else if (which == 1) {
+                    // Delete option selected
+                    Exams.delete(selectedExam.getId());
+                    updateExamListView();
+                }
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> {});
-            androidx.appcompat.app.AlertDialog dialog = builder.create();
+            AlertDialog dialog = builder.create();
             dialog.show();
 
             return true;
         });
 
+
         return view;
     }
+
+    private void showEditDialog(Exam exam) {
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.exam_dialog_layout, null);
+
+        // Find views in the custom layout
+        DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
+        TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
+        EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
+        EditText locationEditText = dialogView.findViewById(R.id.locationEditText);
+        EditText notifyBeforeEditText = dialogView.findViewById(R.id.notifyBeforeEditText);
+        Switch notifySwitch = dialogView.findViewById(R.id.examNotifySwitch);
+        Button okButton = dialogView.findViewById(R.id.save_button);
+        Button cancelButton = dialogView.findViewById(R.id.cancel_button);
+
+        // Set up fields with existing exam data
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(exam.startTime);
+        datePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        timePicker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+        timePicker.setMinute(calendar.get(Calendar.MINUTE));
+        titleEditText.setText(exam.name);
+        locationEditText.setText(exam.location);
+        notifyBeforeEditText.setText(String.valueOf(exam.notifyBefore));
+        notifySwitch.setChecked(exam.notify);
+
+        // Create the dialog
+        final AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .create();
+
+        okButton.setOnClickListener(v -> {
+            // Get updated data from views
+            int year = datePicker.getYear();
+            int month = datePicker.getMonth();
+            int dayOfMonth = datePicker.getDayOfMonth();
+            int hourOfDay = timePicker.getHour();
+            int minute = timePicker.getMinute();
+            String titleText = titleEditText.getText().toString();
+            String locationText = locationEditText.getText().toString();
+            String notifyBeforeText = notifyBeforeEditText.getText().toString();
+            if (notifyBeforeText.isEmpty()) {
+                notifyBeforeText = "0";
+            }
+            boolean notify = notifySwitch.isChecked();
+            Calendar selectedDateTime = Calendar.getInstance();
+            selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
+
+            // Update the exam
+            exam.name = titleText;
+            exam.location = locationText;
+            exam.startTime = selectedDateTime.getTimeInMillis();
+            exam.notifyBefore = Integer.parseInt(notifyBeforeText);
+            exam.notify = notify;
+            Exams.insert(exam);
+
+            // Update the ListView
+            updateExamListView();
+
+            dialog.dismiss();
+        });
+
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+
 
     /**
      * Initializes dateTimeInputDialog.

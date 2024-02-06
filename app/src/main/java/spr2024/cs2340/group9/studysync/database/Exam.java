@@ -68,6 +68,7 @@ public class Exam {
         this.notifyBefore = notifyBefore;
     }
 
+
     @Override
     @NotNull
     public String toString() {
