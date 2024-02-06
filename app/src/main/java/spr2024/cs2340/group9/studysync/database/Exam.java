@@ -16,13 +16,15 @@ public class Exam {
     public String name;
     public String location;
     public long startTime;
+    boolean notify;
     public int notifyBefore;
 
 
-    public Exam(String name, String location, long startTime, int notifyBefore) {
+    public Exam(String name, String location, long startTime, boolean notify, int notifyBefore) {
         this.name = name;
         this.location = location;
         this.startTime = startTime;
+        this.notify = notify;
         this.notifyBefore = notifyBefore;
     }
 

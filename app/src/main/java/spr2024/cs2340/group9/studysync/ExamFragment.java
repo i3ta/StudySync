@@ -9,10 +9,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -95,6 +97,7 @@ public class ExamFragment extends Fragment {
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
         EditText locationEditText = dialogView.findViewById(R.id.locationEditText);
         EditText notifyBeforeEditText = dialogView.findViewById(R.id.notifyBeforeEditText);
+        Switch notifySwitch = dialogView.findViewById(R.id.notifySwitch);
         Button okButton = dialogView.findViewById(R.id.save_button);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
 
@@ -132,12 +135,14 @@ public class ExamFragment extends Fragment {
             String userInput = titleEditText.getText().toString();
             String userInput1 = locationEditText.getText().toString();
             String userInput2 = notifyBeforeEditText.getText().toString();
+            boolean notify = notifySwitch.isChecked();
 
             // Construct Calendar object from selected date and time
             Calendar selectedDateTime = Calendar.getInstance();
             selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
 
-            Exam newExam = new Exam(userInput, userInput1, selectedDateTime.getTimeInMillis(), Integer.parseInt(userInput2));
+            Exam newExam = new Exam(userInput, userInput1, selectedDateTime.getTimeInMillis(),
+                    notify, Integer.parseInt(userInput2));
             Exams.insert(newExam);
 
             // Update the ListView

@@ -50,7 +50,6 @@ public class CourseFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 currentDay = tab.getPosition() + 1;
-                System.out.println(currentDay);
                 updateCourseList();
             }
 

@@ -52,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
         for (NotificationRequest req: requests) {
             manager.cancelWorkById(req.id);
         }
+        NotificationDatabaseHelper.clear();
 
         // Start notification loop
+        System.out.println("Starting Notification Loop...");
         manager.enqueue(OneTimeWorkRequest.from(NotificationWorker.class));
     }
 

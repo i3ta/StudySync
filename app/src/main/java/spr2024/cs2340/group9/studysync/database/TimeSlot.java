@@ -177,7 +177,6 @@ public class TimeSlot {
             if (now.getTime().after(startDate)) {
                 startDate.setTime(startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
             }
-            System.out.println(startDate);
             return startDate;
         } else {
             return null;
