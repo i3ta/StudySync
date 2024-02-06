@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Objects;
 
 import spr2024.cs2340.group9.studysync.adapters.ExamAdapter;
 import spr2024.cs2340.group9.studysync.database.Exam;
@@ -66,7 +67,7 @@ public class ExamFragment extends Fragment {
 
             // Build an alert with code
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
-            builder.setTitle("Delete To Do List");
+            builder.setTitle("Delete Exam");
             builder.setMessage("Are You Sure?");
             builder.setPositiveButton("Yes", (dialog, which) -> {
                 Exams.delete(selectedExam.getId());
@@ -93,6 +94,7 @@ public class ExamFragment extends Fragment {
         TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
         EditText locationEditText = dialogView.findViewById(R.id.locationEditText);
+        EditText notifyBeforeEditText = dialogView.findViewById(R.id.notifyBeforeEditText);
         Button okButton = dialogView.findViewById(R.id.save_button);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
 
@@ -115,6 +117,7 @@ public class ExamFragment extends Fragment {
                 .setView(dialogView)
                 .create();
 
+
         okButton.setOnClickListener(v -> {
             // Get the selected date from DatePicker
             int year = datePicker.getYear();
@@ -128,12 +131,13 @@ public class ExamFragment extends Fragment {
             // Get the text from EditText
             String userInput = titleEditText.getText().toString();
             String userInput1 = locationEditText.getText().toString();
+            String userInput2 = notifyBeforeEditText.getText().toString();
 
             // Construct Calendar object from selected date and time
             Calendar selectedDateTime = Calendar.getInstance();
             selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
 
-            Exam newExam = new Exam(userInput, userInput1, selectedDateTime.getTimeInMillis(), 0);
+            Exam newExam = new Exam(userInput, userInput1, selectedDateTime.getTimeInMillis(), Integer.parseInt(userInput2));
             Exams.insert(newExam);
 
             // Update the ListView
@@ -165,12 +169,12 @@ public class ExamFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().hide();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().show();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
     }
 }

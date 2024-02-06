@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Date;
 
@@ -167,13 +168,16 @@ public class TimeSlot {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LocalDate nowLocalDate = LocalDate.now();
             LocalDateTime startDateTime = nowLocalDate.with(
-                    TemporalAdjusters.nextOrSame(DayOfWeek.of(startTime.getDayOfWeek() + 1)))
+                    TemporalAdjusters.nextOrSame(DayOfWeek.of(startTime.getDayOfWeek() == 0 ? 7 : startTime.getDayOfWeek())))
                     .atTime(startTime.getHour(), startTime.getMinute());
             Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
-            Date now = new Date();
-            if (!startDate.after(now)) {
-                startDate.setTime(startDate.getTime() + 7 * 24 * 60 * 1000);
+            Calendar now = Calendar.getInstance();
+            now.set(Calendar.SECOND, 0);
+            now.set(Calendar.MILLISECOND, 0);
+            if (now.getTime().after(startDate)) {
+                startDate.setTime(startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
             }
+            System.out.println(startDate);
             return startDate;
         } else {
             return null;

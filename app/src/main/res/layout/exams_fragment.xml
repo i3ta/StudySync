@@ -31,7 +31,8 @@
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingBottom="64dp" />
     </LinearLayout>
 
     <Button
@@ -39,8 +40,8 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
-        android:text="@string/Plus"
         android:backgroundTint="#393E46"
+        android:text="@string/Plus"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

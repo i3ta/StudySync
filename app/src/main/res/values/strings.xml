@@ -16,6 +16,7 @@
     <string name="Save">Save</string>
     <string name="Exam_enter_title">Enter Title</string>
     <string name="Exam_enter_location">Enter Location</string>
+    <string name="Exam_enter_notifyBefore">Notify me _ minute(s) before the event</string>
     <string name="Exam_Title">Exam Schedule</string>
     <string name="ToDoList_Title">To Do List</string>
     <string name="Upcoming_Title">This Week</string>
