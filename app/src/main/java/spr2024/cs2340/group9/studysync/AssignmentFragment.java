@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 import androidx.fragment.app.Fragment;
+import androidx.room.Ignore;
 
 import java.util.Calendar;
 
@@ -125,9 +126,16 @@ public class AssignmentFragment extends Fragment {
 
         TimeSlot time = null;
 
+
         newCard.setTitle(a.name);
+        final String[] days = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        String dueDateFormat = String.format("%s %s %d:%d",
+                days[a.getDueDate().getDay()],
+                a.getDueDate().getDate() < 10 ? ("0" + a.getDueDate().getDate()) : String.valueOf(a.getDueDate().getDate()),
+                a.getDueDate().getHours(),
+                a.getDueDate().getMinutes());
         newCard.setNotifyBefore(String.valueOf(a.notifyBefore));
-        newCard.setDueDate(a.getDueDate().toString());
+        newCard.setDueDate(dueDateFormat);
 
         return newCard;
     }
