@@ -20,9 +20,10 @@
     <ScrollView
         android:id="@+id/scrollViewAssignment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:backgroundTint="@color/light_secondary"
         android:paddingBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/assignment_header">
 
