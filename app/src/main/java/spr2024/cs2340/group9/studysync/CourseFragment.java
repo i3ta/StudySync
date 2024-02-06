@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AlertDialog;
@@ -50,7 +51,6 @@ public class CourseFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 currentDay = tab.getPosition() + 1;
-                System.out.println(currentDay);
                 updateCourseList();
             }
 
@@ -94,12 +94,14 @@ public class CourseFragment extends Fragment {
         EditText titleEditText = courseDialogView.findViewById(R.id.titleEditText);
         EditText instructorNameEditText = courseDialogView.findViewById(R.id.instructorNameEditText);
         EditText notifyBeforeText = courseDialogView.findViewById(R.id.notifyBeforeEditText);
+        Switch notifySwitch = courseDialogView.findViewById(R.id.courseNotifySwitch);
         Button okButton = courseDialogView.findViewById(R.id.save_button);
         Button cancelButton = courseDialogView.findViewById(R.id.cancel_button);
 
         timePickerStart.setIs24HourView(true);
         timePickerEnd.setIs24HourView(true);
 
+        notifySwitch.setChecked(c.notify);
         if (c.notifyBefore > 0) {
             notifyBeforeText.setText(String.valueOf(c.notifyBefore));
         }
@@ -129,14 +131,18 @@ public class CourseFragment extends Fragment {
             String userInputTitle = titleEditText.getText().toString();
             String userInputInstructor = instructorNameEditText.getText().toString();
             String userInputNotify = notifyBeforeText.getText().toString();
+            if (userInputNotify.isEmpty()) {
+                userInputNotify = "0";
+            }
 
-            //(String name, String instructorName, int color, int notifyBefore)
+            //(String name, String instructorName, int color, boolean notify, int notifyBefore)
             c.name = userInputTitle;
             c.instructorName = userInputInstructor;
             c.notifyBefore = Integer.valueOf(userInputNotify);
             TimeSlot timeSlot = new TimeSlot(c.id,
                     new RecurringSlot(currentDay, hourOfDayStart, minuteStart),
                     new RecurringSlot(currentDay, hourOfDayEnd, minuteEnd));
+            c.notify = notifySwitch.isChecked();
             c.setCourseTimes(new TimeSlot[]{timeSlot});
 
             Courses.insert(c);
@@ -162,7 +168,7 @@ public class CourseFragment extends Fragment {
 
         newCard.setTitle(c.name);
         newCard.setInstructorName(c.instructorName);
-        newCard.setNotifyBefore(String.valueOf(c.notifyBefore));
+        newCard.setNotifyBefore(c.notify, String.valueOf(c.notifyBefore));
 
         TimeSlot time = null;
         for (TimeSlot t : c.getCourseTimes()) {

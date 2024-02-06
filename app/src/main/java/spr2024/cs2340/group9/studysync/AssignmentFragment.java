@@ -9,12 +9,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.room.Ignore;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import spr2024.cs2340.group9.studysync.database.Assignment;
 import spr2024.cs2340.group9.studysync.database.Assignments;
@@ -32,7 +34,7 @@ public class AssignmentFragment extends Fragment {
         View view = inflater.inflate(R.layout.assignment_fragment, container, false);
 
         addButton = view.findViewById(R.id.add_button);
-        addButton.setOnClickListener(v -> showDateTimeInputDialog());
+        addButton.setOnClickListener(v -> dialogHelper(null));
 
         // Initialization
         assignmentListView = view.findViewById(R.id.linearLayout);
@@ -46,13 +48,14 @@ public class AssignmentFragment extends Fragment {
     /**
      * Initializes dateTimeInputDialog.
      */
-    private void showDateTimeInputDialog() {
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.assignment_schedulable, null);
+    private void dialogHelper(Assignment a) {
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.assignment_dialog_view, null);
 
         DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
         TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
         EditText notifyBeforeText = dialogView.findViewById(R.id.notifyBeforeEditText);
+        Switch notifySwitch = dialogView.findViewById(R.id.courseNotifySwitch);
         Button okButton = dialogView.findViewById(R.id.save_button);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
 
@@ -75,6 +78,20 @@ public class AssignmentFragment extends Fragment {
                 .setView(dialogView)
                 .create();
 
+        if (a != null) {
+            notifySwitch.setChecked(a.notify);
+            if (a.notifyBefore > 0) {
+                notifyBeforeText.setText(String.valueOf(a.notifyBefore));
+            }
+            if (a.name != null) {
+                titleEditText.setText(a.name);
+            }
+            if (a.getDueDate() != null) {
+                timePicker.setMinute(a.getDueDate().getMinutes());
+                timePicker.setHour(a.getDueDate().getHours());
+            }
+        }
+
         okButton.setOnClickListener(v -> {
             // Get the selected date from DatePicker
             int year = datePicker.getYear();
@@ -92,7 +109,10 @@ public class AssignmentFragment extends Fragment {
             Calendar selectedDateTime = Calendar.getInstance();
             selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
             //notify one hour before
-            Assignment newAssignment = new Assignment(titleInput,0, selectedDateTime.getTimeInMillis(), Integer.parseInt(notifyBeforeText.getText().toString()));
+            String notifyBefore = notifyBeforeText.getText().toString();
+            Assignment newAssignment = new Assignment(titleInput,0,
+                    selectedDateTime.getTimeInMillis(), notifySwitch.isChecked(),
+                    notifyBefore.isBlank() ? 0 : Integer.parseInt(notifyBefore));
             Assignments.insert(newAssignment);
 
             // Update the ListView
@@ -131,9 +151,39 @@ public class AssignmentFragment extends Fragment {
                 a.getDueDate().getDate() < 10 ? ("0" + a.getDueDate().getDate()) : String.valueOf(a.getDueDate().getDate()),
                 a.getDueDate().getHours(),
                 a.getDueDate().getMinutes() < 10 ? ("0" + a.getDueDate().getMinutes()) : String.valueOf(a.getDueDate().getMinutes()));
-        newCard.setNotifyBefore(String.valueOf(a.notifyBefore));
+        newCard.setNotifyBefore(a.notify, String.valueOf(a.notifyBefore));
         newCard.setDueDate(dueDateFormat);
 
+        newCard.setOnLongClickListener(v -> {
+            androidx.appcompat.app.AlertDialog.Builder alertBuilder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
+            alertBuilder.setTitle(String.format("Edit \"%s\"", a.name))
+                    .setNegativeButton("Delete", (dialog, which) -> {
+                        Assignments.delete(a);
+                        updateAssignmentList();
+                    })
+                    .setNeutralButton("Cancel", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .setPositiveButton("Edit", (dialog, which) -> {
+                        dialogHelper(a);
+                    });
+            androidx.appcompat.app.AlertDialog dialog = alertBuilder.create();
+            dialog.show();
+            return true;
+        });
+
         return newCard;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
     }
 }

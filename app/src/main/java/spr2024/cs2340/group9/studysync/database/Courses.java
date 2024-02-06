@@ -27,6 +27,7 @@ public class Courses {
         if (db == null) {
             db = Room.databaseBuilder(applicationContext, CourseDatabase.class, "Course")
                     .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .build();
             courseDao = db.courseDao();
             courseTimeDao = db.courseTimeDao();

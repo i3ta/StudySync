@@ -2,11 +2,12 @@
 <!--layout for dialog inside Exam Schedule-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,34 +30,46 @@
                 android:autofillHints="@string/Exam_enter_title"
                 android:inputType="text" />
 
-            <EditText
-                android:id="@+id/locationEditText"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Switch
+                    android:id="@+id/courseNotifySwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Switch"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/notifyBeforeEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="Enter minutes to notify before"
+                    android:hint="Enter minutes to notify before"
+                    android:inputType="text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/courseNotifySwitch"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <DatePicker
+                android:id="@+id/datePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/Exam_enter_location"
-                android:autofillHints="@string/Exam_enter_location"
-                android:inputType="text" />
+                android:headerBackground="#393E46"
+                android:yearListSelectorColor="#393E46" />
 
-            <EditText
-                android:id="@+id/notifyBeforeEditText"
+            <TimePicker
+                android:id="@+id/timePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/Exam_enter_notifyBefore"
-                android:autofillHints="@string/Exam_enter_notifyBefore"
-                android:inputType="text" />
-
-        <DatePicker
-            android:id="@+id/datePicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:headerBackground="#393E46"
-            android:yearListSelectorColor="#393E46" />
-
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:headerBackground="#393E46" />
+                android:headerBackground="#393E46" />
 
         </LinearLayout>
     </ScrollView>
