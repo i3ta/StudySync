@@ -16,7 +16,7 @@ public class Course {
     public String name;
     public String instructorName;
     public int color;
-    public boolean notify;
+    public boolean notify = false;
     public int notifyBefore;
 
     @Ignore

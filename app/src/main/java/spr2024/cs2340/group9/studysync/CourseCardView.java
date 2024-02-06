@@ -80,10 +80,10 @@ public class CourseCardView extends CardView {
         this.instructorName.setLayoutParams(params);
     }
 
-    public void setNotifyBefore(String notifyBefore) {
+    public void setNotifyBefore(boolean notify, String notifyBefore) {
         this.notifyBefore.setText(String.format("Minutes to notify before: %s", notifyBefore));
         ViewGroup.LayoutParams params = this.notifyBefore.getLayoutParams();
-        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        params.height = notify ? ViewGroup.LayoutParams.WRAP_CONTENT : 0;
         this.notifyBefore.setLayoutParams(params);
     }
 }

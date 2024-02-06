@@ -16,7 +16,7 @@ public class Exam {
     public String name;
     public String location;
     public long startTime;
-    boolean notify;
+    public boolean notify;
     public int notifyBefore;
 
 

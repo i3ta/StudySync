@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -89,7 +88,7 @@ public class ExamFragment extends Fragment {
      * Initializes dateTimeInputDialog.
      */
     private void showDateTimeInputDialog() {
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_layout, null);
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.exam_dialog_layout, null);
 
         // Find views in the custom layout
         DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
@@ -97,7 +96,7 @@ public class ExamFragment extends Fragment {
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
         EditText locationEditText = dialogView.findViewById(R.id.locationEditText);
         EditText notifyBeforeEditText = dialogView.findViewById(R.id.notifyBeforeEditText);
-        Switch notifySwitch = dialogView.findViewById(R.id.notifySwitch);
+        Switch notifySwitch = dialogView.findViewById(R.id.examNotifySwitch);
         Button okButton = dialogView.findViewById(R.id.save_button);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
 
@@ -132,17 +131,20 @@ public class ExamFragment extends Fragment {
             int minute = timePicker.getMinute();
 
             // Get the text from EditText
-            String userInput = titleEditText.getText().toString();
-            String userInput1 = locationEditText.getText().toString();
-            String userInput2 = notifyBeforeEditText.getText().toString();
+            String titleText = titleEditText.getText().toString();
+            String locationText = locationEditText.getText().toString();
+            String notifyBeforeText = notifyBeforeEditText.getText().toString();
+            if (notifyBeforeText.isEmpty()) {
+                notifyBeforeText = "0";
+            }
             boolean notify = notifySwitch.isChecked();
 
             // Construct Calendar object from selected date and time
             Calendar selectedDateTime = Calendar.getInstance();
             selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
 
-            Exam newExam = new Exam(userInput, userInput1, selectedDateTime.getTimeInMillis(),
-                    notify, Integer.parseInt(userInput2));
+            Exam newExam = new Exam(titleText, locationText, selectedDateTime.getTimeInMillis(),
+                    notify, Integer.parseInt(notifyBeforeText));
             Exams.insert(newExam);
 
             // Update the ListView

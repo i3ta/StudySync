@@ -77,6 +77,9 @@ public class NotificationWorker extends Worker {
         Calendar cal = Calendar.getInstance();
         Course[] courses = Courses.getOnDay(cal.get(Calendar.DAY_OF_WEEK) - 1);
         for (Course c: courses) {
+            if (!c.notify) {
+                continue;
+            }
             Date nextStart = c.getNextStart();
             Date notif = new Date(nextStart.getTime() - (long) c.notifyBefore * 60 * 1000);
             if (sameTime(cal.getTime(), notif)) {
@@ -93,10 +96,15 @@ public class NotificationWorker extends Worker {
     private void generateNotificationsForAssignments() {
         Assignments.init(getApplicationContext());
         Calendar now = Calendar.getInstance();
+        now.add(Calendar.MINUTE, -2); // If time is just after the creation time database won't get it, so  we increase the range
         Calendar tmr = Calendar.getInstance();
         tmr.add(Calendar.DATE, 1);
         Assignment[] assignments = Assignments.getBetween(now.getTime(), tmr.getTime());
+        now.add(Calendar.MINUTE, 2);
         for (Assignment a: assignments) {
+            if (!a.notify) {
+                continue;
+            }
             if (sameTime(a.getNotifyDate(), now.getTime())) {
                 String notifTitle = String.format("Upcoming Assignment: %s", a.name);
                 String notifDesc = String.format(Locale.getDefault(),
@@ -113,6 +121,9 @@ public class NotificationWorker extends Worker {
         Calendar now = Calendar.getInstance();
         Exam[] exams = Exams.getAll();
         for (Exam e: exams) {
+            if (!e.notify) {
+                continue;
+            }
             if (sameTime(e.getNotifyDate(), now.getTime())) {
                 String notifTitle = String.format("Upcoming Exam: %s", e.name);
                 String notifDesc = String.format(Locale.getDefault(),

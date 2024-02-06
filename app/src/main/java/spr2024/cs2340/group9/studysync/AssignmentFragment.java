@@ -9,11 +9,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import spr2024.cs2340.group9.studysync.database.Assignment;
 import spr2024.cs2340.group9.studysync.database.Assignments;
@@ -46,12 +49,13 @@ public class AssignmentFragment extends Fragment {
      * Initializes dateTimeInputDialog.
      */
     private void showDateTimeInputDialog() {
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.assignment_schedulable, null);
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.assignment_dialog_view, null);
 
         DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
         TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
         EditText notifyBeforeText = dialogView.findViewById(R.id.notifyBeforeEditText);
+        Switch notifySwitch = dialogView.findViewById(R.id.courseNotifySwitch);
         Button okButton = dialogView.findViewById(R.id.save_button);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
 
@@ -91,7 +95,10 @@ public class AssignmentFragment extends Fragment {
             Calendar selectedDateTime = Calendar.getInstance();
             selectedDateTime.set(year, month, dayOfMonth, hourOfDay, minute);
             //notify one hour before
-            Assignment newAssignment = new Assignment(titleInput,0, selectedDateTime.getTimeInMillis(), Integer.parseInt(notifyBeforeText.getText().toString()));
+            String notifyBefore = notifyBeforeText.getText().toString();
+            Assignment newAssignment = new Assignment(titleInput,0,
+                    selectedDateTime.getTimeInMillis(), notifySwitch.isChecked(),
+                    notifyBefore.isBlank() ? 0 : Integer.parseInt(notifyBefore));
             Assignments.insert(newAssignment);
 
             // Update the ListView
@@ -130,5 +137,17 @@ public class AssignmentFragment extends Fragment {
         newCard.setDueDate(a.getDueDate().toString());
 
         return newCard;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
     }
 }

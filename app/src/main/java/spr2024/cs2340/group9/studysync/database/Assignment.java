@@ -31,6 +31,7 @@ public class Assignment {
         this.name = name;
         this.courseId = courseId;
         this.dueDate = dueDate;
+        this.notify = notify;
         this.notifyBefore = notifyBefore;
     }
 
