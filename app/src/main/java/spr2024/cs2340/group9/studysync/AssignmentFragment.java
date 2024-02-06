@@ -20,6 +20,7 @@ import java.util.Objects;
 
 import spr2024.cs2340.group9.studysync.database.Assignment;
 import spr2024.cs2340.group9.studysync.database.Assignments;
+import spr2024.cs2340.group9.studysync.database.Assignments;
 import spr2024.cs2340.group9.studysync.database.TimeSlot;
 
 /**
@@ -34,7 +35,7 @@ public class AssignmentFragment extends Fragment {
         View view = inflater.inflate(R.layout.assignment_fragment, container, false);
 
         addButton = view.findViewById(R.id.add_button);
-        addButton.setOnClickListener(v -> showDateTimeInputDialog());
+        addButton.setOnClickListener(v -> dialogHelper(null));
 
         // Initialization
         assignmentListView = view.findViewById(R.id.linearLayout);
@@ -48,7 +49,7 @@ public class AssignmentFragment extends Fragment {
     /**
      * Initializes dateTimeInputDialog.
      */
-    private void showDateTimeInputDialog() {
+    private void dialogHelper(Assignment a) {
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.assignment_dialog_view, null);
 
         DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
@@ -59,24 +60,24 @@ public class AssignmentFragment extends Fragment {
         Button okButton = dialogView.findViewById(R.id.save_button);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
 
-        // Set up date picker
-        final Calendar calendar = Calendar.getInstance();
-        datePicker.init(
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH),
-                null
-        );
-
-        // Set up time picker
-        timePicker.setIs24HourView(true);
-        timePicker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
-        timePicker.setMinute(calendar.get(Calendar.MINUTE));
-
         // Create the dialog
         final AlertDialog dialog = new AlertDialog.Builder(requireContext())
                 .setView(dialogView)
                 .create();
+
+        if (a != null) {
+            notifySwitch.setChecked(a.notify);
+            if (a.notifyBefore > 0) {
+                notifyBeforeText.setText(String.valueOf(a.notifyBefore));
+            }
+            if (a.name != null) {
+                titleEditText.setText(a.name);
+            }
+            if (a.getDueDate() != null) {
+                timePicker.setMinute(a.getDueDate().getMinutes());
+                timePicker.setHour(a.getDueDate().getHours());
+            }
+        }
 
         okButton.setOnClickListener(v -> {
             // Get the selected date from DatePicker
@@ -135,6 +136,24 @@ public class AssignmentFragment extends Fragment {
         newCard.setTitle(a.name);
         newCard.setNotifyBefore(a.notify, String.valueOf(a.notifyBefore));
         newCard.setDueDate(a.getDueDate().toString());
+
+        newCard.setOnLongClickListener(v -> {
+            androidx.appcompat.app.AlertDialog.Builder alertBuilder = new androidx.appcompat.app.AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme);
+            alertBuilder.setTitle(String.format("Edit \"%s\"", a.name))
+                    .setNegativeButton("Delete", (dialog, which) -> {
+                        Assignments.delete(a);
+                        updateAssignmentList();
+                    })
+                    .setNeutralButton("Cancel", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .setPositiveButton("Edit", (dialog, which) -> {
+                        dialogHelper(a);
+                    });
+            androidx.appcompat.app.AlertDialog dialog = alertBuilder.create();
+            dialog.show();
+            return true;
+        });
 
         return newCard;
     }
