@@ -124,16 +124,13 @@ public class AssignmentFragment extends Fragment {
     private AssignmentSchedulableCardView createCard(Assignment a) {
         AssignmentSchedulableCardView newCard = new AssignmentSchedulableCardView(requireContext());
 
-        TimeSlot time = null;
-
-
         newCard.setTitle(a.name);
         final String[] days = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-        String dueDateFormat = String.format("%s %s %d:%d",
+        String dueDateFormat = String.format("%s, %s %d:%s",
                 days[a.getDueDate().getDay()],
                 a.getDueDate().getDate() < 10 ? ("0" + a.getDueDate().getDate()) : String.valueOf(a.getDueDate().getDate()),
                 a.getDueDate().getHours(),
-                a.getDueDate().getMinutes());
+                a.getDueDate().getMinutes() < 10 ? ("0" + a.getDueDate().getMinutes()) : String.valueOf(a.getDueDate().getMinutes()));
         newCard.setNotifyBefore(String.valueOf(a.notifyBefore));
         newCard.setDueDate(dueDateFormat);
 
