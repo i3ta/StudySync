@@ -142,7 +142,7 @@ public class CourseFragment extends Fragment {
             TimeSlot timeSlot = new TimeSlot(c.id,
                     new RecurringSlot(currentDay, hourOfDayStart, minuteStart),
                     new RecurringSlot(currentDay, hourOfDayEnd, minuteEnd));
-            c.notify = notifySwitch.isChecked(); // TODO: Connect to switch
+            c.notify = notifySwitch.isChecked();
             c.setCourseTimes(new TimeSlot[]{timeSlot});
 
             Courses.insert(c);
