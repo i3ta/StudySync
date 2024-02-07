@@ -5,19 +5,16 @@
     android:layout_height="match_parent">
 
 
-
     <Button
         android:id="@+id/todolistitem_add_button"
         android:layout_width="63dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="40dp"
-        android:text="@string/Plus"
+        android:layout_marginBottom="64dp"
         android:backgroundTint="#393E46"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+        android:text="@string/Plus"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewTodoListName"
@@ -34,13 +31,12 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="409dp"
-        android:layout_height="608dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="140dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/todolistitem_add_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTodoListName">
