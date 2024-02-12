@@ -41,23 +41,28 @@ public class ToDoListItemsActivity extends Fragment implements DialogCloseListen
         toDoListItems = new ArrayList<>();
         adapter = new ToDoListItemsAdapter(requireActivity());
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
-
         // Initialize DB
         ToDoLists.init(getContext());
 
         // Display the items in DB on recyclerView
         updateView();
-        recyclerView = view.findViewById(R.id.recyclerView);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
 
         Button addItemButton = view.findViewById(R.id.todolistitem_add_button);
         addItemButton.setOnClickListener(v -> {
+            System.out.println("Add");
             int todoListId = requireArguments().getInt("todoListid", 1);
-            AddToDoListItem.newInstance(todoListId).show(getChildFragmentManager(), "AddToDoListItem");
+            AddToDoListItem.newInstance(todoListId, new RunOnDialogClosed() {
+                @Override
+                public void run() {
+                    updateView();
+                    adapter.notifyDataSetChanged();
+                }
+            }).show(getChildFragmentManager(), "AddToDoListItem");
             updateView();
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewHelper(adapter));

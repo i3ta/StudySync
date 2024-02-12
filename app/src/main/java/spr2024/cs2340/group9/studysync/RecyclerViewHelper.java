@@ -34,7 +34,7 @@ public class RecyclerViewHelper extends ItemTouchHelper.SimpleCallback {
         final int pos = viewHolder.getAbsoluteAdapterPosition();
         // Right Swipe Delete
         if(direction == ItemTouchHelper.RIGHT){
-            AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext(), R.style.AlertDialogTheme);
             builder.setTitle("Delete Task");
             builder.setMessage("Are You Sure?");
             builder.setPositiveButton("Yes", (dialog, which) -> {

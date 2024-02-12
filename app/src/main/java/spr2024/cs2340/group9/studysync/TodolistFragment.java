@@ -55,6 +55,7 @@ public class TodolistFragment extends Fragment {
 
         Button addButton = view.findViewById(R.id.tododlist_addbutton);
         addButton.setOnClickListener(v -> {
+            System.out.println("Add to do list item");
             // Show the dialog
             showAddTodoDialog();
         });
@@ -167,6 +168,7 @@ public class TodolistFragment extends Fragment {
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) listViewToDoLists.getAdapter();
 
         // Update the adapter with the loaded exams
+        System.out.println("Get to do list update");
         adapter.clear();
         adapter.addAll(getToDoListNames());
         adapter.notifyDataSetChanged();

@@ -27,6 +27,7 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
     private EditText editText;
     private Button okButton;
     private int ToDoListId;
+    private static RunOnDialogClosed action;
 
     /**
      * Initializes item by setting toDoListId so it knows which id to search for in DB.
@@ -41,8 +42,9 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
      * @param ToDoListId id to create new from
      * @return ToDoListItem
      */
-    public static AddToDoListItem newInstance(int ToDoListId) {
+    public static AddToDoListItem newInstance(int ToDoListId, RunOnDialogClosed action) {
         AddToDoListItem item = new AddToDoListItem();
+        AddToDoListItem.action = action;
         item.setToDoListId(ToDoListId);
         return item;
     }
@@ -118,8 +120,9 @@ public class AddToDoListItem extends BottomSheetDialogFragment {
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         Activity activity = getActivity();
+        action.run();
         if(activity instanceof DialogCloseListener){
-            ((DialogCloseListener)activity).DialogClose(dialog);
+            ((DialogCloseListener) activity).DialogClose(dialog);
         }
     }
 }
